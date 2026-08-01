@@ -16,42 +16,32 @@ const config: Config = {
   },
 
   // Set the production url of your site here.
-  // Update this to the real URL when the book is published.
-  url: 'https://physical-ai-book.example.com',
-  // Set the /<baseUrl>/ pathname under which your site is served.
-  // For GitHub pages deployment, it is often '/<projectName>/'
+  // Update this to your production URL when you have one.
+  url: 'https://physical-ai-humanoid-robotics.vercel.app',
   baseUrl: '/',
 
   // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'physical-ai-book', // Usually your GitHub org/user name.
-  projectName: 'physical-ai-book', // Usually your repo name.
+  // Not strictly needed if using Vercel, but good practice to keep aligned.
+  organizationName: 'Muhammadumerakmal', 
+  projectName: 'physical-ai-humanoid-robotics',
 
   onBrokenLinks: 'throw',
   markdown: {
-    mermaid: true, // Render ```mermaid blocks as diagrams (see chapter template).
+    mermaid: true,
     hooks: {
       onBrokenMarkdownLinks: 'warn',
     },
   },
 
   customFields: {
-    // The AI book assistant calls this endpoint. If unset, the widget uses the
-    // local agent proxy in development and the same-origin "/api/agent" in the
-    // production build (deploy the agent from ./agent as a serverless function).
-    // Override at build time: AGENT_ENDPOINT=https://your-host/api/agent
     agentEndpoint: process.env.AGENT_ENDPOINT ?? null,
   },
 
-  // Even if you don't use internationalization, you can use this field to set
-  // useful metadata like html lang.
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
   },
 
-  // Mermaid diagram support for ```mermaid code blocks (see chapter template),
-  // plus a self-hosted local search (no external service required).
   themes: [
     '@docusaurus/theme-mermaid',
     [
@@ -75,28 +65,40 @@ const config: Config = {
         docs: {
           sidebarPath: './sidebars.ts',
           routeBasePath: 'docs',
-          // No git repo yet, so no "Edit this page" links.
+          editUrl: 'https://github.com/Muhammadumerakmal/physical-ai-humanoid-robotics/tree/main/',
         },
-        blog: false, // The book is a documentation site; no blog.
+        blog: false,
         theme: {
           customCss: './src/css/custom.css',
+        },
+        // SEO: Enable sitemap
+        sitemap: {
+          changefreq: 'weekly',
+          priority: 0.5,
         },
       } satisfies Preset.Options,
     ],
   ],
 
   themeConfig: {
-    // Social share card. Replace with a generated banner when publishing.
-    image: 'img/logo.svg',
+    // Social share card. Ensure img/social-card.jpg exists in static/img/
+    image: 'img/social-card.jpg',
     colorMode: {
+      defaultMode: 'light',
+      disableSwitch: false,
       respectPrefersColorScheme: true,
     },
+    metadata: [
+      {name: 'keywords', content: 'physical ai, humanoid robotics, robot learning, ros2, isaac sim, reinforcement learning'},
+      {name: 'description', content: 'A practical engineering guide to physical AI and humanoid robots.'},
+    ],
     navbar: {
       title: 'Physical AI & Humanoids',
       logo: {
         alt: 'Physical AI and Humanoid Robotics',
         src: 'img/logo.svg',
       },
+
       items: [
         {
           type: 'docSidebar',
