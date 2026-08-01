@@ -50,8 +50,23 @@ const config: Config = {
     locales: ['en'],
   },
 
-  // Mermaid diagram support for ```mermaid code blocks (see chapter template).
-  themes: ['@docusaurus/theme-mermaid'],
+  // Mermaid diagram support for ```mermaid code blocks (see chapter template),
+  // plus a self-hosted local search (no external service required).
+  themes: [
+    '@docusaurus/theme-mermaid',
+    [
+      '@easyops-cn/docusaurus-search-local',
+      {
+        hashed: true,
+        docsRouteBasePath: '/docs',
+        indexBlog: false,
+        indexPages: true,
+        language: ['en'],
+        highlightSearchTermsOnTargetPage: true,
+        searchResultContextMaxLength: 100,
+      },
+    ],
+  ],
 
   presets: [
     [

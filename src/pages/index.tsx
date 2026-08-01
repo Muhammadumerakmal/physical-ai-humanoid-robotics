@@ -188,10 +188,21 @@ function HomepageHeader() {
   return (
     <header className={styles.hero}>
       <div className={styles.container}>
-        <span className={styles.eyebrow}>A Technical Book</span>
-        <h1 className={styles.title}>
-          Physical AI <span className={styles.titleAccent}>&amp; Humanoid Robotics</span>
-        </h1>
+        <div className={styles.book}>
+          <div className={styles.bookCover}>
+            <div className={styles.bookEyebrow}>A Technical Book</div>
+            <h1 className={styles.bookTitle}>
+              Physical AI{' '}
+              <em className={styles.titleAccent}>&amp; Humanoid Robotics</em>
+            </h1>
+            <div className={styles.bookSubtitle}>Building Intelligent Machines</div>
+            <div className={styles.bookDivider} />
+            <div className={styles.bookMeta}>
+              <span className={styles.bookAuthor}>Muhammad Umer Akmal</span>
+              <span className={styles.bookEdition}>First Edition</span>
+            </div>
+          </div>
+        </div>
         <p className={styles.tagline}>{siteConfig.tagline}</p>
         <div className={styles.ctas}>
           <Link className={`${styles.button} ${styles.buttonPrimary}`} to="/docs/intro">
