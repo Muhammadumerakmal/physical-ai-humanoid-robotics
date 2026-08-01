@@ -100,20 +100,37 @@ PORT=8787
 `agent/.env` is git-ignored — never commit your key. Rotate the key immediately
 if it is ever exposed.
 
-### Deploying
+### Deploying to Vercel
 
-`npm run build` produces a static site; the assistant calls the same-origin
-`/api/agent` in production. To enable it on a static host, deploy the `agent/`
-proxy as a serverless function or reverse-proxy route (Netlify Functions, Vercel
-Functions, Cloudflare Workers, …) with the `DEEPSEEK_*` environment variables
-set, or point the widget at an existing endpoint at build time:
+The repo ships a Vercel-ready setup:
+
+- `api/agent.mjs` — a serverless function deployed at **`/api/agent`**, which is
+  exactly the endpoint the chat widget calls in the production build.
+- `vercel.json` — builds the Docusaurus site (`npm run build`, output `build`).
+
+Steps:
+
+1. Push the repo to GitHub and import it in the Vercel dashboard (or run
+   `vercel` from the repo root).
+2. In **Project → Settings → Environment Variables**, add:
+   ```
+   DEEPSEEK_API_KEY=sk-...
+   DEEPSEEK_BASE_URL=https://api.deepseek.com
+   DEEPSEEK_MODEL=deepseek-v4-flash
+   ```
+3. Deploy. The static site is served from `build/` and the assistant is live
+   at `/api/agent`.
+
+Other hosts (Netlify, Cloudflare Workers, …): deploy `agent/` as a serverless
+function or reverse-proxy route to `/api/agent`, or point the widget at an
+existing endpoint at build time:
 
 ```bash
 AGENT_ENDPOINT=https://your-host/api/agent npm run build
 ```
 
 Security notes before exposing it publicly:
-- Keep the API key server-side.
+- Keep the API key server-side (Vercel environment variables are fine).
 - Add rate limiting and/or auth to the deployed agent endpoint.
 - The local proxy binds to `127.0.0.1` only.
 

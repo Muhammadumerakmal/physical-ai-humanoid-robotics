@@ -1,0 +1,7 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "docusaurus",
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
+  "outputDirectory": "build"
+}
