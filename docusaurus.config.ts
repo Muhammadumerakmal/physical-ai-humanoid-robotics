@@ -117,20 +117,24 @@ const config: Config = {
               to: '/docs/part1-foundations/what-is-physical-ai',
             },
             {
-              label: 'II · Perception & Sensing',
-              to: '/docs/part2-perception/sensors-and-calibration',
+              label: 'II · Sensing & Perception',
+              to: '/docs/part2-sensing/sensors-and-actuators',
             },
             {
               label: 'III · Actuation & Control',
-              to: '/docs/part3-control/actuation-and-hardware',
+              to: '/docs/part3-control/kinematics-dynamics',
             },
             {
               label: 'IV · Learning & Autonomy',
               to: '/docs/part4-learning/reinforcement-learning',
             },
             {
-              label: 'V · Systems & Deployment',
-              to: '/docs/part5-deployment/system-architecture',
+              label: 'V · Systems, Simulation & Deployment',
+              to: '/docs/part5-systems/ros2',
+            },
+            {
+              label: 'VI · The Road Ahead',
+              to: '/docs/part6-future/future-of-humanoids',
             },
           ],
         },

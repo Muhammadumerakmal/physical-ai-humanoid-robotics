@@ -1,15 +1,21 @@
 ---
 sidebar_position: 1
-description: Actuators, gears, and drive trains — how a robot produces force and torque.
+description: The body's hardware layer — the sensor suite (IMUs, encoders, cameras, force–torque) and the actuators, gears, and drive trains that move a humanoid.
 ---
 
-# Actuators, Gears, and Drive Trains
+# Sensors and Actuators
 
 > **Status: placeholder.** This chapter is part of the working outline for
 > *Physical AI and Humanoid Robotics: Building Intelligent Machines*.
 
 ## Planned coverage
 
+- IMUs, joint encoders, force/torque sensors, cameras, and lidar: what each
+  measures, its noise characteristics, and its failure modes.
+- Sensor models and noise models needed for estimation.
+- Intrinsic and extrinsic calibration between cameras and the body frame.
+- Time synchronization and why it matters for a walking robot.
+- Practical calibration workflows with open-source tooling.
 - Motors, gearboxes, and transmission choices: brushless, harmonic, and
   quasi-direct-drive.
 - The torque–speed–weight trade-off and how it shapes a humanoid design.

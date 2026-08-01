@@ -6,7 +6,7 @@ humanoid robots, built as a documentation website with
 
 The book covers the full stack of an embodied intelligent machine: sensing and
 perception, actuation and control, learning and autonomy, and the systems work
-needed to deploy it. Content lives in `docs/`, organized into five parts plus
+needed to deploy it. Content lives in `docs/`, organized into six parts plus
 appendices (see `sidebars.ts`).
 
 ## Project structure
@@ -16,11 +16,12 @@ physical-ai-book/
 ├── docs/                    # The book's content (Markdown/MDX)
 │   ├── intro.mdx            # Introduction / how to read the book
 │   ├── part1-foundations/   # Part I — Foundations
-│   ├── part2-perception/    # Part II — Perception & Sensing
+│   ├── part2-sensing/       # Part II — Sensing & Perception
 │   ├── part3-control/       # Part III — Actuation & Control
-│   ├── part4-learning/      # Part IV — Learning & Autonomy
-│   ├── part5-deployment/    # Part V — Systems & Deployment
-│   └── appendices/          # Glossary, further reading
+│   ├── part4-learning/      # Part IV — Learning & Intelligence
+│   ├── part5-systems/       # Part V — Systems, Simulation & Deployment
+│   ├── part6-future/        # Part VI — The Road Ahead
+│   └── appendices/          # Glossary and reference material
 ├── src/
 │   ├── css/custom.css       # Theme / design tokens (light & dark)
 │   ├── pages/               # Landing page

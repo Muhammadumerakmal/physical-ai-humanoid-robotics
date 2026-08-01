@@ -119,53 +119,66 @@ const parts: Part[] = [
     title: 'Foundations',
     chapters: [
       {title: 'What Is Physical AI?', to: '/docs/part1-foundations/what-is-physical-ai'},
-      {title: 'The Anatomy of a Humanoid', to: '/docs/part1-foundations/anatomy-of-a-humanoid'},
-      {title: 'Math for Embodied Machines', to: '/docs/part1-foundations/math-for-embodied-machines'},
+      {title: 'Robotics Foundations', to: '/docs/part1-foundations/robotics-foundations'},
+      {title: 'The Math Toolkit for Embodied Machines', to: '/docs/part1-foundations/math-toolkit'},
+      {title: 'Humanoid Robot Architecture', to: '/docs/part1-foundations/humanoid-architecture'},
     ],
   },
   {
     num: 'II',
-    title: 'Perception & Sensing',
+    title: 'Sensing & Perception',
     chapters: [
-      {title: 'Sensor Suites and Calibration', to: '/docs/part2-perception/sensors-and-calibration'},
-      {title: 'Vision, Depth, and World Models', to: '/docs/part2-perception/vision-and-world-models'},
-      {title: 'State Estimation and SLAM', to: '/docs/part2-perception/state-estimation'},
+      {title: 'Sensors and Actuators', to: '/docs/part2-sensing/sensors-and-actuators'},
+      {title: 'Robot Perception: From Signals to Understanding', to: '/docs/part2-sensing/robot-perception'},
+      {title: 'Computer Vision', to: '/docs/part2-sensing/computer-vision'},
+      {title: 'State Estimation and Localization', to: '/docs/part2-sensing/state-estimation'},
     ],
   },
   {
     num: 'III',
     title: 'Actuation & Control',
     chapters: [
-      {title: 'Actuators, Gears, and Drive Trains', to: '/docs/part3-control/actuation-and-hardware'},
-      {title: 'Kinematics and Dynamics', to: '/docs/part3-control/kinematics-and-dynamics'},
-      {title: 'Balance and Locomotion', to: '/docs/part3-control/balance-and-locomotion'},
-      {title: 'Manipulation and Contact', to: '/docs/part3-control/manipulation'},
+      {title: 'Kinematics and Dynamics', to: '/docs/part3-control/kinematics-dynamics'},
+      {title: 'Motion Control', to: '/docs/part3-control/motion-control'},
+      {title: 'Balance and Locomotion', to: '/docs/part3-control/balance-locomotion'},
+      {title: 'Manipulation and Grasping', to: '/docs/part3-control/manipulation'},
     ],
   },
   {
     num: 'IV',
-    title: 'Learning & Autonomy',
+    title: 'Learning & Intelligence',
     chapters: [
-      {title: 'Reinforcement Learning for Robots', to: '/docs/part4-learning/reinforcement-learning'},
-      {title: 'Imitation Learning and Teleoperation', to: '/docs/part4-learning/imitation-learning'},
-      {title: 'Vision–Language–Action Models', to: '/docs/part4-learning/vla-models'},
-      {title: 'Task Planning with LLMs', to: '/docs/part4-learning/task-planning'},
+      {title: 'Machine Learning for Robots', to: '/docs/part4-learning/ml-for-robots'},
+      {title: 'Reinforcement Learning', to: '/docs/part4-learning/reinforcement-learning'},
+      {title: 'Imitation Learning', to: '/docs/part4-learning/imitation-learning'},
+      {title: 'Vision-Language-Action (VLA) Models', to: '/docs/part4-learning/vla-models'},
+      {title: 'Large Language Models in Robotics', to: '/docs/part4-learning/llms-in-robotics'},
+      {title: 'AI Agents for Robot Control', to: '/docs/part4-learning/ai-agents'},
     ],
   },
   {
     num: 'V',
-    title: 'Systems & Deployment',
+    title: 'Systems, Simulation & Deployment',
     chapters: [
-      {title: 'Robot System Architecture', to: '/docs/part5-deployment/system-architecture'},
-      {title: 'The Simulation Ecosystem', to: '/docs/part5-deployment/simulation'},
-      {title: 'Safety, Ethics, and Deployment', to: '/docs/part5-deployment/safety-and-deployment'},
+      {title: 'ROS 2: The Robot Operating System', to: '/docs/part5-systems/ros2'},
+      {title: 'Building the Robot Software Stack', to: '/docs/part5-systems/robot-software-stack'},
+      {title: 'Simulation for Physical AI', to: '/docs/part5-systems/simulation'},
+      {title: 'NVIDIA Isaac Sim and Isaac Lab', to: '/docs/part5-systems/isaac-sim'},
+      {title: 'Real-World Deployment', to: '/docs/part5-systems/deployment'},
+    ],
+  },
+  {
+    num: 'VI',
+    title: 'The Road Ahead',
+    chapters: [
+      {title: 'The Future of Humanoid Robotics', to: '/docs/part6-future/future-of-humanoids'},
     ],
   },
 ];
 
 const stats = [
-  {num: '5', label: 'Parts'},
-  {num: '17', label: 'Chapters'},
+  {num: '6', label: 'Parts'},
+  {num: '24', label: 'Chapters'},
   {num: '2', label: 'Simulators · MuJoCo & Isaac Lab'},
   {num: '1', label: 'Working Robot, end to end'},
 ];
@@ -237,7 +250,7 @@ function Outline() {
             The book, part by part
           </Heading>
           <p className={styles.sectionSub}>
-            A working outline of all 17 chapters — each one being written in place.
+            A working outline of all 24 chapters — each one being written in place.
           </p>
         </div>
         <div className={styles.outline}>
