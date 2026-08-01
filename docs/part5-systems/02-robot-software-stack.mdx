@@ -16,6 +16,21 @@ description: How the software on a real humanoid is organized — real-time cont
 - Determinism, logging, and debugging on hardware.
 - A reference repo layout for a working humanoid software stack.
 
+## Architecture Diagram
+
+A humanoid's intelligence is a stack of layers, each building on the one below
+it — from the physical body up to the tasks and interfaces people interact with.
+
+```mermaid
+flowchart TB
+    HW[Hardware layer: sensors, actuators, compute]
+    ROS[Robot Operating System: ROS 2 middleware]
+    AI[AI models: perception, VLA, LLM]
+    AG[Agent layer: reasoning, planning, tool use]
+    AP[Application layer: tasks, user interfaces]
+    HW --> ROS --> AI --> AG --> AP
+```
+
 ## Exercises
 
 *(to be added)*

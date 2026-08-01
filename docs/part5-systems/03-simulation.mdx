@@ -17,6 +17,20 @@ description: The simulation ecosystem — MuJoCo, Isaac Lab, and digital twins f
 - Automating sim-to-real and evaluating policies before touching hardware.
 - Performance: thousands of parallel environments for RL training.
 
+## Architecture Diagram
+
+The role simulation plays in the robot learning pipeline: train in simulation,
+validate in testing, deploy to the real robot — and feed what the real world
+teaches back into training.
+
+```mermaid
+flowchart LR
+    Sim[Simulation] --> Train[Training]
+    Train --> Test[Testing and evaluation]
+    Test --> Real[Real robot]
+    Real -. retrain with real data .-> Train
+```
+
 ## Exercises
 
 *(to be added)*

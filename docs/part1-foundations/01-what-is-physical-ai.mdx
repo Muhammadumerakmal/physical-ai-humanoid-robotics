@@ -267,6 +267,23 @@ sequenceDiagram
     R-->>H: Done
 ```
 
+### The physical AI architecture
+
+The loop made concrete: a physical AI system is a pipeline from sensors to
+actuators, with an AI model at its heart — and the world closing the loop back
+to the sensors.
+
+```mermaid
+flowchart LR
+    S[Sensors] --> P[Perception]
+    P --> M[AI Model]
+    M --> G[Planning]
+    G --> C[Control]
+    C --> A[Actuators]
+    A --> W[Physical world]
+    W -. feedback .-> S
+```
+
 ## Code Examples
 
 Even before any real robot code, the loop translates directly to a program. This
