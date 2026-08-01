@@ -23,7 +23,10 @@ physical-ai-book/
 │   └── appendices/          # Glossary, further reading
 ├── src/
 │   ├── css/custom.css       # Theme / design tokens (light & dark)
-│   └── pages/               # Landing page
+│   ├── pages/               # Landing page
+│   ├── theme/Root.tsx       # Global wrapper (mounts the AI assistant)
+│   └── components/BookAgent # The floating chat assistant
+├── agent/                   # DeepSeek proxy backend (server.mjs + .env)
 ├── static/img/              # Logo and favicon
 ├── docusaurus.config.ts     # Site configuration
 └── sidebars.ts              # The book's table of contents
@@ -66,6 +69,53 @@ npm run serve
 ```bash
 npm run typecheck
 ```
+
+## AI assistant (DeepSeek)
+
+The site ships a floating chat assistant that answers questions about the book.
+It is powered by DeepSeek through a tiny local proxy, so the API key **never
+ships in the static site's client bundle**.
+
+### Run locally
+
+```bash
+npm run agent     # terminal 1: DeepSeek proxy on http://127.0.0.1:8787
+npm run start     # terminal 2: Docusaurus dev server
+```
+
+Open http://localhost:3000 and click the robot button (bottom-right).
+
+### Configuration
+
+The proxy reads `agent/.env` (copy from `agent/.env.example` and fill in your
+key):
+
+```
+DEEPSEEK_API_KEY=sk-...
+DEEPSEEK_BASE_URL=https://api.deepseek.com
+DEEPSEEK_MODEL=deepseek-v4-flash
+PORT=8787
+```
+
+`agent/.env` is git-ignored — never commit your key. Rotate the key immediately
+if it is ever exposed.
+
+### Deploying
+
+`npm run build` produces a static site; the assistant calls the same-origin
+`/api/agent` in production. To enable it on a static host, deploy the `agent/`
+proxy as a serverless function or reverse-proxy route (Netlify Functions, Vercel
+Functions, Cloudflare Workers, …) with the `DEEPSEEK_*` environment variables
+set, or point the widget at an existing endpoint at build time:
+
+```bash
+AGENT_ENDPOINT=https://your-host/api/agent npm run build
+```
+
+Security notes before exposing it publicly:
+- Keep the API key server-side.
+- Add rate limiting and/or auth to the deployed agent endpoint.
+- The local proxy binds to `127.0.0.1` only.
 
 ## Deployment
 

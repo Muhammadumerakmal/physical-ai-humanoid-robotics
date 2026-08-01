@@ -34,6 +34,14 @@ const config: Config = {
     },
   },
 
+  customFields: {
+    // The AI book assistant calls this endpoint. If unset, the widget uses the
+    // local agent proxy in development and the same-origin "/api/agent" in the
+    // production build (deploy the agent from ./agent as a serverless function).
+    // Override at build time: AGENT_ENDPOINT=https://your-host/api/agent
+    agentEndpoint: process.env.AGENT_ENDPOINT ?? null,
+  },
+
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang.
   i18n: {
