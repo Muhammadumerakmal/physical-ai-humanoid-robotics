@@ -1,36 +1,61 @@
 ---
 sidebar_position: 3
-description: The simulation ecosystem — MuJoCo, Isaac Lab, and digital twins for training and testing.
+description: Robot simulation.
 ---
 
 # Simulation for Physical AI
 
-> **Status: placeholder.** This chapter is part of the working outline for
-> *Physical AI and Humanoid Robotics: Building Intelligent Machines*.
+> **Status:** draft
+>
+> **Related chapters:** TBD
 
-## Planned coverage
+## Why This Matters
 
-- What a physics simulator must get right for legged robots: contact, friction,
-  and solver stability.
-- MuJoCo, Isaac Lab, and Gazebo: choosing the right tool for the job.
-- Digital twins: running the exact robot model in the exact environment.
-- Automating sim-to-real and evaluating policies before touching hardware.
-- Performance: thousands of parallel environments for RL training.
+<One or two paragraphs. Motivate before you explain.>
 
-## Architecture Diagram
+## Learning Objectives
 
-The role simulation plays in the robot learning pipeline: train in simulation,
-validate in testing, deploy to the real robot — and feed what the real world
-teaches back into training.
+After this chapter you will be able to:
+
+- <Objective 1.>
+
+## Core Concepts
+
+| Concept | Definition |
+| ------- | ---------- |
+| <Term> | <One-line definition.> |
+
+## Technical Explanation
+
+<Body of the chapter.>
+
+## Real-World Examples
+
+:::info Real system
+<Real humanoid platform example.>
+:::
+
+## Architecture Diagrams
 
 ```mermaid
 flowchart LR
-    Sim[Simulation] --> Train[Training]
-    Train --> Test[Testing and evaluation]
-    Test --> Real[Real robot]
-    Real -. retrain with real data .-> Train
+    A[<Sense>] --> B[<Perceive>]
 ```
+
+## Code Examples
+
+```python
+# Minimal example
+```
+
+## Summary
+
+<Summary.>
 
 ## Exercises
 
-*(to be added)*
+1. **Easy** — <Task.>
+
+## Further Reading
+
+- <Link>

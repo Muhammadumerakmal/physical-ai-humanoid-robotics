@@ -1,125 +1,61 @@
 ---
 sidebar_position: 1
-description: ROS 2, the middleware that glues a robot together — nodes, topics, services, actions, and TF2.
+description: Intro to ROS 2.
 ---
 
-# ROS 2: The Robot Operating System
+# ROS 2
 
-> **Status: placeholder.** This chapter is part of the working outline for
-> *Physical AI and Humanoid Robotics: Building Intelligent Machines*.
+> **Status:** draft
+>
+> **Related chapters:** TBD
 
-## Planned coverage
+## Why This Matters
 
-- Why robotics needs middleware.
-- Core concepts: nodes, topics, services, actions.
-- DDS underneath the hood.
-- Your first publisher/subscriber.
-- TF2 for coordinate transforms.
-- Launch files and lifecycle nodes.
-- Tooling: RViz, rosbag, and the CLI.
-- From tutorials to a robot stack.
+<One or two paragraphs. Motivate before you explain.>
+
+## Learning Objectives
+
+After this chapter you will be able to:
+
+- <Objective 1.>
+
+## Core Concepts
+
+| Concept | Definition |
+| ------- | ---------- |
+| <Term> | <One-line definition.> |
+
+## Technical Explanation
+
+<Body of the chapter.>
+
+## Real-World Examples
+
+:::info Real system
+<Real humanoid platform example.>
+:::
+
+## Architecture Diagrams
+
+```mermaid
+flowchart LR
+    A[<Sense>] --> B[<Perceive>]
+```
 
 ## Code Examples
 
-### A publisher: commanding a real robot
-
-In ROS 2, programs are **nodes** that communicate over **topics**. The most
-useful first node you can write publishes velocity commands — this is exactly
-how you tell a real robot such as a TurtleBot to move.
-
 ```python
-#!/usr/bin/env python3
-import rclpy
-from rclpy.node import Node
-from geometry_msgs.msg import Twist          # velocity message
-
-class RobotCommander(Node):
-    def __init__(self):
-        super().__init__('robot_commander')
-        # Real robots listen for motion on the /cmd_vel topic.
-        self.publisher = self.create_publisher(Twist, '/cmd_vel', 10)
-
-    def drive(self, speed, turn):
-        msg = Twist()
-        msg.linear.x = speed                  # forward speed (m/s)
-        msg.angular.z = turn                  # turning rate (rad/s)
-        self.publisher.publish(msg)           # send to the robot
-
-def main():
-    rclpy.init()
-    node = RobotCommander()
-    node.drive(0.2, 0.0)                      # drive straight at 0.2 m/s
-    rclpy.shutdown()
-
-if __name__ == '__main__':
-    main()
+# Minimal example
 ```
 
-**What each piece does:**
+## Summary
 
-- `Node` is a ROS 2 program with a name (`robot_commander`). Nodes are the
-  unit of code in ROS — one node per concern (sensing, planning, control...).
-- `create_publisher(Twist, '/cmd_vel', 10)` says "send messages of type
-  `Twist` on the topic `/cmd_vel`"; the `10` is a small buffer size. The topic
-  name is a *contract* — any node that listens on `/cmd_vel` (usually the
-  motor driver) will receive the message.
-- `msg.linear.x` and `msg.angular.z` are the two numbers that define planar
-  motion: how fast to go forward and how fast to turn. Setting them and
-  calling `publish` is the whole job.
-- `rclpy.init()` and `rclpy.shutdown()` start and stop the ROS 2 client
-  library.
-
-**Connect to a real robot:** run this node alongside a simulated or physical
-TurtleBot and it drives straight. Inspect it with `ros2 topic echo /cmd_vel` —
-you will see your messages streaming by.
-
-### A subscriber: reading a sensor
-
-The other half of the loop is listening. This node subscribes to the laser
-scan topic and prints the distance directly ahead.
-
-```python
-#!/usr/bin/env python3
-import rclpy
-from rclpy.node import Node
-from sensor_msgs.msg import LaserScan
-
-class FrontSensor(Node):
-    def __init__(self):
-        super().__init__('front_sensor')
-        # /scan carries the lidar's distance readings around the robot.
-        self.sub = self.create_subscription(
-            LaserScan, '/scan', self.callback, 10)
-
-    def callback(self, msg):
-        front = msg.ranges[len(msg.ranges) // 2]   # middle ray = straight ahead
-        self.get_logger().info(f'Front distance: {front:.2f} m')
-
-def main():
-    rclpy.init()
-    node = FrontSensor()
-    rclpy.spin(node)       # keep running so callbacks fire
-    rclpy.shutdown()
-
-if __name__ == '__main__':
-    main()
-```
-
-**What each piece does:**
-
-- `create_subscription(...)` registers a callback: "whenever a `LaserScan`
-  arrives on `/scan`, call `self.callback`." No polling — ROS calls you.
-- `msg.ranges` is a list with one distance per angle around the robot. The
-  middle ray (`len // 2`) points straight ahead — the same *sense* step as
-  `read_distance_cm()` in the Python chapter.
-- `rclpy.spin(node)` blocks forever while callbacks fire. This is the standard
-  way to keep a subscriber alive.
-
-**Putting it together:** combine the subscriber's `callback` with the
-publisher's `drive` and you have a ROS 2 obstacle-avoidance robot — the exact
-program from the Robotics Foundations chapter, now running on a real TurtleBot
-over topics instead of direct driver calls.
+<Summary.>
 
 ## Exercises
 
-*(to be added)*
+1. **Easy** — <Task.>
+
+## Further Reading
+
+- <Link>

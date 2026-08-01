@@ -1,36 +1,61 @@
 ---
 sidebar_position: 2
-description: How the software on a real humanoid is organized — real-time control, ROS 2, and app logic.
+description: Robot software stack.
 ---
 
 # Building the Robot Software Stack
 
-> **Status: placeholder.** This chapter is part of the working outline for
-> *Physical AI and Humanoid Robotics: Building Intelligent Machines*.
+> **Status:** draft
+>
+> **Related chapters:** TBD
 
-## Planned coverage
+## Why This Matters
 
-- The real-time control loop and why it cannot run under a general OS.
-- ROS 2 as the glue: topics, services, and lifecycle for a robot.
-- Perception, planning, and policy processes and how they share state.
-- Determinism, logging, and debugging on hardware.
-- A reference repo layout for a working humanoid software stack.
+<One or two paragraphs. Motivate before you explain.>
 
-## Architecture Diagram
+## Learning Objectives
 
-A humanoid's intelligence is a stack of layers, each building on the one below
-it — from the physical body up to the tasks and interfaces people interact with.
+After this chapter you will be able to:
+
+- <Objective 1.>
+
+## Core Concepts
+
+| Concept | Definition |
+| ------- | ---------- |
+| <Term> | <One-line definition.> |
+
+## Technical Explanation
+
+<Body of the chapter.>
+
+## Real-World Examples
+
+:::info Real system
+<Real humanoid platform example.>
+:::
+
+## Architecture Diagrams
 
 ```mermaid
-flowchart TB
-    HW[Hardware layer: sensors, actuators, compute]
-    ROS[Robot Operating System: ROS 2 middleware]
-    AI[AI models: perception, VLA, LLM]
-    AG[Agent layer: reasoning, planning, tool use]
-    AP[Application layer: tasks, user interfaces]
-    HW --> ROS --> AI --> AG --> AP
+flowchart LR
+    A[<Sense>] --> B[<Perceive>]
 ```
+
+## Code Examples
+
+```python
+# Minimal example
+```
+
+## Summary
+
+<Summary.>
 
 ## Exercises
 
-*(to be added)*
+1. **Easy** — <Task.>
+
+## Further Reading
+
+- <Link>
