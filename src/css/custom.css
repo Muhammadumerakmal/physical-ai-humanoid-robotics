@@ -1,30 +1,110 @@
 /**
- * Any CSS included here will be global. The classic template
- * bundles Infima by default. Infima is a CSS framework designed to
- * work well for content-centric websites.
+ * Physical AI and Humanoid Robotics — design system.
+ * Overrides the Docusaurus (Infima) defaults with a clean engineering-book theme.
  */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
-/* You can override the default Infima variables here. */
+/* ------------------------------------------------------------------ */
+/* Light theme                                                         */
+/* ------------------------------------------------------------------ */
 :root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
-  --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --brand-900: #164e63;
+  --brand-700: #0e7490;
+  --brand-500: #06b6d4;
+  --brand-400: #22d3ee;
+  --brand-300: #67e8f9;
+
+  --ifm-color-primary: #0e7490;
+  --ifm-color-primary-dark: #0c6780;
+  --ifm-color-primary-darker: #0b6177;
+  --ifm-color-primary-darkest: #09505f;
+  --ifm-color-primary-light: #10809c;
+  --ifm-color-primary-lighter: #1187a4;
+  --ifm-color-primary-lightest: #1598b6;
+
+  --ifm-background-color: #ffffff;
+  --ifm-background-surface-color: #f6f9fb;
+  --ifm-font-color-base: #1e293b;
+  --ifm-font-color-secondary: #475569;
+  --ifm-heading-color: #0f172a;
+  --ifm-toc-border-color: #e2e8f0;
+  --ifm-menu-color-active: #0e7490;
+  --ifm-link-color: #0e7490;
+  --ifm-link-hover-color: #0c6780;
+  --ifm-navbar-background-color: rgba(255, 255, 255, 0.92);
+  --ifm-footer-background-color: #0f172a;
+  --ifm-footer-link-color: #94a3b8;
+  --ifm-footer-title-color: #e2e8f0;
+
+  --ifm-font-family-base: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  --ifm-font-family-monospace: 'JetBrains Mono', ui-monospace, SFMono-Regular,
+    Menlo, Consolas, 'Liberation Mono', monospace;
+  --ifm-code-font-size: 90%;
+  --ifm-heading-font-weight: 700;
+  --ifm-navbar-shadow: 0 1px 2px 0 rgb(15 23 42 / 0.06);
+
+  --docusaurus-highlighted-code-line-bg: rgb(14 116 144 / 0.12);
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
+/* ------------------------------------------------------------------ */
+/* Dark theme                                                          */
+/* ------------------------------------------------------------------ */
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --ifm-color-primary: #22d3ee;
+  --ifm-color-primary-dark: #17c3df;
+  --ifm-color-primary-darker: #10b8d5;
+  --ifm-color-primary-darkest: #0a96af;
+  --ifm-color-primary-light: #38dbf3;
+  --ifm-color-primary-lighter: #4edff5;
+  --ifm-color-primary-lightest: #7ee9f8;
+
+  --ifm-background-color: #0b1220;
+  --ifm-background-surface-color: #0f1a2e;
+  --ifm-font-color-base: #cbd5e1;
+  --ifm-font-color-secondary: #94a3b8;
+  --ifm-heading-color: #f1f5f9;
+  --ifm-toc-border-color: #1e293b;
+  --ifm-menu-color-active: #22d3ee;
+  --ifm-link-color: #22d3ee;
+  --ifm-link-hover-color: #67e8f9;
+  --ifm-navbar-background-color: rgba(11, 18, 32, 0.92);
+  --ifm-footer-background-color: #060a14;
+
+  --docusaurus-highlighted-code-line-bg: rgb(34 211 238 / 0.15);
+}
+
+/* ------------------------------------------------------------------ */
+/* Global polish                                                       */
+/* ------------------------------------------------------------------ */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+
+.navbar {
+  backdrop-filter: blur(10px);
+}
+
+.navbar__title {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* Calmer, book-like heading scale for prose pages */
+.markdown h1 {
+  font-size: 2.15rem;
+  letter-spacing: -0.02em;
+}
+
+.markdown h2 {
+  font-size: 1.55rem;
+  letter-spacing: -0.01em;
+}
+
+code {
+  font-weight: 500;
 }

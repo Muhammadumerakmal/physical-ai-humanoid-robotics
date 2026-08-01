@@ -28,7 +28,11 @@ const config: Config = {
   projectName: 'physical-ai-book', // Usually your repo name.
 
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
+  },
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang.
@@ -93,7 +97,7 @@ const config: Config = {
             },
             {
               label: 'Table of Contents',
-              to: '/docs/part1-foundations/01-what-is-physical-ai',
+              to: '/docs/part1-foundations/what-is-physical-ai',
             },
           ],
         },
@@ -102,23 +106,23 @@ const config: Config = {
           items: [
             {
               label: 'I · Foundations',
-              to: '/docs/part1-foundations/01-what-is-physical-ai',
+              to: '/docs/part1-foundations/what-is-physical-ai',
             },
             {
               label: 'II · Perception & Sensing',
-              to: '/docs/part2-perception/01-sensors-and-calibration',
+              to: '/docs/part2-perception/sensors-and-calibration',
             },
             {
               label: 'III · Actuation & Control',
-              to: '/docs/part3-control/01-actuation-and-hardware',
+              to: '/docs/part3-control/actuation-and-hardware',
             },
             {
               label: 'IV · Learning & Autonomy',
-              to: '/docs/part4-learning/01-reinforcement-learning',
+              to: '/docs/part4-learning/reinforcement-learning',
             },
             {
               label: 'V · Systems & Deployment',
-              to: '/docs/part5-deployment/01-system-architecture',
+              to: '/docs/part5-deployment/system-architecture',
             },
           ],
         },

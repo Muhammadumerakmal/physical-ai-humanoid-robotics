@@ -1,23 +1,385 @@
 /**
- * CSS files with the .module.css suffix will be treated as CSS modules
- * and scoped locally.
+ * Landing page styles (scoped via CSS Modules).
  */
 
-.heroBanner {
-  padding: 4rem 0;
-  text-align: center;
+.hero {
   position: relative;
   overflow: hidden;
+  padding: 6.5rem 1.5rem 4rem;
+  text-align: center;
+  background:
+    radial-gradient(1100px 560px at 50% -10%, rgb(34 211 238 / 0.14), transparent 60%),
+    linear-gradient(180deg, var(--ifm-background-surface-color), var(--ifm-background-color));
 }
 
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
-  }
+[data-theme='dark'] .hero {
+  background:
+    radial-gradient(1100px 560px at 50% -10%, rgb(34 211 238 / 0.1), transparent 60%),
+    linear-gradient(180deg, #0d1a2e, var(--ifm-background-color));
 }
 
-.buttons {
-  display: flex;
+/* faint engineering grid in the top of the hero */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgb(15 23 42 / 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(15 23 42 / 0.045) 1px, transparent 1px);
+  background-size: 48px 48px;
+  -webkit-mask-image: radial-gradient(720px 340px at 50% 0%, black, transparent 72%);
+  mask-image: radial-gradient(720px 340px at 50% 0%, black, transparent 72%);
+  pointer-events: none;
+}
+
+[data-theme='dark'] .hero::before {
+  background-image:
+    linear-gradient(rgb(148 163 184 / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(148 163 184 / 0.05) 1px, transparent 1px);
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.eyebrow {
+  display: inline-flex;
   align-items: center;
+  gap: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--ifm-color-primary);
+}
+
+.eyebrow::before,
+.eyebrow::after {
+  content: '';
+  width: 2rem;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.45;
+}
+
+.title {
+  margin: 1.3rem 0 1rem;
+  font-size: clamp(2.25rem, 6vw, 3.7rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--ifm-heading-color);
+}
+
+.titleAccent {
+  color: var(--ifm-color-primary);
+}
+
+.tagline {
+  max-width: 46rem;
+  margin: 0 auto;
+  font-size: clamp(1.05rem, 2.4vw, 1.3rem);
+  line-height: 1.6;
+  color: var(--ifm-font-color-secondary);
+}
+
+.ctas {
+  display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-top: 2.4rem;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: background-color 0.15s ease, border-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.button:hover {
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.buttonPrimary {
+  background: var(--ifm-color-primary);
+  border: 1px solid var(--ifm-color-primary);
+  color: #ffffff;
+}
+
+.buttonPrimary:hover {
+  background: var(--ifm-color-primary-dark);
+  border-color: var(--ifm-color-primary-dark);
+  color: #ffffff;
+}
+
+.buttonSecondary {
+  background: transparent;
+  border: 1px solid var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+}
+
+.buttonSecondary:hover {
+  background: color-mix(in srgb, var(--ifm-color-primary) 8%, transparent);
+  color: var(--ifm-color-primary);
+}
+
+.stats {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2.75rem;
+  margin-top: 3.75rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--ifm-toc-border-color);
+}
+
+.statItem {
+  text-align: center;
+}
+
+.statNum {
+  font-size: 1.9rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--ifm-color-primary);
+}
+
+.statLabel {
+  margin-top: 0.15rem;
+  font-size: 0.85rem;
+  color: var(--ifm-font-color-secondary);
+}
+
+/* ------------------------------------------------------------------ */
+/* Sections                                                            */
+/* ------------------------------------------------------------------ */
+.section {
+  padding: 4.5rem 1.5rem;
+}
+
+.sectionContainer {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.sectionHeading {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.sectionKicker {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ifm-color-primary);
+}
+
+.sectionTitle {
+  margin: 0.65rem 0 0.5rem;
+  font-size: clamp(1.6rem, 3.5vw, 2.1rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.sectionSub {
+  max-width: 40rem;
+  margin: 0 auto;
+  color: var(--ifm-font-color-secondary);
+  line-height: 1.6;
+}
+
+/* Features grid */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 1.25rem;
+}
+
+.featureCard {
+  padding: 1.6rem;
+  border: 1px solid var(--ifm-toc-border-color);
+  border-radius: 16px;
+  background: var(--ifm-background-surface-color);
+  transition: transform 0.15s ease, box-shadow 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.featureCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgb(15 23 42 / 0.08);
+  border-color: var(--ifm-color-primary);
+}
+
+.featureIcon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  margin-bottom: 1.1rem;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--ifm-color-primary) 12%, transparent);
+  color: var(--ifm-color-primary);
+}
+
+.featureTitle {
+  margin-bottom: 0.4rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.featureText {
+  font-size: 0.93rem;
+  line-height: 1.6;
+  color: var(--ifm-font-color-secondary);
+}
+
+/* Book outline */
+.outline {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+
+.partCard {
+  padding: 1.4rem 1.5rem 1rem;
+  border: 1px solid var(--ifm-toc-border-color);
+  border-radius: 16px;
+  background: var(--ifm-background-surface-color);
+}
+
+.partHead {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  margin-bottom: 0.85rem;
+}
+
+.partNum {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--ifm-color-primary);
+}
+
+.partTitle {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.chapterRow {
+  display: block;
+  padding: 0.5rem 0;
+  border-top: 1px dashed var(--ifm-toc-border-color);
+  font-size: 0.92rem;
+  color: var(--ifm-font-color-secondary);
+}
+
+.chapterRow:hover {
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+}
+
+.chapterArrow {
+  float: right;
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.chapterRow:hover .chapterArrow {
+  opacity: 1;
+  transform: translateX(3px);
+}
+
+/* Closing call-to-action band */
+.ctaBand {
+  padding: 1.5rem 1.5rem 5.5rem;
+}
+
+.ctaCard {
+  position: relative;
+  overflow: hidden;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 3.25rem 2rem;
+  border-radius: 20px;
+  text-align: center;
+  color: #e2e8f0;
+  background: linear-gradient(135deg, #0f172a 0%, #12344a 100%);
+}
+
+.ctaCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    500px 260px at 50% -20%,
+    rgb(34 211 238 / 0.18),
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.ctaTitle {
+  position: relative;
+  margin-bottom: 0.7rem;
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  font-weight: 800;
+  color: #f8fafc;
+}
+
+.ctaText {
+  position: relative;
+  max-width: 34rem;
+  margin: 0 auto;
+  line-height: 1.6;
+  color: #94a3b8;
+}
+
+.ctaButton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 1.9rem;
+  padding: 0.85rem 1.7rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.98rem;
+  background: var(--brand-400);
+  color: #062a30;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.ctaButton:hover {
+  background: var(--brand-300);
+  color: #062a30;
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+/* Small screens */
+@media (max-width: 640px) {
+  .hero {
+    padding: 4.5rem 1.25rem 3rem;
+  }
+
+  .stats {
+    gap: 1.75rem;
+  }
+
+  .section {
+    padding: 3.5rem 1.25rem;
+  }
 }
