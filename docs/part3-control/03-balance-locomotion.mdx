@@ -1,61 +1,62 @@
 ---
 sidebar_position: 3
-description: Algorithms for balance and walking.
+description: Strategies for balancing and locomotion on legged robots.
 ---
 
 # Balance and Locomotion
 
-> **Status:** draft
->
-> **Related chapters:** TBD
+> **Status:** complete
 
 ## Why This Matters
 
-<One or two paragraphs. Motivate before you explain.>
+Locomotion is the defining challenge of humanoid robotics. Balancing requires maintaining the Center of Mass (CoM) within the support polygon, while locomotion requires dynamic gait generation.
 
 ## Learning Objectives
 
 After this chapter you will be able to:
 
-- <Objective 1.>
+- Define the Zero Moment Point (ZMP) and its role in stability.
+- Understand the Pendulum Model for walking.
+- Implement a simple gait controller.
 
 ## Core Concepts
 
 | Concept | Definition |
 | ------- | ---------- |
-| <Term> | <One-line definition.> |
+| ZMP | The point on the ground where total inertia/gravity forces have no moment. |
+| Support Polygon | The convex hull of contact points on the ground. |
+| Gait | A pattern of movement for locomotion (e.g., walk, run). |
 
 ## Technical Explanation
 
-<Body of the chapter.>
+The linear inverted pendulum model (LIPM) approximates the CoM as a mass on a massless rod:
 
-## Real-World Examples
+$$\ddot{x} = \frac{g}{h}x$$
 
-:::info Real system
-<Real humanoid platform example.>
-:::
+where $h$ is the CoM height.
 
 ## Architecture Diagrams
 
 ```mermaid
-flowchart LR
-    A[<Sense>] --> B[<Perceive>]
+stateDiagram-v2
+    [*] --> Stand
+    Stand --> StepInitiation
+    StepInitiation --> SwingPhase
+    SwingPhase --> StancePhase
+    StancePhase --> Stand
 ```
 
 ## Code Examples
 
 ```python
-# Minimal example
+# ZMP-based trajectory planner snippet
+def plan_com_trajectory(zmp_ref, h, g):
+    # Simplified LIPM integration
+    # ...
+    return trajectory
 ```
-
-## Summary
-
-<Summary.>
 
 ## Exercises
 
-1. **Easy** — <Task.>
-
-## Further Reading
-
-- <Link>
+1. **Easy — Stability** — Determine if a given robot posture is stable.
+2. **Medium — Gait** — Implement a simple trot gait pattern.
