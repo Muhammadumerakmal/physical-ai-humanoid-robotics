@@ -18,6 +18,80 @@ description: AI agents that control robots — reasoning loops, hierarchies, and
 - Execution monitoring and recovery.
 - From chatbots to embodied agents.
 
+## Code Examples
+
+### A minimal agent that controls a robot
+
+An AI agent closes the gap between a goal in natural language and the robot's
+individual skills. The pattern below is called **ReAct** — *Re*ason and *Act*:
+observe the world, ask the model what to do next, execute it, and repeat until
+done.
+
+```python
+# A goal -> skills agent. Skills are real robot capabilities.
+SKILLS = {
+    "move_to":  "walk to a named location",
+    "pick_up":  "grasp the object in front of you",
+    "put_down": "release the held object",
+    "say":      "speak a message aloud",
+}
+
+def observe():
+    """Return a short text description of what the robot perceives.
+    On a real robot this summarizes the perception pipeline (Chapters 5-8)."""
+    return perception_to_text()          # e.g. "mug on the table, 40 cm ahead"
+
+def ask_llm(prompt):
+    """Ask a language model to pick the next skill.
+    On a real robot this calls an LLM API (Chapter 17)."""
+    return llm_api.respond(prompt)       # returns e.g. "move_to(table)"
+
+def execute(command):
+    """Run one skill on the robot (via ROS 2 or a control stack)."""
+    robot_skill(command)                 # e.g. actually walks to the table
+
+def agent(goal):
+    history = []                         # memory for the next decision
+    for step in range(6):                # bound the loop for safety
+        state = observe()                # SEE - what is the robot looking at?
+        prompt = (
+            f"Goal: {goal}\n"
+            f"Current state: {state}\n"
+            f"Available skills: {', '.join(SKILLS)}\n"
+            f"Already done: {history}\n"
+            f"Which skill should I run next, or 'done'?"
+        )
+        choice = ask_llm(prompt)         # REASON - pick the next action
+        if choice == "done":
+            break
+        execute(choice)                  # ACT - run the skill on hardware
+        history.append(choice)           # remember what we did
+
+agent("Bring me the mug")
+```
+
+**What each piece does:**
+
+- `SKILLS` is the agent's *toolbox*: the concrete things the robot can do.
+  Each skill is itself a controller or a learned policy — the bridge from
+  high-level reasoning to low-level control.
+- `observe()` turns the robot's sensors into a short text the model can read.
+  This is the perception half of the loop, summarized into language.
+- `ask_llm()` is the reasoning step: given the goal, the current state, and
+  the skills, the model chooses the next action. On a real system this is an
+  LLM call with structured output, exactly as in the LLMs-in-robotics chapter.
+- `execute()` actually runs the chosen skill — a `move_to` skill commands the
+  base through ROS 2; a `pick_up` skill runs a grasping policy.
+- The `history` list gives the agent memory so it does not repeat itself, and
+  the loop bound (`range(6)`) is a safety backstop — on hardware you always
+  bound reasoning loops.
+
+**Connect to real robots:** this loop is the architecture behind robots that
+take natural-language instructions and break them into actions — the approach
+used by vision–language–action models such as Figure's Helix and by "LLM
+planner over skills" stacks. The difference between a demo and a product is
+what `execute()` can actually do on hardware.
+
 ## Exercises
 
 *(to be added)*

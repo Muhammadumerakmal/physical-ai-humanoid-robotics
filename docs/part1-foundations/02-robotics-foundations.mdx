@@ -17,6 +17,58 @@ description: The fundamentals of robotics — what a robot is, degrees of freedo
 - The sense–plan–act loop that frames the rest of the book.
 - A taxonomy of robot systems: mobile, manipulation, legged, humanoid.
 
+## Code Examples
+
+### A first robot program in Python
+
+The simplest useful robot behavior is *obstacle avoidance*: drive forward, and
+when something gets too close, turn away. It is the same sense → decide → act
+loop from Chapter 1 — this time in real code. It is the core of real products
+such as robot vacuums and delivery bots.
+
+```python
+import time
+
+# --- Hardware drivers (swap these for your robot's library) ---
+def read_distance_cm():
+    """Distance to the nearest object ahead, in centimeters."""
+    return sensor_reading()          # e.g. ultrasonic / lidar driver
+
+def set_motors(left, right):
+    """Command wheel speeds from -1.0 (full reverse) to 1.0 (full forward)."""
+    motor_driver.set(left, right)    # e.g. motor-controller library
+# ---------------------------------------------------------------
+
+SAFE_DISTANCE_CM = 30                # stop-and-turn threshold
+
+while True:
+    distance = read_distance_cm()    # SENSE  - what is ahead?
+    if distance < SAFE_DISTANCE_CM:  # DECIDE - too close?
+        set_motors(0.0, 0.8)         # ACT    - turn in place (left wheel stops)
+    else:
+        set_motors(0.5, 0.5)         # ACT    - drive straight
+    time.sleep(0.02)                 # 50 Hz  - check again in 20 ms
+```
+
+**What each piece does:**
+
+- The two functions at the top are the *only* hardware-specific parts. On a
+  real robot, `read_distance_cm()` calls the ultrasonic or lidar driver, and
+  `set_motors()` writes to the wheel-motor controller. Everything else stays
+  the same on every robot — which is exactly why we separate them out.
+- The `while True` loop is the perception–action loop running at about 50 Hz
+  (once every 20 ms). A humanoid's balance loop runs much faster; a navigation
+  loop runs slower. The right speed depends on the task.
+- The `if/else` is the decision: a single rule ("too close → turn") that is
+  smarter than no intelligence at all. In later chapters this rule becomes a
+  learned policy, but the *shape* of the program never changes.
+
+**Connecting to real robots.** The same loop drives a Roomba, a TurtleBot
+running ROS 2, and the low-level gait controllers of a humanoid. The only
+difference is inside those two driver functions — and, as you will see in the
+ROS 2 chapter, on a ROS robot those two lines become reads and writes on
+*topics* instead of direct hardware calls.
+
 ## Exercises
 
 *(to be added)*
