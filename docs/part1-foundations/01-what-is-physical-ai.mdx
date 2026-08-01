@@ -1,3 +1,6 @@
+import Quiz from '@site/src/components/Educational/Quiz';
+import Exercise from '@site/src/components/Educational/Exercise';
+
 ---
 sidebar_position: 1
 description: What physical AI is, why embodiment separates it from digital AI, and how the perception–action loop closes in a physical body.
@@ -38,6 +41,17 @@ After this chapter you will be able to:
 - Situate humanoids on the spectrum of physical AI systems.
 - Identify the historical threads — control theory, machine learning, and simulation — that converge in today's humanoids.
 
+<Quiz 
+  question="What is the primary difference between digital AI and physical AI?"
+  options={[
+    "Physical AI uses more powerful GPUs.",
+    "Physical AI operates on symbols; digital AI does not.",
+    "Physical AI is embodied and subject to physical constraints like gravity and friction.",
+    "There is no difference."
+  ]}
+  correctAnswerIndex={2}
+/>
+
 ## Core Concepts
 
 | Concept | Definition |
@@ -48,6 +62,11 @@ After this chapter you will be able to:
 | Perception | Turning raw sensor data into useful understanding of the world and of the robot itself. |
 | Action | Generating motor commands that change the world. |
 | Perception–action loop | The cycle of sense → decide → act → sense again that every embodied system runs. |
+
+<Exercise title="Mapping the Loop">
+  Take a simple robot (like a vacuum cleaner). List the components that act as sensors, the decision-making logic, and the actuators. Sketch out the perception-action loop for this specific robot.
+</Exercise>
+
 | Closed loop | Acting on feedback from the world, rather than executing a fixed plan blindly. |
 | Sim-to-real | Training a model in simulation, then transferring the behavior to real hardware. |
 | Humanoid | A robot shaped roughly like a person — two arms, two legs, bipedal stance. |
