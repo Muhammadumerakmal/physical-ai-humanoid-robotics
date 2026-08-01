@@ -29,6 +29,7 @@ const config: Config = {
 
   onBrokenLinks: 'throw',
   markdown: {
+    mermaid: true, // Render ```mermaid blocks as diagrams (see chapter template).
     hooks: {
       onBrokenMarkdownLinks: 'warn',
     },
@@ -48,6 +49,9 @@ const config: Config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
+
+  // Mermaid diagram support for ```mermaid code blocks (see chapter template).
+  themes: ['@docusaurus/theme-mermaid'],
 
   presets: [
     [
@@ -125,7 +129,7 @@ const config: Config = {
               to: '/docs/part3-control/kinematics-dynamics',
             },
             {
-              label: 'IV · Learning & Autonomy',
+              label: 'IV · Learning & Intelligence',
               to: '/docs/part4-learning/reinforcement-learning',
             },
             {
@@ -157,6 +161,9 @@ const config: Config = {
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
+    },
+    mermaid: {
+      theme: {light: 'neutral', dark: 'dark'},
     },
   } satisfies Preset.ThemeConfig,
 };
