@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- antenna -->
+  <line x1="32" y1="8" x2="32" y2="2" stroke="#4f46e5" stroke-width="3.5" stroke-linecap="round"/>
+  <circle cx="32" cy="2" r="2.6" fill="#818cf8"/>
+  <!-- head -->
+  <rect x="14" y="8" width="36" height="26" rx="7" fill="none" stroke="#4f46e5" stroke-width="3.5"/>
+  <!-- eyes -->
+  <circle cx="24" cy="21" r="3.4" fill="#818cf8"/>
+  <circle cx="40" cy="21" r="3.4" fill="#818cf8"/>
+  <!-- body -->
+  <rect x="22" y="40" width="20" height="16" rx="5" fill="none" stroke="#4f46e5" stroke-width="3.5"/>
+  <!-- chest -->
+  <line x1="32" y1="44" x2="32" y2="52" stroke="#818cf8" stroke-width="2.6" stroke-linecap="round"/>
+</svg>
