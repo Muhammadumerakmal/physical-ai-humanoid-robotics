@@ -135,6 +135,23 @@ const config: Config = {
           ],
         },
         {
+          title: 'Learn',
+          items: [
+            {
+              label: 'Start Reading',
+              to: '/docs/intro',
+            },
+            {
+              label: 'Book Outline',
+              to: '/',
+            },
+            {
+              label: 'Glossary',
+              to: '/docs/appendices/a-glossary',
+            },
+          ],
+        },
+        {
           title: 'Parts',
           items: [
             {

@@ -183,6 +183,44 @@ const stats = [
   {num: '1', label: 'Working Robot, end to end'},
 ];
 
+const audiences = [
+  {
+    title: 'AI Engineers',
+    text: 'You already know models and data — learn to map them onto bodies and physics.',
+  },
+  {
+    title: 'Software Developers',
+    text: 'You already write code — this book adds the physical layer underneath it.',
+  },
+  {
+    title: 'Students',
+    text: 'A structured path from first principles to a working humanoid.',
+  },
+];
+
+const paths = [
+  {
+    title: 'Straight Through',
+    text: 'Parts I–VI in order. The complete foundation — recommended.',
+    to: '/docs/intro',
+  },
+  {
+    title: 'Builder First',
+    text: 'Hands-on from the start — jump into the systems chapters early.',
+    to: '/docs/part5-systems/ros2',
+  },
+  {
+    title: 'Software Fast Entry',
+    text: 'Foundations, then learning and systems, then fill in sensing and control.',
+    to: '/docs/part4-learning/ml-for-robots',
+  },
+  {
+    title: 'Research Focus',
+    text: 'Start with learning and the road ahead, then deepen into perception.',
+    to: '/docs/part4-learning/reinforcement-learning',
+  },
+];
+
 function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
   return (
@@ -251,6 +289,55 @@ function Features() {
   );
 }
 
+function StartHere() {
+  return (
+    <section className={styles.section}>
+      <div className={styles.sectionContainer}>
+        <div className={styles.sectionHeading}>
+          <div className={styles.sectionKicker}>Who It’s For</div>
+          <Heading as="h2" className={styles.sectionTitle}>
+            Three kinds of readers
+          </Heading>
+          <p className={styles.sectionSub}>
+            Built for the people entering robotics with an AI or software
+            background.
+          </p>
+        </div>
+        <div className={styles.audienceGrid}>
+          {audiences.map((a) => (
+            <div key={a.title} className={styles.audienceCard}>
+              <h3 className={styles.audienceTitle}>{a.title}</h3>
+              <p className={styles.featureText}>{a.text}</p>
+            </div>
+          ))}
+        </div>
+        <div className={styles.findPath}>
+          <div className={styles.sectionHeading}>
+            <div className={styles.sectionKicker}>Find Your Path</div>
+            <Heading as="h3" className={styles.sectionTitle}>
+              How to read this book
+            </Heading>
+            <p className={styles.sectionSub}>
+              Pick the route that matches where you are and where you are going.
+            </p>
+          </div>
+          <div className={styles.pathGrid}>
+            {paths.map((p) => (
+              <Link key={p.title} to={p.to} className={styles.pathCard}>
+                <div className={styles.pathTitle}>{p.title}</div>
+                <div className={styles.pathText}>{p.text}</div>
+                <span className={styles.pathArrow} aria-hidden="true">
+                  →
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Outline() {
   return (
     <section className={styles.section}>
@@ -311,6 +398,7 @@ export default function Home(): ReactNode {
       <main>
         <HomepageHeader />
         <Features />
+        <StartHere />
         <Outline />
         <CallToAction />
       </main>

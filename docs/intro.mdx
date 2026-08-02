@@ -1,52 +1,90 @@
 ---
 sidebar_position: 1
-description: Welcome to Physical AI and Humanoid Robotics — what this book is, who it is for, and how to read it.
+description: What this book is, who it is for, and how to read it — the starting point for Physical AI and Humanoid Robotics.
 ---
 
-# Introduction
+# About This Book
 
-Welcome to **Physical AI and Humanoid Robotics: Building Intelligent Machines**.
+Welcome to **Physical AI and Humanoid Robotics: Building Intelligent Machines** — a
+practical, engineering-oriented guide to building robots that think and move.
 
-Physical AI is the field at the intersection of machine learning, robotics, and
-control theory where software models stop living in the cloud and start living
-in bodies — machines that sense, move, and act in the physical world. Humanoid
-robots are the most demanding expression of that idea: an artificial body
-roughly shaped like ours, walking on two legs, using two arms, and trying to
-do the things we do.
+Physical AI is where machine learning, robotics, and control theory meet. It is
+the field in which software stops living in the cloud and starts living in
+bodies: machines that sense, decide, and act in the physical world. Humanoid
+robots are the most demanding expression of that idea — a body shaped like ours,
+walking on two legs, using two arms, doing the things we do.
 
-This book is a practical, engineering-oriented guide to building them.
+## What This Book Is
 
-## What this book covers
+A single source of truth for the full stack of an intelligent machine. It covers:
 
-- The **foundations** of physical AI: what makes embodied intelligence different
-  from digital AI, and the math that ties sensing to action.
+- The **foundations** of physical AI: why embodied intelligence differs from
+  digital AI, and the math that ties sensing to action.
 - **Perception**: how a robot sees, feels, and keeps track of where it is.
-- **Actuation and control**: motors, gears, kinematics, and the control loops
-  that keep a biped upright.
-- **Learning and autonomy**: reinforcement learning, imitation learning, and the
-  new vision–language–action models that give robots instructions-level autonomy.
-- **Systems and deployment**: how the software, simulation, and safety stack
-  come together in a working robot.
+- **Actuation and control**: motors, kinematics, and the control loops that keep
+  a biped upright.
+- **Learning and autonomy**: machine learning, reinforcement learning,
+  imitation, and the vision-language-action models that give robots
+  instructions-level autonomy.
+- **Systems and deployment**: the software stack, ROS 2, simulation, and how a
+  robot ships to the real world.
 
-## Who this book is for
+## Who This Book Is For
 
-Working engineers, graduate students, and advanced hobbyists who already know
-how to program and have some exposure to machine learning. We keep the math
-explicit but practical — every idea is connected to hardware you can buy and
-code you can run.
+- **Beginner AI engineers** — you already know models and data; this book maps
+  them onto bodies and physics.
+- **Software developers entering robotics** — you already write code; this book
+  adds the physical layer underneath it.
+- **Students** — a structured path from first principles to a working humanoid,
+  with exercises at the end of every chapter.
 
-## How to read it
+## What You'll Be Able to Do
 
-The book is organized into six parts plus appendices. You can read it straight
-through, or jump to a specific part. Each chapter ends with a short set of
-exercises. Code and configuration snippets assume the ecosystem around
-**ROS 2**, **Python**, and the **MuJoCo / Isaac Lab** simulation stack, but the
-core ideas transfer to any robot.
+By the end of the book you will be able to:
+
+- Explain the full architecture of a physical-AI system, from sensors to actuators.
+- Write and run robot code in **Python** and **ROS 2**.
+- Set up a simulation, train a policy, and deploy it to hardware.
+- Choose between perception, control, and learning approaches for a real task.
+- Design and evaluate a simple robot system end to end.
+
+## Find Your Path
+
+The book works as a straight read, but you can also jump in:
+
+- **Straight through** (recommended) — read Parts I–VI in order for the complete
+  foundation.
+- **Builder first** — hands-on from the start: skim the systems chapters early
+  and circle back to foundations as questions arise.
+- **Software fast entry** — go straight to the learning and systems parts, then
+  fill in sensing and control.
+- **Research focus** — start with the learning and future parts, then deepen
+  into perception and control.
+
+Every chapter ends with **exercises** that turn reading into building.
+
+## How the Book Is Structured
+
+Six parts plus appendices; each part is a layer of the stack:
+
+- **Part I — Foundations**: what physical AI is, robotics foundations, the math
+  toolkit, and humanoid architecture.
+- **Part II — Sensing & Perception**: sensors and actuators, perception,
+  computer vision, and state estimation.
+- **Part III — Actuation & Control**: kinematics and dynamics, motion control,
+  balance and locomotion, and manipulation.
+- **Part IV — Learning & Intelligence**: machine learning, reinforcement
+  learning, imitation, VLA models, LLMs, and AI agents.
+- **Part V — Systems, Simulation & Deployment**: ROS 2, the software stack,
+  simulation, Isaac Sim, and real-world deployment.
+- **Part VI — The Road Ahead**: the future of humanoid robotics.
+- **Appendices**: glossary, resources, environment setup, and a math reference.
+
+The recommended starting point is
+**[Part I — Foundations](/docs/part1-foundations/what-is-physical-ai)**.
 
 ## Status
 
-> This site is a working outline. Chapters are being written in place; each one
-> documents the material it will cover as the text takes shape.
-
-Use the sidebar to navigate. The recommended starting point is
-**[Part I — Foundations](/docs/part1-foundations/what-is-physical-ai)**.
+> This site is a working book. Chapters are being written in place; each one
+> documents the material it will cover as the text takes shape. Use the sidebar
+> to navigate.

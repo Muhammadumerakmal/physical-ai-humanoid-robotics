@@ -340,6 +340,84 @@
   color: var(--ifm-font-color-secondary);
 }
 
+/* Who it's for */
+.audienceGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+
+.audienceCard {
+  padding: 1.6rem;
+  border: 1px solid var(--ifm-toc-border-color);
+  border-radius: 16px;
+  background: var(--ifm-background-surface-color);
+}
+
+.audienceTitle {
+  margin-bottom: 0.4rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+/* Find your path */
+.findPath {
+  margin-top: 3.5rem;
+}
+
+.pathGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1.25rem;
+}
+
+.pathCard {
+  position: relative;
+  display: block;
+  padding: 1.4rem 1.6rem;
+  border: 1px solid var(--ifm-toc-border-color);
+  border-radius: 16px;
+  background: var(--ifm-background-surface-color);
+  color: var(--ifm-font-color-base);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+
+.pathCard:hover {
+  text-decoration: none;
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 10px 24px rgb(15 23 42 / 0.08);
+  transform: translateY(-3px);
+  color: var(--ifm-font-color-base);
+}
+
+.pathTitle {
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 0.35rem;
+  color: var(--ifm-color-primary);
+}
+
+.pathText {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--ifm-font-color-secondary);
+}
+
+.pathArrow {
+  position: absolute;
+  top: 1.3rem;
+  right: 1.3rem;
+  color: var(--ifm-color-primary);
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.pathCard:hover .pathArrow {
+  opacity: 1;
+  transform: translateX(3px);
+}
+
 /* Book outline */
 .outline {
   display: grid;
