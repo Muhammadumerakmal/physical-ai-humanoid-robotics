@@ -1,4 +1,6 @@
 import {themes as prismThemes} from 'prism-react-renderer';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
@@ -66,6 +68,8 @@ const config: Config = {
           sidebarPath: './sidebars.ts',
           routeBasePath: 'docs',
           editUrl: 'https://github.com/Muhammadumerakmal/physical-ai-humanoid-robotics/tree/main/',
+          remarkPlugins: [remarkMath], // Render $...$ / $$...$$ as real math (KaTeX).
+          rehypePlugins: [[rehypeKatex, {strict: false}]],
         },
         blog: false,
         theme: {
