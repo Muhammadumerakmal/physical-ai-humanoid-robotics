@@ -7,6 +7,13 @@ import {
   RoundedBox,
   SoftShadows,
 } from '@react-three/drei';
+import {
+  CapsuleCollider,
+  CuboidCollider,
+  Physics,
+  RigidBody,
+  type RapierRigidBody,
+} from '@react-three/rapier';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import * as THREE from 'three';
 import {
@@ -725,6 +732,7 @@ function Robot({
   const cube = useRef<THREE.Mesh>(null);
   const eyeL = useRef<THREE.Mesh>(null);
   const eyeR = useRef<THREE.Mesh>(null);
+  const bodyApi = useRef<RapierRigidBody>(null);
 
   const last = useRef<RobotStatus>({busy: false, action: 'idle', held: false, fallen: false});
   const tmp = useRef(new THREE.Vector3()).current;
@@ -820,6 +828,9 @@ function Robot({
     if (eyeL.current) eyeL.current.scale.y = blink;
     if (eyeR.current) eyeR.current.scale.y = blink;
 
+    // drive the kinematic body collider to follow the robot so it shoves crates
+    bodyApi.current?.setNextKinematicTranslation({x: s.bx, y: 0.6 + s.hop, z: s.bz});
+
     // cube: follow the chest anchor when held; otherwise a lightweight ballistic
     // integration so throw/kick fling it (rapier replaces this in WS4).
     if (cube.current) {
@@ -880,6 +891,15 @@ function Robot({
         position={[CUBE_START.x, 0.18, CUBE_START.z]}>
         <meshStandardMaterial color="#f59e0b" metalness={0.2} roughness={0.4} />
       </RoundedBox>
+
+      {/* invisible kinematic collider that follows the robot and shoves crates */}
+      <RigidBody
+        ref={bodyApi}
+        type="kinematicPosition"
+        colliders={false}
+        position={[0, 0.6, 0]}>
+        <CapsuleCollider args={[0.35, 0.3]} />
+      </RigidBody>
 
       <group ref={root}>
         {/* pelvis */}
@@ -986,6 +1006,44 @@ function Robot({
   );
 }
 
+/* ------------------------------ physics props -------------------------- */
+
+const CRATE_COLORS = ['#f97316', '#22d3ee', '#a3e635', '#f59e0b', '#38bdf8', '#fb7185'];
+const CRATE_LAYOUT: [number, number, number][] = [
+  [-1.5, 0.16, 0.32],
+  [-1.5, 0.16, 0.0],
+  [-1.5, 0.16, -0.32],
+  [-1.5, 0.46, 0.16],
+  [-1.5, 0.46, -0.16],
+  [-1.5, 0.76, 0.0],
+];
+
+/** A stack of real rapier rigid bodies the robot can knock over and kick. */
+function Crates() {
+  return (
+    <>
+      {CRATE_LAYOUT.map((p, i) => (
+        <RigidBody
+          key={i}
+          colliders="cuboid"
+          position={p}
+          restitution={0.1}
+          friction={0.9}
+          linearDamping={0.2}
+          angularDamping={0.2}>
+          <RoundedBox args={[0.28, 0.28, 0.28]} radius={0.03} smoothness={3} castShadow receiveShadow>
+            <meshStandardMaterial
+              color={CRATE_COLORS[i % CRATE_COLORS.length]}
+              metalness={0.15}
+              roughness={0.6}
+            />
+          </RoundedBox>
+        </RigidBody>
+      ))}
+    </>
+  );
+}
+
 /* ------------------------------ scene shell ---------------------------- */
 
 function Scene({
@@ -1038,7 +1096,14 @@ function Scene({
       </mesh>
       <ContactShadows position={[0, 0.012, 0]} opacity={0.55} scale={11} blur={2.6} far={4.5} />
 
-      <Robot apiRef={apiRef} onState={onState} />
+      <Physics gravity={[0, -9.81, 0]}>
+        <RigidBody type="fixed" colliders={false}>
+          <CuboidCollider args={[20, 0.1, 20]} position={[0, -0.1, 0]} />
+        </RigidBody>
+        <Crates />
+        <Robot apiRef={apiRef} onState={onState} />
+      </Physics>
+
       <OrbitControls
         makeDefault
         enablePan={false}

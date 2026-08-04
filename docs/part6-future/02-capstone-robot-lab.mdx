@@ -47,24 +47,29 @@ No API key configured? It still works: an offline keyword planner takes over aut
 
 Try commands like:
 
-- *"walk to the cube and pick it up"*
-- *"turn left, then wave with both hands"*
-- *"go forward and point right"*
-- *"dance, then sit down"*
+- *"run to the cube, pick it up, and throw it"*
+- *"walk to the cube and kick it"*
+- *"jump, spin, then wave with both hands"*
+- *"come here and give me a high five"*
 
-Then open the **Balance & physics** panel and shove the robot — a spring-damper controller keeps
-it upright, and a hard enough push topples it before it recovers. That is a (deliberately simple)
-version of the balance problem from [Chapter 11](../part3-control/balance-locomotion).
+The stack of crates to the robot's left is a **real physics simulation** ([rapier](https://rapier.rs/)):
+run into it — *"run left"* — and the robot topples the tower; the cubes fall, tumble, and collide
+under real gravity. Then open the **Balance & physics** panel and shove the robot — a spring-damper
+controller keeps it upright, and a hard enough push topples it before it recovers. That is a
+(deliberately simple) version of the balance problem from
+[Chapter 11](../part3-control/balance-locomotion).
 
 :::note What "works" means here
-Three things are real in this demo, and they mirror the whole book:
+Four things are real in this demo, and they mirror the whole book:
 
 1. **Language → action.** The [robot-planner mode](../part4-learning/ai-agents) constrains the AI
    to a fixed skill vocabulary and emits a validated JSON plan — the same pattern used to drive
    real robots safely from an LLM.
 2. **A control loop.** Each skill is a small time-based controller updating joint targets every
    frame, exactly like a real motion loop — just with a simplified body.
-3. **Balance & recovery.** The upright pose is held by a feedback controller, not an animation.
+3. **Physics.** The crates are simulated with a real physics engine (rapier) — gravity, collisions,
+   and stacking — and the robot knocks them over through a collider that tracks its body.
+4. **Balance & recovery.** The upright pose is held by a feedback controller, not an animation.
 :::
 
 ## From the browser to real hardware
