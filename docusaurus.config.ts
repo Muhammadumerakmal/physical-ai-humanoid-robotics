@@ -80,6 +80,12 @@ const config: Config = {
           changefreq: 'weekly',
           priority: 0.5,
         },
+        // Analytics: enabled only when a GA measurement id is provided at build
+        // time (`GA_ID=G-XXXXXXXXXX npm run build`), so no tracking id is
+        // hard-coded and local/dev builds stay analytics-free.
+        gtag: process.env.GA_ID
+          ? {trackingID: process.env.GA_ID, anonymizeIP: true}
+          : undefined,
       } satisfies Preset.Options,
     ],
   ],
