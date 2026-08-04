@@ -40,6 +40,74 @@ Appendices — Glossary, Resources, Environment Setup, Math Reference, Project I
 
 If you do not know something, say so rather than guessing. Do not fabricate API or hardware specifications.`;
 
+/* --- robot mode: turn a natural-language command into an action plan ---- */
+
+/**
+ * The skills the in-browser humanoid (RobotLab capstone) can execute. Kept in
+ * sync with SKILLS in src/components/RobotLab. The model must only emit these.
+ */
+export const ROBOT_SKILLS = [
+  {skill: 'wave', params: '{}', desc: 'wave the right hand hello'},
+  {skill: 'wave_both', params: '{}', desc: 'raise and wave both arms'},
+  {skill: 'nod', params: '{}', desc: 'nod the head yes'},
+  {skill: 'walk_to', params: '{"target": "cube" | "center" | "left" | "right" | "forward"}', desc: 'walk toward a target'},
+  {skill: 'turn', params: '{"direction": "left" | "right"}', desc: 'turn in place'},
+  {skill: 'point', params: '{"target": "cube" | "left" | "right" | "forward"}', desc: 'point an arm at a target'},
+  {skill: 'pick_up', params: '{"target": "cube"}', desc: 'crouch and pick up an object (walk to it first)'},
+  {skill: 'put_down', params: '{}', desc: 'place a held object back down'},
+  {skill: 'crouch', params: '{}', desc: 'crouch down then stand back up'},
+  {skill: 'sit', params: '{}', desc: 'sit down'},
+  {skill: 'stand', params: '{}', desc: 'return to a neutral standing pose'},
+  {skill: 'balance', params: '{}', desc: 'shift weight and hold balance on the spot'},
+  {skill: 'dance', params: '{}', desc: 'a short playful dance'},
+  {skill: 'reset', params: '{}', desc: 'reset the scene to the starting state'},
+];
+
+export const ROBOT_SYSTEM_PROMPT = `You are the motion planner for a simulated humanoid robot in a web page. The user gives a natural-language command; you translate it into a short ordered plan of skills the robot can perform.
+
+Respond with ONLY a JSON object, no prose, no code fences, in exactly this shape:
+{"plan":[{"skill":"<name>","params":{...}}],"say":"<one short first-person sentence>"}
+
+Rules:
+- Use ONLY these skills (with these params):
+${ROBOT_SKILLS.map((s) => `  - ${s.skill} ${s.params} — ${s.desc}`).join('\n')}
+- Keep plans short (1–5 steps) and physically sensible: to pick up the cube, walk_to it first, then pick_up.
+- If the command is unclear or impossible, return an empty plan and explain briefly in "say".
+- "say" is what the robot tells the user, first person, one sentence.
+- Output raw JSON only. Do not wrap it in markdown.`;
+
+/**
+ * Extract a {plan, say} object from a model completion. Tolerant of code
+ * fences and surrounding prose; returns an empty plan on any failure so the
+ * client can fall back to its local keyword parser.
+ */
+export function parseRobotPlan(text) {
+  if (!text) return {plan: [], say: ''};
+  let s = String(text).trim();
+  const fence = s.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  if (fence) s = fence[1].trim();
+  const start = s.indexOf('{');
+  const end = s.lastIndexOf('}');
+  if (start !== -1 && end !== -1 && end > start) {
+    s = s.slice(start, end + 1);
+  }
+  try {
+    const obj = JSON.parse(s);
+    const known = new Set(ROBOT_SKILLS.map((k) => k.skill));
+    const plan = Array.isArray(obj.plan)
+      ? obj.plan
+          .filter((step) => step && typeof step.skill === 'string' && known.has(step.skill))
+          .map((step) => ({
+            skill: step.skill,
+            params: step.params && typeof step.params === 'object' ? step.params : {},
+          }))
+      : [];
+    return {plan, say: typeof obj.say === 'string' ? obj.say : ''};
+  } catch {
+    return {plan: [], say: ''};
+  }
+}
+
 export function setCors(res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -104,7 +172,51 @@ export async function handleAgentRequest(req, res) {
     return;
   }
 
-  const {messages = [], stream = true, currentPage, temperature} = payload;
+  const {messages = [], stream = true, currentPage, temperature, mode} = payload;
+
+  // Robot mode: translate the latest command into a JSON action plan. Skips
+  // RAG and streaming; always returns {plan, say}. The RobotLab client falls
+  // back to a local keyword parser if this returns an empty plan.
+  if (mode === 'robot') {
+    try {
+      const upstream = await fetch(`${DEEPSEEK_BASE_URL}/chat/completions`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${DEEPSEEK_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: DEEPSEEK_MODEL,
+          stream: false,
+          temperature: 0,
+          messages: [{role: 'system', content: ROBOT_SYSTEM_PROMPT}, ...messages],
+        }),
+      });
+
+      if (!upstream.ok) {
+        const text = await upstream.text();
+        sendJson(res, upstream.status, {
+          error: `DeepSeek API error ${upstream.status}`,
+          detail: text.slice(0, 500),
+          plan: [],
+          say: '',
+        });
+        return;
+      }
+
+      const json = await upstream.json();
+      const content = json?.choices?.[0]?.message?.content ?? '';
+      sendJson(res, 200, parseRobotPlan(content));
+    } catch (err) {
+      sendJson(res, 502, {
+        error: 'Upstream request failed',
+        detail: String(err && err.message),
+        plan: [],
+        say: '',
+      });
+    }
+    return;
+  }
 
   // Ground the answer in the book by retrieving relevant passages for the
   // latest user message (RAG). If RAG credentials aren't configured this
