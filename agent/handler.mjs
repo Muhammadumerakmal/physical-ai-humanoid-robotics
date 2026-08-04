@@ -112,14 +112,20 @@ export async function handleAgentRequest(req, res) {
   const userMessage = [...messages].reverse().find((m) => m.role === 'user');
   const rag = userMessage?.content
     ? await retrieveContext(String(userMessage.content).slice(0, 2000))
-    : {context: '', hits: [], error: null};
+    : {context: '', hits: [], relevant: false, error: null};
 
   let system = currentPage
     ? `${SYSTEM_PROMPT}\n\nThe reader is currently viewing: ${String(currentPage).slice(0, 300)}.`
     : SYSTEM_PROMPT;
 
-  if (rag.context) {
-    system += `\n\nBelow are verbatim passages retrieved from the book that are relevant to the reader's question. Use them as your primary source of truth, quote or summarise them accurately, and cite the numbered reference at the end of your answer. If the passages don't contain the answer, say so rather than guessing.\n\n<retrieved_context>\n${rag.context}\n</retrieved_context>`;
+  // Hard scope: when the question has no relevant match in the book, the
+  // assistant must say so instead of answering from unrelated knowledge.
+  if (rag.error) {
+    system += `\n\n[RAG unconfigured or failed: ${rag.error}]`;
+  } else if (!rag.relevant) {
+    system += `\n\n[AUTORAG-GUARD] The reader's question appears to be outside the content of this book. Be honest: tell them you couldn't find this in "Physical AI and Humanoid Robotics" and briefly offer to help rephrase, or suggest the closest chapter if one exists. Do NOT invent facts, code, or equations that aren't in the retrieved passages, and do NOT answer the question from general knowledge. Keep the reply short.`;
+  } else if (rag.context) {
+    system += `\n\nBelow are verbatim passages retrieved from the book that are relevant to the reader's question. Use them as your primary source of truth, quote or summarise them accurately, and cite the numbered reference at the end of your answer. If the passages don't cover the question fully, say so rather than guessing.\n\n<retrieved_context>\n${rag.context}\n</retrieved_context>`;
   }
 
   const upstreamBody = {
