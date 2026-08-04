@@ -33,6 +33,8 @@ function resolveEndpoint(agentEndpoint?: string): string {
     : '/api/agent';
 }
 
+/* ------------------------------- icons --------------------------------- */
+
 function RobotIcon() {
   return (
     <svg
@@ -59,8 +61,8 @@ function RobotIcon() {
 function CloseIcon() {
   return (
     <svg
-      width="24"
-      height="24"
+      width="22"
+      height="22"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -73,7 +75,90 @@ function CloseIcon() {
   );
 }
 
-/** Renders assistant text with fenced code blocks and light prose styling. */
+function SendIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true">
+      <path d="M22 2 11 13" />
+      <path d="M22 2 15 22l-4-9-9-4Z" />
+    </svg>
+  );
+}
+
+function TrashIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true">
+      <path d="M3 6h18" />
+      <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+      <line x1="10" y1="11" x2="10" y2="17" />
+      <line x1="14" y1="11" x2="14" y2="17" />
+    </svg>
+  );
+}
+
+/* --------------------------- markup helpers ---------------------------- */
+
+type InlineSpan =
+  | {type: 'text'; value: string}
+  | {type: 'bold'; value: string}
+  | {type: 'code'; value: string};
+
+/** Split raw assistant text into paragraphs, then inline code/bold spans. */
+function inlineSpans(text: string): InlineSpan[] {
+  const parts = text.split(/(`[^`]+`|\*\*[^*]+\*\*)/g);
+  return parts
+    .map((part): InlineSpan | null => {
+      if (!part) return null;
+      if (part.startsWith('`') && part.endsWith('`') && part.length > 2) {
+        return {type: 'code', value: part.slice(1, -1)};
+      }
+      if (part.startsWith('**') && part.endsWith('**') && part.length > 4) {
+        return {type: 'bold', value: part.slice(2, -2)};
+      }
+      return {type: 'text', value: part};
+    })
+    .filter((p): p is InlineSpan => p !== null);
+}
+
+function renderInline(text: string) {
+  return inlineSpans(text).map((span, i) => {
+    if (span.type === 'code') {
+      return (
+        <code key={i} className={styles.inlineCode}>
+          {span.value}
+        </code>
+      );
+    }
+    if (span.type === 'bold') {
+      return (
+        <strong key={i} className={styles.bold}>
+          {span.value}
+        </strong>
+      );
+    }
+    return <span key={i}>{span.value}</span>;
+  });
+}
+
+/** Renders assistant text with code blocks and light prose styling. */
 function MessageBubble({message}: {message: Message}) {
   if (message.role === 'user') {
     return <div className={`${styles.bubble} ${styles.userBubble}`}>{message.content}</div>;
@@ -89,15 +174,33 @@ function MessageBubble({message}: {message: Message}) {
         </pre>,
       );
     } else if (part.trim()) {
-      nodes.push(
-        <p key={i} className={styles.prose}>
-          {part}
-        </p>,
-      );
+      part.split(/\n{2,}/).forEach((para, j) => {
+        if (para.trim()) {
+          nodes.push(
+            <p key={`${i}-${j}`} className={styles.prose}>
+              {renderInline(para.trim())}
+            </p>,
+          );
+        }
+      });
     }
   });
   return <div className={`${styles.bubble} ${styles.botBubble}`}>{nodes}</div>;
 }
+
+/* -------------------------- typing indicator --------------------------- */
+
+function TypingBubbles() {
+  return (
+    <span className={styles.typing} role="status" aria-label="Assistant is typing">
+      <span className={styles.typingDot} />
+      <span className={styles.typingDot} />
+      <span className={styles.typingDot} />
+    </span>
+  );
+}
+
+/* ------------------------------- component ----------------------------- */
 
 export default function BookAgent() {
   const {siteConfig} = useDocusaurusContext();
@@ -113,10 +216,10 @@ export default function BookAgent() {
   const [currentPage, setCurrentPage] = useState('');
   const [pageTitle, setPageTitle] = useState('');
   const listRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
   const location = useLocation();
 
-  // Track the active page title, refreshing on SPA navigation. The short delay
-  // lets Docusaurus/Helmet update document.title before we read it.
+  // Track the active page title, refreshing on SPA navigation.
   useEffect(() => {
     if (typeof document === 'undefined') return;
     const id = window.setTimeout(() => {
@@ -126,7 +229,14 @@ export default function BookAgent() {
     return () => window.clearTimeout(id);
   }, [location.pathname]);
 
-  // On a chapter page (not the landing/site-root page), offer prompts scoped to it.
+  // Keep the input autosized.
+  useEffect(() => {
+    const el = inputRef.current;
+    if (!el) return;
+    el.style.height = 'auto';
+    el.style.height = `${el.scrollHeight}px`;
+  }, [input]);
+
   const onChapter = Boolean(pageTitle) && !pageTitle.startsWith(SITE_TITLE);
   const pageActions = onChapter
     ? [
@@ -151,7 +261,6 @@ export default function BookAgent() {
     setInput('');
     setError(null);
     const history: Message[] = [...messages, {role: 'user', content}];
-    // Placeholder assistant bubble that the stream fills in.
     setMessages([...history, {role: 'assistant', content: ''}]);
     setBusy(true);
 
@@ -232,6 +341,12 @@ export default function BookAgent() {
     }
   }
 
+  function clearChat() {
+    setMessages([]);
+    setError(null);
+    if (inputRef.current) inputRef.current.focus();
+  }
+
   const lastAssistantEmpty =
     busy &&
     messages[messages.length - 1]?.role === 'assistant' &&
@@ -246,18 +361,32 @@ export default function BookAgent() {
               <span className={styles.headerIcon}>
                 <RobotIcon />
               </span>
-              <div>
-                <div className={styles.headerTitle}>Book Assistant</div>
-                <div className={styles.headerSub}>The book, answered · DeepSeek</div>
+              <div className={styles.headerText}>
+                <div className={styles.headerTitle}>
+                  Book Assistant
+                  <span className={styles.statusDot} aria-label="Online" />
+                </div>
+                <div className={styles.headerSub}>Grounded in the book · RAG</div>
               </div>
             </div>
-            <button
-              type="button"
-              className={styles.closeBtn}
-              onClick={() => setOpen(false)}
-              aria-label="Close assistant">
-              <CloseIcon />
-            </button>
+            <div className={styles.headerActions}>
+              {messages.length > 0 && (
+                <button
+                  type="button"
+                  className={styles.iconBtn}
+                  onClick={clearChat}
+                  aria-label="Clear conversation">
+                  <TrashIcon />
+                </button>
+              )}
+              <button
+                type="button"
+                className={styles.iconBtn}
+                onClick={() => setOpen(false)}
+                aria-label="Close assistant">
+                <CloseIcon />
+              </button>
+            </div>
           </div>
 
           <div className={styles.messages} ref={listRef}>
@@ -301,15 +430,18 @@ export default function BookAgent() {
               </div>
             ) : (
               messages.map((m, i) => (
-                <div key={i} className={styles.row}>
+                <div
+                  key={i}
+                  className={`${styles.row} ${m.role === 'assistant' ? styles.botRow : ''}`}>
+                  {m.role === 'assistant' && (
+                    <span className={styles.avatar} aria-hidden="true">
+                      <RobotIcon />
+                    </span>
+                  )}
                   <MessageBubble message={m} />
                   {m.role === 'assistant' &&
                     i === messages.length - 1 &&
-                    lastAssistantEmpty && (
-                      <span className={styles.typing} aria-label="Assistant is typing">
-                        ···
-                      </span>
-                    )}
+                    lastAssistantEmpty && <TypingBubbles />}
                 </div>
               ))
             )}
@@ -329,6 +461,7 @@ export default function BookAgent() {
 
           <div className={styles.inputRow}>
             <textarea
+              ref={inputRef}
               className={styles.input}
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -344,7 +477,7 @@ export default function BookAgent() {
               onClick={() => void send(input)}
               disabled={busy || !input.trim()}
               aria-label="Send message">
-              ↑
+              <SendIcon />
             </button>
           </div>
         </div>
