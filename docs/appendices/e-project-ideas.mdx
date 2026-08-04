@@ -1,25 +1,74 @@
 ---
+sidebar_position: 5
 title: E. Project Ideas
+description: Capstone project ideas that combine the book's concepts, graded by difficulty with concrete goals, skills, and stretch extensions.
 ---
 
-This appendix lists capstone project ideas to apply the concepts learned in this book.
+# Project Ideas
+
+The fastest way to consolidate everything in this book is to build something that
+closes a real perception–action loop. Each project below names the parts it draws
+on, a concrete "done" definition, and a stretch goal once the basic version
+works. **You can do every one of these in simulation** — no hardware required.
+
+:::tip How to pick
+Start one difficulty below where you think you are. Getting a small loop working
+end-to-end teaches more than getting a large one half-working.
+:::
+
+## 🟢 Beginner
 
 ### 1. Minimalist Obstacle-Avoider
-**Goal:** Build a wheeled robot that navigates a room using sensor data.
-* **Core Concepts:** Sensors (Lidar/Ultrasonic), Kinematics, PID Control.
-* **Expected Outcome:** A robot that can map a room and avoid collisions without human input.
+**Goal:** a wheeled robot that roams a room and never hits anything.
+- **Parts:** II (Sensing), III (Motion Control).
+- **Skills:** LiDAR/ultrasonic sensing, a simple state machine, PID steering.
+- **Done when:** the robot drives for two minutes in a cluttered room with zero collisions and no human input.
+- **Stretch:** build an occupancy grid of the room as it explores.
 
-### 2. Humanoid Motion-Cloner
-**Goal:** Create a humanoid robot that imitates your movements using a web camera.
-* **Core Concepts:** Computer Vision (Pose Estimation), Kinematics, ROS 2.
-* **Expected Outcome:** A simulated (or real) humanoid model mimicking your arm and torso gestures in real-time.
+### 2. Inverted Pendulum / Cart-Pole Balancer
+**Goal:** keep a pole upright by moving a cart — the "hello world" of control.
+- **Parts:** III (Control), IV (RL, optional).
+- **Skills:** state feedback, PID or LQR; then swap in an RL policy.
+- **Done when:** the pole stays up for 60+ seconds under small disturbances.
+- **Stretch:** train it with reinforcement learning and compare to your hand-tuned controller.
 
-### 3. RL-Based Locomotion Trainer
-**Goal:** Train a quadruped or biped to walk using Reinforcement Learning in Isaac Sim.
-* **Core Concepts:** Reinforcement Learning, Dynamics, Simulation.
-* **Expected Outcome:** A trained policy capable of traversing uneven terrain in the simulator.
+## 🟡 Intermediate
+
+### 3. Humanoid Motion-Cloner
+**Goal:** a simulated humanoid that mirrors your movements from a webcam.
+- **Parts:** II (Computer Vision), III (Kinematics), V (ROS 2).
+- **Skills:** pose estimation, retargeting human joints to robot joints, inverse kinematics.
+- **Done when:** the model mimics your arm and torso gestures in real time.
+- **Stretch:** add balance constraints so the humanoid never falls while imitating.
 
 ### 4. Language-Instructed Manipulator
-**Goal:** Build a VLA-powered agent that can sort household objects based on natural language commands.
-* **Core Concepts:** VLA Models, LLMs, Computer Vision, Manipulation.
-* **Expected Outcome:** A robot arm that picks up a "red apple" when asked.
+**Goal:** an arm that sorts objects from natural-language commands ("pick up the red apple").
+- **Parts:** II (Vision), III (Manipulation), IV (VLA / LLMs).
+- **Skills:** object detection, grasp selection, grounding language to objects.
+- **Done when:** it correctly picks the named object from a cluttered table 8/10 times.
+- **Stretch:** chain multi-step instructions ("put the apple in the bowl, then the spoon next to it").
+
+## 🔴 Advanced
+
+### 5. RL-Based Locomotion Trainer
+**Goal:** train a biped or quadruped to walk over uneven terrain in Isaac Sim.
+- **Parts:** III (Dynamics), IV (RL), V (Simulation).
+- **Skills:** reward shaping, massively parallel training, domain randomization.
+- **Done when:** a trained policy traverses rough terrain the flat-ground policy fails on.
+- **Stretch:** attempt sim-to-real transfer to a physical robot, or add a recovery-from-push behavior.
+
+### 6. End-to-End Autonomy Stack
+**Goal:** wire perception → planning → control into one ROS 2 system that completes a fetch-and-deliver task.
+- **Parts:** II, III, IV, and V together — the whole book.
+- **Skills:** system architecture, node design, state estimation, task planning with an LLM.
+- **Done when:** given a spoken task, the robot localizes, navigates, manipulates, and reports success.
+- **Stretch:** make it robust — inject sensor dropouts and moved obstacles, and have it recover.
+
+## What to write up
+
+For any project, a short report that answers these makes it portfolio-worthy:
+
+1. **The loop.** Draw your perception → decision → action cycle.
+2. **What broke first**, and how you diagnosed it.
+3. **A number.** Success rate, time-to-complete, or reward curve — evidence, not vibes.
+4. **The reality gap** (if you touched hardware or aimed to): what sim didn't predict.

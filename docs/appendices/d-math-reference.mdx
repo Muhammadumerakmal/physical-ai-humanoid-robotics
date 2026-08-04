@@ -1,12 +1,134 @@
 ---
 sidebar_position: 4
-description: A one-page reference for the transforms, gradients, and distributions used throughout the book.
+description: A one-page cheat sheet of the math used throughout the book — rotations, quaternions, homogeneous transforms, Jacobians, gradients, and Gaussians.
 ---
 
 # Math Quick Reference
 
-> **Status: placeholder.** This appendix will be a one-page cheat sheet of the
-> mathematical tools used in the book — rotation matrices and quaternions,
-> homogeneous transforms, gradients and Jacobians, and the Gaussian
-> distributions behind state estimation — so readers can look things up without
-> re-reading the chapters.
+Everything the chapters lean on, in one place, so you can look up a formula
+without re-reading. This is a reference, not a tutorial — the derivations live in
+Part I's *Math for Embodied Machines* and in the chapters that use each tool.
+
+## Vectors & frames
+
+A point in 3D is a column vector $\mathbf{p} = \begin{bmatrix} x & y & z \end{bmatrix}^\top$.
+Robotics is largely bookkeeping of **frames**: the same point has different
+coordinates in the world frame, the base frame, and the hand frame.
+
+- Dot product (projection / angle): $\mathbf{a}\cdot\mathbf{b} = \|\mathbf{a}\|\,\|\mathbf{b}\|\cos\theta$.
+- Cross product (axis of rotation, torque): $\mathbf{a}\times\mathbf{b}$ is perpendicular to both.
+- Norm: $\|\mathbf{a}\| = \sqrt{\mathbf{a}\cdot\mathbf{a}}$.
+
+## Rotation matrices
+
+A rotation is a matrix $R \in SO(3)$ with $R^\top R = I$ and $\det R = 1$. It maps
+coordinates in one frame to another and **preserves lengths and angles**.
+
+$$
+R_z(\theta) =
+\begin{bmatrix}
+\cos\theta & -\sin\theta & 0 \\
+\sin\theta & \cos\theta & 0 \\
+0 & 0 & 1
+\end{bmatrix}
+$$
+
+Key facts:
+
+- Inverse = transpose: $R^{-1} = R^\top$.
+- Compose by multiplication: $R_{AC} = R_{AB}\,R_{BC}$ (order matters).
+- The columns of $R$ are the axes of the rotated frame expressed in the original.
+
+## Quaternions
+
+A unit quaternion $q = (w, x, y, z)$ with $\|q\| = 1$ represents a rotation
+without gimbal lock and with cheap interpolation — which is why estimators and
+animation use it instead of Euler angles.
+
+- Identity (no rotation): $q = (1, 0, 0, 0)$.
+- Compose rotations: quaternion product $q_1 \otimes q_2$.
+- Inverse rotation (unit $q$): the conjugate $q^{*} = (w, -x, -y, -z)$.
+- Smooth interpolation between orientations: **slerp**.
+
+## Homogeneous transforms
+
+Pose = rotation **and** translation, packed into one $4\times4$ matrix
+$T \in SE(3)$ so that poses compose by plain matrix multiplication:
+
+$$
+T =
+\begin{bmatrix}
+R & \mathbf{t} \\
+\mathbf{0}^\top & 1
+\end{bmatrix},
+\qquad
+T_{AC} = T_{AB}\,T_{BC}
+$$
+
+A point is carried between frames as $\tilde{\mathbf{p}}_A = T_{AB}\,\tilde{\mathbf{p}}_B$,
+where $\tilde{\mathbf{p}} = \begin{bmatrix} x & y & z & 1 \end{bmatrix}^\top$ is the
+homogeneous form. The inverse is:
+
+$$
+T^{-1} =
+\begin{bmatrix}
+R^\top & -R^\top \mathbf{t} \\
+\mathbf{0}^\top & 1
+\end{bmatrix}
+$$
+
+## Velocity & the Jacobian
+
+The **Jacobian** $J(\mathbf{q})$ links joint velocities $\dot{\mathbf{q}}$ to
+end-effector velocity (linear + angular), and is the workhorse of manipulation
+and inverse kinematics:
+
+$$
+\begin{bmatrix} \mathbf{v} \\ \boldsymbol{\omega} \end{bmatrix} = J(\mathbf{q})\,\dot{\mathbf{q}}
+$$
+
+- Resolved-rate control (a practical IK step): $\dot{\mathbf{q}} = J^{+}\,\mathbf{v}_{\text{desired}}$, where $J^{+}$ is the pseudo-inverse.
+- **Singularities** are configurations where $J$ loses rank — the arm can't move instantaneously in some direction, and $J^{+}$ blows up.
+
+## Gradients & optimization
+
+Learning and control both minimize a loss $\mathcal{L}(\boldsymbol{\theta})$. The
+gradient $\nabla_{\boldsymbol{\theta}}\mathcal{L}$ points uphill, so we step
+against it:
+
+$$
+\boldsymbol{\theta} \leftarrow \boldsymbol{\theta} - \alpha\,\nabla_{\boldsymbol{\theta}}\mathcal{L}(\boldsymbol{\theta})
+$$
+
+with learning rate $\alpha$. Everything from PID tuning to training a VLA model is
+a variation on "measure error, follow the gradient down."
+
+## Gaussians & state estimation
+
+Sensor noise is modeled as a Gaussian $\mathcal{N}(\boldsymbol{\mu}, \Sigma)$ with
+mean $\boldsymbol{\mu}$ and covariance $\Sigma$:
+
+$$
+p(\mathbf{x}) = \frac{1}{\sqrt{(2\pi)^{n}\,|\Sigma|}}\exp\!\left(-\tfrac{1}{2}(\mathbf{x}-\boldsymbol{\mu})^\top \Sigma^{-1}(\mathbf{x}-\boldsymbol{\mu})\right)
+$$
+
+The **Kalman filter** alternates two steps to track a state over time:
+
+- **Predict:** push the state through the motion model; covariance grows.
+- **Update:** fold in a measurement; covariance shrinks toward the more certain estimate.
+
+That predict/update rhythm — a belief nudged by motion and corrected by
+observation — is the mathematical heart of Part II.
+
+## Symbol cheat sheet
+
+| Symbol | Meaning |
+| :----: | ------- |
+| $R,\ SO(3)$ | Rotation matrix / group of 3D rotations |
+| $T,\ SE(3)$ | Homogeneous transform / group of rigid poses |
+| $q$ | Unit quaternion (orientation) |
+| $\mathbf{q},\ \dot{\mathbf{q}}$ | Joint positions / velocities |
+| $J,\ J^{+}$ | Jacobian / its pseudo-inverse |
+| $\boldsymbol{\theta}$ | Learnable parameters (weights) |
+| $\alpha$ | Learning rate / step size |
+| $\mathcal{N}(\boldsymbol{\mu},\Sigma)$ | Gaussian with mean $\boldsymbol{\mu}$, covariance $\Sigma$ |

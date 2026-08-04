@@ -1,10 +1,87 @@
 ---
 sidebar_position: 2
-description: Recommended reading, software, and datasets for going further.
+description: A curated, annotated set of books, papers, courses, software, simulators, datasets, and communities for going deeper on every part of the book.
 ---
 
 # Further Reading & Resources
 
-> **Status: placeholder.** This appendix will collect the best papers, books,
-> software libraries, simulators, and datasets referenced across the book —
-> annotated and grouped by chapter so readers can go deeper on any topic.
+A curated map of where to go next. Everything here is grouped by the part of the
+book it extends, and annotated so you know *why* it's worth your time rather than
+just *that* it exists. Start with the **foundational** items in each group; the
+rest are there when you need depth.
+
+## Books — the shelf worth owning
+
+| Book | Why it matters | Best for |
+| ---- | -------------- | -------- |
+| Lynch & Park, *Modern Robotics* | The clearest modern treatment of kinematics, dynamics, and control. Free PDF + video lectures. | Parts I, III |
+| Thrun, Burgard & Fox, *Probabilistic Robotics* | The canonical reference for state estimation, filtering, and SLAM. | Part II |
+| Sutton & Barto, *Reinforcement Learning: An Introduction* | The RL textbook. Free online. Read it before any RL paper. | Part IV |
+| Spong, Hutchinson & Vidyasagar, *Robot Modeling and Control* | A rigorous classical-robotics complement to *Modern Robotics*. | Part III |
+| Siciliano & Khatib (eds.), *Springer Handbook of Robotics* | The encyclopedia — a reference, not a read-through. | All parts |
+| Murphy, *Introduction to AI Robotics* | A readable history of the perception–action paradigm. | Part I |
+
+## Courses & lecture series
+
+- **Underactuated Robotics** (Russ Tedrake, MIT) — the best course on dynamics,
+  trajectory optimization, and control for legged/agile robots.
+- **CS287 / Deep RL** (Berkeley) and **Spinning Up in Deep RL** (OpenAI) — a
+  gentle, code-first on-ramp to modern reinforcement learning.
+- **ROS 2 official tutorials** — the fastest path from zero to a running node,
+  publisher/subscriber, and a simulated robot.
+- **NVIDIA Deep Learning Institute** — hands-on Isaac Sim / Isaac Lab labs.
+
+## Landmark & primary-source papers
+
+Grouped so you can follow a thread rather than a reading list.
+
+**Learning & control**
+- *Emergence of Locomotion Behaviours in Rich Environments* (DeepMind) — RL from
+  simple rewards produces surprisingly capable locomotion.
+- *Learning to Walk in Minutes Using Massively Parallel Deep RL* (ETH Zürich) —
+  the sim-to-real recipe behind modern quadruped locomotion.
+- *Sim-to-Real Transfer with Domain Randomization* (OpenAI, dexterous hand) — why
+  randomizing simulation makes policies survive contact with reality.
+
+**Vision–language–action & foundation models**
+- *RT-2: Vision-Language-Action Models* (Google DeepMind) — internet-scale
+  knowledge transferred into robot actions.
+- *Open X-Embodiment / RT-X* — the argument (and dataset) for training one policy
+  across many robot bodies.
+- Figure AI, *Helix* — a readable industry write-up of a generalist humanoid VLA.
+
+## Software, frameworks & simulators
+
+| Tool | What it is | Where it appears |
+| ---- | ---------- | ---------------- |
+| **ROS 2** | The middleware nervous system for robot software. | Part V |
+| **MuJoCo** | Fast, accurate contact physics for research and RL. | Parts IV–V |
+| **NVIDIA Isaac Sim / Isaac Lab** | GPU-accelerated photorealistic sim + large-scale RL. | Part V |
+| **Gazebo** | The classic open-source robotics simulator, tight with ROS. | Part V |
+| **Gymnasium / Stable-Baselines3** | Standard RL environment API + solid baseline algorithms. | Part IV |
+| **PyBullet** | Lightweight physics for quick prototyping. | Parts III–IV |
+| **PyTorch** | The default deep-learning framework for robot learning. | Part IV |
+
+## Datasets
+
+- **Open X-Embodiment** — the largest open collection of real robot trajectories.
+- **DROID** — a large, diverse manipulation dataset for imitation learning.
+- **KITTI / nuScenes** — perception and state-estimation benchmarks (autonomous
+  driving, but the sensors and problems transfer).
+- **EGO4D / Ego-Exo4D** — egocentric human video, increasingly used to bootstrap
+  manipulation policies.
+
+## Communities & staying current
+
+- **ROS Discourse** and the **Robotics Stack Exchange** — where practitioners
+  actually answer setup and design questions.
+- **Hugging Face LeRobot** — open models, datasets, and a friendly community for
+  robot learning.
+- Conference proceedings worth skimming each year: **CoRL**, **RSS**, **ICRA**,
+  and **IROS**.
+
+:::tip How to use this list
+Don't read top-to-bottom. Pick the one book and one course for the part you're
+currently in, and treat the papers as follow-ups when a chapter leaves you
+wanting the primary source. Depth in one thread beats breadth across ten.
+:::
