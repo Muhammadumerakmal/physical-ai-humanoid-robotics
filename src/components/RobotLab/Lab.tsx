@@ -77,9 +77,11 @@ type SimState = {
   walkPhase: number;
   tilt: number;
   tiltVel: number;
+  hop: number;
+  hopV: number;
   fallen: boolean;
   fallTimer: number;
-  cube: {x: number; y: number; z: number; held: boolean};
+  cube: {x: number; y: number; z: number; vx: number; vy: number; vz: number; held: boolean};
   queue: Action[];
   current: Action | null;
   clock: number;
@@ -98,9 +100,11 @@ function freshState(): SimState {
     walkPhase: 0,
     tilt: 0,
     tiltVel: 0,
+    hop: 0,
+    hopV: 0,
     fallen: false,
     fallTimer: 0,
-    cube: {x: CUBE_START.x, y: 0.18, z: CUBE_START.z, held: false},
+    cube: {x: CUBE_START.x, y: 0.18, z: CUBE_START.z, vx: 0, vy: 0, vz: 0, held: false},
     queue: [],
     current: null,
     clock: 0,
@@ -386,6 +390,191 @@ function buildAction(step: PlanStep, s: SimState): Action {
         onEnd: () => resetTransient(s),
       };
     }
+    case 'run': {
+      const g = goalFor(p.target, s);
+      return {
+        name: `run to ${p.target ?? 'center'}`,
+        t: 0,
+        dur: 10,
+        update(dt) {
+          if (this.t === 0) start();
+          this.t += dt;
+          const dist = stepToward(s, g.x, g.z, dt, 2.3);
+          return dist < 0.06 || this.t >= this.dur;
+        },
+        onEnd: () => resetTransient(s),
+      };
+    }
+    case 'come_here':
+      return {
+        name: 'come here',
+        t: 0,
+        dur: 10,
+        update(dt) {
+          if (this.t === 0) start();
+          this.t += dt;
+          const dist = stepToward(s, 0, 1.9, dt, 1.2);
+          return dist < 0.06 || this.t >= this.dur;
+        },
+        onEnd: () => resetTransient(s),
+      };
+    case 'spin': {
+      let set = false;
+      return {
+        name: 'spin',
+        t: 0,
+        dur: 3,
+        update(dt) {
+          if (!set) {
+            start();
+            s.targetYaw = s.yaw + Math.PI * 2;
+            set = true;
+          }
+          this.t += dt;
+          return Math.abs(s.targetYaw - s.yaw) < 0.05 || this.t >= this.dur;
+        },
+      };
+    }
+    case 'high_five':
+      return {
+        name: 'high five',
+        t: 0,
+        dur: 2.4,
+        update(dt) {
+          if (this.t === 0) {
+            start();
+            s.tgt.rShP = -1.95; // right arm up and forward
+            s.tgt.rEl = 0.5;
+          }
+          this.t += dt;
+          return this.t >= this.dur;
+        },
+        onEnd: () => resetTransient(s),
+      };
+    case 'jump': {
+      let phase = 0;
+      let pt = 0;
+      return {
+        name: 'jump',
+        t: 0,
+        dur: 2,
+        update(dt) {
+          if (this.t === 0) start();
+          this.t += dt;
+          pt += dt;
+          if (phase === 0) {
+            // crouch to load
+            s.tgt.rootY = -0.26;
+            s.tgt.lHip = 0.7;
+            s.tgt.rHip = 0.7;
+            s.tgt.lKnee = -1.1;
+            s.tgt.rKnee = -1.1;
+            if (pt > 0.35) {
+              phase = 1;
+              s.hopV = 4.2;
+              s.tgt.rootY = 0;
+            }
+          } else if (phase === 1) {
+            // airborne: ballistic hop + tucked legs + arms up
+            s.hopV -= 11 * dt;
+            s.hop += s.hopV * dt;
+            s.tgt.lHip = 0.3;
+            s.tgt.rHip = 0.3;
+            s.tgt.lKnee = -0.5;
+            s.tgt.rKnee = -0.5;
+            s.tgt.lShR = -1.4;
+            s.tgt.rShR = 1.4;
+            if (s.hop <= 0) {
+              s.hop = 0;
+              s.hopV = 0;
+              phase = 2;
+              pt = 0;
+              resetTransient(s);
+            }
+          } else {
+            // brief landing absorb
+            if (pt > 0.3) return true;
+          }
+          return this.t >= this.dur;
+        },
+        onEnd: () => {
+          s.hop = 0;
+          s.hopV = 0;
+          resetTransient(s);
+        },
+      };
+    }
+    case 'throw': {
+      let released = false;
+      let pt = 0;
+      return {
+        name: 'throw',
+        t: 0,
+        dur: 1.7,
+        update(dt) {
+          if (this.t === 0) start();
+          this.t += dt;
+          pt += dt;
+          // wind the right arm back, then whip it forward
+          s.tgt.rShP = pt < 0.5 ? 1.2 : -2.3;
+          s.tgt.rEl = 0.4;
+          s.tgt.torsoPitch = pt < 0.5 ? -0.12 : 0.12;
+          if (pt > 0.6 && !released) {
+            if (s.cube.held) {
+              s.cube.held = false;
+              const fx = Math.sin(s.yaw);
+              const fz = Math.cos(s.yaw);
+              s.cube.vx = fx * 4.6;
+              s.cube.vz = fz * 4.6;
+              s.cube.vy = 3.3;
+            }
+            released = true;
+          }
+          if (pt > 1.3) {
+            resetTransient(s);
+            return pt > 1.7;
+          }
+          return false;
+        },
+      };
+    }
+    case 'kick': {
+      let kicked = false;
+      let pt = 0;
+      return {
+        name: 'kick',
+        t: 0,
+        dur: 1.5,
+        update(dt) {
+          if (this.t === 0) start();
+          this.t += dt;
+          pt += dt;
+          // wind the right leg back, then swing it forward
+          s.tgt.rHip = pt < 0.4 ? -0.35 : 1.15;
+          s.tgt.rKnee = pt < 0.4 ? -0.4 : 0;
+          s.tgt.torsoPitch = -0.08;
+          if (pt > 0.55 && !kicked) {
+            const fx = Math.sin(s.yaw);
+            const fz = Math.cos(s.yaw);
+            const relx = s.cube.x - s.bx;
+            const relz = s.cube.z - s.bz;
+            const forward = relx * fx + relz * fz;
+            const dist = Math.hypot(relx, relz);
+            if (!s.cube.held && dist < 0.95 && forward > -0.2) {
+              s.cube.vx = fx * 5.2;
+              s.cube.vz = fz * 5.2;
+              s.cube.vy = 1.7;
+            }
+            kicked = true;
+          }
+          if (pt > 1.1) {
+            resetTransient(s);
+            return pt > 1.5;
+          }
+          return false;
+        },
+      };
+    }
     case 'crouch':
       return {
         name: 'crouch',
@@ -482,8 +671,10 @@ function buildAction(step: PlanStep, s: SimState): Action {
             s.targetYaw = 0;
             s.tilt = 0;
             s.tiltVel = 0;
+            s.hop = 0;
+            s.hopV = 0;
             s.fallen = false;
-            s.cube = {x: CUBE_START.x, y: 0.18, z: CUBE_START.z, held: false};
+            s.cube = {x: CUBE_START.x, y: 0.18, z: CUBE_START.z, vx: 0, vy: 0, vz: 0, held: false};
           }
           this.t += dt;
           return this.t >= this.dur;
@@ -608,9 +799,9 @@ function Robot({
       s.cur[k] = damp(s.cur[k], s.tgt[k], 10, dt);
     });
 
-    // apply to rig
+    // apply to rig (hop adds an un-damped vertical offset for jumps)
     if (root.current) {
-      root.current.position.set(s.bx, s.cur.rootY, s.bz);
+      root.current.position.set(s.bx, s.cur.rootY + s.hop, s.bz);
       root.current.rotation.set(0, s.yaw, s.tilt);
     }
     head.current?.rotation.set(s.cur.headPitch, s.cur.headYaw, 0);
@@ -629,14 +820,32 @@ function Robot({
     if (eyeL.current) eyeL.current.scale.y = blink;
     if (eyeR.current) eyeR.current.scale.y = blink;
 
-    // cube: follow the chest anchor when held, else rest on the ground
+    // cube: follow the chest anchor when held; otherwise a lightweight ballistic
+    // integration so throw/kick fling it (rapier replaces this in WS4).
     if (cube.current) {
       if (s.cube.held && anchor.current) {
         anchor.current.getWorldPosition(tmp);
         cube.current.position.copy(tmp);
-        cube.current.rotation.y = s.yaw;
+        cube.current.rotation.set(0, s.yaw, 0);
+        s.cube.x = tmp.x;
+        s.cube.y = tmp.y;
+        s.cube.z = tmp.z;
       } else {
+        s.cube.vy -= 9.8 * dt;
+        s.cube.x += s.cube.vx * dt;
+        s.cube.y += s.cube.vy * dt;
+        s.cube.z += s.cube.vz * dt;
+        if (s.cube.y <= 0.18) {
+          s.cube.y = 0.18;
+          s.cube.vy = Math.abs(s.cube.vy) < 1.2 ? 0 : -s.cube.vy * 0.35;
+          s.cube.vx *= 0.7;
+          s.cube.vz *= 0.7;
+          if (Math.abs(s.cube.vx) < 0.05) s.cube.vx = 0;
+          if (Math.abs(s.cube.vz) < 0.05) s.cube.vz = 0;
+        }
         cube.current.position.set(s.cube.x, s.cube.y, s.cube.z);
+        cube.current.rotation.x += s.cube.vz * dt * 1.5;
+        cube.current.rotation.z -= s.cube.vx * dt * 1.5;
       }
     }
 

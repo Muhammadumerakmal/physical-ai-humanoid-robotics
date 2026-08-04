@@ -11,10 +11,17 @@ export type SkillName =
   | 'wave_both'
   | 'nod'
   | 'walk_to'
+  | 'run'
+  | 'come_here'
   | 'turn'
+  | 'spin'
   | 'point'
+  | 'high_five'
   | 'pick_up'
   | 'put_down'
+  | 'throw'
+  | 'kick'
+  | 'jump'
   | 'crouch'
   | 'sit'
   | 'stand'
@@ -30,10 +37,16 @@ export type Plan = {plan: PlanStep[]; say: string};
 export const SKILL_BUTTONS: {label: string; step: PlanStep}[] = [
   {label: '👋 Wave', step: {skill: 'wave'}},
   {label: '🙌 Wave both', step: {skill: 'wave_both'}},
+  {label: '🖐️ High-five', step: {skill: 'high_five'}},
   {label: '🚶 Walk to cube', step: {skill: 'walk_to', params: {target: 'cube'}}},
+  {label: '🏃 Run to cube', step: {skill: 'run', params: {target: 'cube'}}},
   {label: '📦 Pick up cube', step: {skill: 'pick_up', params: {target: 'cube'}}},
+  {label: '🤾 Throw cube', step: {skill: 'throw'}},
+  {label: '🦵 Kick cube', step: {skill: 'kick'}},
   {label: '👇 Put down', step: {skill: 'put_down'}},
+  {label: '🦘 Jump', step: {skill: 'jump'}},
   {label: '↺ Turn left', step: {skill: 'turn', params: {direction: 'left'}}},
+  {label: '🌀 Spin', step: {skill: 'spin'}},
   {label: '👉 Point right', step: {skill: 'point', params: {target: 'right'}}},
   {label: '🙇 Nod', step: {skill: 'nod'}},
   {label: '🪑 Sit', step: {skill: 'sit'}},
@@ -44,10 +57,10 @@ export const SKILL_BUTTONS: {label: string; step: PlanStep}[] = [
 ];
 
 export const EXAMPLE_COMMANDS = [
-  'walk to the cube and pick it up',
-  'turn left, then wave with both hands',
-  'go forward and point right',
-  'dance, then sit down',
+  'run to the cube, pick it up, and throw it',
+  'walk to the cube and kick it',
+  'jump, spin, then wave with both hands',
+  'come here and give me a high five',
 ];
 
 const KNOWN = new Set<SkillName>([
@@ -55,10 +68,17 @@ const KNOWN = new Set<SkillName>([
   'wave_both',
   'nod',
   'walk_to',
+  'run',
+  'come_here',
   'turn',
+  'spin',
   'point',
+  'high_five',
   'pick_up',
   'put_down',
+  'throw',
+  'kick',
+  'jump',
   'crouch',
   'sit',
   'stand',
@@ -83,10 +103,15 @@ function parseClause(raw: string): PlanStep[] {
   if (!t) return [];
 
   if (/\breset\b/.test(t)) return [{skill: 'reset'}];
-  if (/\bpick|grab|lift|take\b/.test(t)) {
+  if (/\bhigh[- ]?five\b/.test(t)) return [{skill: 'high_five'}];
+  if (/\bthrow|toss|chuck\b/.test(t)) return [{skill: 'throw'}];
+  if (/\bkick\b/.test(t)) return [{skill: 'kick'}];
+  if (/\b(pick|grab|lift|take)\b/.test(t)) {
     return [{skill: 'pick_up', params: {target: 'cube'}}];
   }
   if (/\b(put down|drop|release|place)\b/.test(t)) return [{skill: 'put_down'}];
+  if (/\b(jump|hop|leap)\b/.test(t)) return [{skill: 'jump'}];
+  if (/\bspin\b/.test(t)) return [{skill: 'spin'}];
   if (/\bwave\b/.test(t) || /\b(hi|hello|hey)\b/.test(t)) {
     return /\bboth|two|2\b/.test(t) ? [{skill: 'wave_both'}] : [{skill: 'wave'}];
   }
@@ -97,11 +122,15 @@ function parseClause(raw: string): PlanStep[] {
   if (/\bbalance\b/.test(t)) return [{skill: 'balance'}];
   if (/\b(crouch|squat|kneel)\b/.test(t)) return [{skill: 'crouch'}];
   if (/\bpoint\b/.test(t)) return [{skill: 'point', params: {target: readTarget(t)}}];
-  if (/\bturn|rotate|spin\b/.test(t)) {
+  if (/\brotate\b/.test(t) || /\bturn\b/.test(t)) {
     const direction = /\bright\b/.test(t) ? 'right' : 'left';
     return [{skill: 'turn', params: {direction}}];
   }
-  if (/\b(walk|go|move|come|head)\b/.test(t)) {
+  if (/\bcome\b/.test(t)) return [{skill: 'come_here'}];
+  if (/\b(run|sprint|dash)\b/.test(t)) {
+    return [{skill: 'run', params: {target: readTarget(t)}}];
+  }
+  if (/\b(walk|go|move|head)\b/.test(t)) {
     return [{skill: 'walk_to', params: {target: readTarget(t)}}];
   }
   return [];
