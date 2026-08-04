@@ -114,16 +114,78 @@ function TrashIcon() {
   );
 }
 
+function CopyIcon() {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true">
+      <rect x="9" y="9" width="13" height="13" rx="2" />
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+    </svg>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true">
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
+  );
+}
+
+/** Copy-to-clipboard control shown under a completed assistant answer. */
+function CopyButton({text}: {text: string}) {
+  const [copied, setCopied] = useState(false);
+
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1600);
+    } catch {
+      // Clipboard can be unavailable in non-secure contexts — ignore.
+    }
+  }
+
+  return (
+    <button
+      type="button"
+      className={styles.copyBtn}
+      onClick={() => void copy()}
+      aria-label={copied ? 'Copied' : 'Copy response'}>
+      {copied ? <CheckIcon /> : <CopyIcon />}
+      {copied ? 'Copied' : 'Copy'}
+    </button>
+  );
+}
+
 /* --------------------------- markup helpers ---------------------------- */
 
 type InlineSpan =
   | {type: 'text'; value: string}
   | {type: 'bold'; value: string}
-  | {type: 'code'; value: string};
+  | {type: 'code'; value: string}
+  | {type: 'link'; value: string; href: string};
 
-/** Split raw assistant text into paragraphs, then inline code/bold spans. */
+/** Split raw assistant text into inline code / bold / link / text spans. */
 function inlineSpans(text: string): InlineSpan[] {
-  const parts = text.split(/(`[^`]+`|\*\*[^*]+\*\*)/g);
+  const parts = text.split(/(`[^`]+`|\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\))/g);
   return parts
     .map((part): InlineSpan | null => {
       if (!part) return null;
@@ -132,6 +194,10 @@ function inlineSpans(text: string): InlineSpan[] {
       }
       if (part.startsWith('**') && part.endsWith('**') && part.length > 4) {
         return {type: 'bold', value: part.slice(2, -2)};
+      }
+      const link = /^\[([^\]]+)\]\(([^)]+)\)$/.exec(part);
+      if (link) {
+        return {type: 'link', value: link[1], href: link[2]};
       }
       return {type: 'text', value: part};
     })
@@ -154,6 +220,18 @@ function renderInline(text: string) {
         </strong>
       );
     }
+    if (span.type === 'link') {
+      const external = /^https?:\/\//.test(span.href);
+      return (
+        <a
+          key={i}
+          className={styles.inlineLink}
+          href={span.href}
+          {...(external ? {target: '_blank', rel: 'noreferrer'} : {})}>
+          {span.value}
+        </a>
+      );
+    }
     return <span key={i}>{span.value}</span>;
   });
 }
@@ -168,9 +246,11 @@ function MessageBubble({message}: {message: Message}) {
   const nodes: ReactNode[] = [];
   parts.forEach((part, i) => {
     if (i % 2 === 1) {
+      // Drop an optional leading language tag (e.g. ```python) from the block.
+      const body = part.replace(/^[a-zA-Z0-9+#._-]{1,20}\n/, '');
       nodes.push(
         <pre key={i} className={styles.codeBlock}>
-          <code>{part}</code>
+          <code>{body}</code>
         </pre>,
       );
     } else if (part.trim()) {
@@ -429,21 +509,37 @@ export default function BookAgent() {
                 </div>
               </div>
             ) : (
-              messages.map((m, i) => (
-                <div
-                  key={i}
-                  className={`${styles.row} ${m.role === 'assistant' ? styles.botRow : ''}`}>
-                  {m.role === 'assistant' && (
+              messages.map((m, i) => {
+                const isBot = m.role === 'assistant';
+                const isTyping =
+                  isBot && i === messages.length - 1 && lastAssistantEmpty;
+                if (!isBot) {
+                  return (
+                    <div key={i} className={styles.row}>
+                      <MessageBubble message={m} />
+                    </div>
+                  );
+                }
+                return (
+                  <div key={i} className={`${styles.row} ${styles.botRow}`}>
                     <span className={styles.avatar} aria-hidden="true">
                       <RobotIcon />
                     </span>
-                  )}
-                  <MessageBubble message={m} />
-                  {m.role === 'assistant' &&
-                    i === messages.length - 1 &&
-                    lastAssistantEmpty && <TypingBubbles />}
-                </div>
-              ))
+                    {isTyping ? (
+                      <TypingBubbles />
+                    ) : (
+                      <div className={styles.bubbleCol}>
+                        <MessageBubble message={m} />
+                        {m.content && (
+                          <div className={styles.msgActions}>
+                            <CopyButton text={m.content} />
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              })
             )}
           </div>
 
