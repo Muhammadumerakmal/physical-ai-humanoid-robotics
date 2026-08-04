@@ -201,6 +201,30 @@
   gap: 0.6rem;
 }
 
+.suggestLabel {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ifm-font-color-secondary);
+  margin: 1.1rem 0 0.5rem;
+}
+
+.suggestLabel:first-of-type {
+  margin-top: 0;
+}
+
+.suggestLabel strong {
+  color: var(--ifm-color-primary);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.chipPage {
+  border-color: var(--ifm-color-primary);
+  background: var(--ifm-menu-color-background-active);
+}
+
 .chip {
   padding: 0.65rem 1rem;
   border: 1px solid var(--ifm-toc-border-color);
