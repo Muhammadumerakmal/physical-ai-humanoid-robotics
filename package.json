@@ -6,6 +6,8 @@
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
     "agent": "node agent/server.mjs",
+    "index": "node scripts/index-site.mjs",
+    "index:wipe": "node scripts/index-site.mjs --wipe",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",

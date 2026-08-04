@@ -9,6 +9,7 @@
  *   DEEPSEEK_BASE_URL   default https://api.deepseek.com
  *   DEEPSEEK_MODEL      default deepseek-v4-flash
  */
+import {retrieveContext} from './rag/retrieve.mjs';
 
 /* --- the assistant knows what the book is ------------------------------ */
 export const SYSTEM_PROMPT = `You are the companion AI tutor for the book "Physical AI and Humanoid Robotics: Building Intelligent Machines".
@@ -105,9 +106,21 @@ export async function handleAgentRequest(req, res) {
 
   const {messages = [], stream = true, currentPage, temperature} = payload;
 
-  const system = currentPage
+  // Ground the answer in the book by retrieving relevant passages for the
+  // latest user message (RAG). If RAG credentials aren't configured this
+  // degrades gracefully to the plain DeepSeek chat completion.
+  const userMessage = [...messages].reverse().find((m) => m.role === 'user');
+  const rag = userMessage?.content
+    ? await retrieveContext(String(userMessage.content).slice(0, 2000))
+    : {context: '', hits: [], error: null};
+
+  let system = currentPage
     ? `${SYSTEM_PROMPT}\n\nThe reader is currently viewing: ${String(currentPage).slice(0, 300)}.`
     : SYSTEM_PROMPT;
+
+  if (rag.context) {
+    system += `\n\nBelow are verbatim passages retrieved from the book that are relevant to the reader's question. Use them as your primary source of truth, quote or summarise them accurately, and cite the numbered reference at the end of your answer. If the passages don't contain the answer, say so rather than guessing.\n\n<retrieved_context>\n${rag.context}\n</retrieved_context>`;
+  }
 
   const upstreamBody = {
     model: DEEPSEEK_MODEL,
