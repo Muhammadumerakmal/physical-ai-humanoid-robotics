@@ -141,33 +141,58 @@ function goalFor(target: string | undefined, s: SimState): {x: number; z: number
   }
 }
 
-/** Move the body toward (gx,gz); animate a walk gait. Returns distance left. */
-function stepToward(s: SimState, gx: number, gz: number, dt: number): number {
+/**
+ * Move the body toward (gx,gz) and animate a walk/run gait. The step cadence is
+ * tied to distance actually travelled, so the feet track the ground instead of
+ * sliding. Returns distance left.
+ */
+function stepToward(
+  s: SimState,
+  gx: number,
+  gz: number,
+  dt: number,
+  speed = 1.15,
+): number {
   const dx = gx - s.bx;
   const dz = gz - s.bz;
   const dist = Math.hypot(dx, dz);
   if (dist > 0.02) {
     s.targetYaw = Math.atan2(dx, dz);
   }
-  const speed = 1.15;
   const stepLen = speed * dt;
+  let moved: number;
   if (dist > stepLen) {
     s.bx += (dx / dist) * stepLen;
     s.bz += (dz / dist) * stepLen;
+    moved = stepLen;
   } else {
+    moved = dist;
     s.bx = gx;
     s.bz = gz;
   }
-  // gait
-  s.walkPhase += dt * 7;
+
+  const running = speed > 1.6;
+  // one half gait cycle per `stride` metres travelled → feet keep pace
+  const stride = running ? 0.82 : 0.62;
+  s.walkPhase += (moved / stride) * Math.PI;
   const sw = Math.sin(s.walkPhase);
-  s.tgt.lHip = sw * 0.5;
-  s.tgt.rHip = -sw * 0.5;
-  s.tgt.lKnee = Math.max(0, -sw) * 0.7;
-  s.tgt.rKnee = Math.max(0, sw) * 0.7;
-  s.tgt.rShP = -sw * 0.35;
-  s.tgt.lShP = sw * 0.35;
-  s.tgt.rootY = Math.abs(Math.sin(s.walkPhase * 2)) * 0.03;
+  const amp = running ? 0.75 : 0.5;
+  const lift = running ? 1.15 : 0.9;
+
+  s.tgt.lHip = sw * amp;
+  s.tgt.rHip = -sw * amp;
+  // knees bend on the swing (back) phase so the swing foot clears the ground
+  s.tgt.lKnee = Math.max(0, -sw) * lift;
+  s.tgt.rKnee = Math.max(0, sw) * lift;
+  // arms counter-swing the legs
+  s.tgt.rShP = -sw * amp * 0.7;
+  s.tgt.lShP = sw * amp * 0.7;
+  // vertical bob once per step + a slight forward lean when running
+  s.tgt.rootY = Math.abs(sw) * (running ? 0.06 : 0.04);
+  s.tgt.torsoPitch = running ? 0.12 : 0.03;
+  // weight shift: lean and glance toward the planted leg
+  s.tgt.torsoRoll = sw * 0.05;
+  s.tgt.headYaw = -sw * 0.04;
   return dist;
 }
 
@@ -551,9 +576,11 @@ function Robot({
         s.current = null;
       }
     } else {
-      // gentle idle breathing when standing
+      // livelier idle: breathing + a slow weight shift and glance
       s.tgt.torsoPitch = Math.sin(s.clock * 1.4) * 0.02;
       s.tgt.headPitch = Math.sin(s.clock * 1.4) * 0.015;
+      s.tgt.torsoRoll = Math.sin(s.clock * 0.55) * 0.03;
+      s.tgt.headYaw = Math.sin(s.clock * 0.4) * 0.05;
     }
 
     // balance spring / fall + recover
@@ -596,6 +623,11 @@ function Robot({
     if (hipR.current) hipR.current.rotation.x = s.cur.rHip;
     if (knL.current) knL.current.rotation.x = s.cur.lKnee;
     if (knR.current) knR.current.rotation.x = s.cur.rKnee;
+
+    // eye blink: a quick squash roughly every 4.5s
+    const blink = s.clock % 4.5 < 0.12 ? 0.12 : 1;
+    if (eyeL.current) eyeL.current.scale.y = blink;
+    if (eyeR.current) eyeR.current.scale.y = blink;
 
     // cube: follow the chest anchor when held, else rest on the ground
     if (cube.current) {
