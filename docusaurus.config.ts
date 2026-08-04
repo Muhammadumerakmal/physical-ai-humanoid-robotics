@@ -85,8 +85,8 @@ const config: Config = {
   ],
 
   themeConfig: {
-    // Social share card. Ensure img/social-card.jpg exists in static/img/
-    image: 'img/social-card.jpg',
+    // Social share card (1200x630). Lives at static/img/social-card.svg.
+    image: 'img/social-card.svg',
     colorMode: {
       defaultMode: 'light',
       disableSwitch: false,

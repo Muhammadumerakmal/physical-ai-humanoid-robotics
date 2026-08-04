@@ -7,6 +7,9 @@ import Reveal from '@site/src/components/Reveal';
 
 import styles from './index.module.css';
 
+/** Route of the interactive humanoid capstone (Part VI · final chapter). */
+const CAPSTONE_ROUTE = '/docs/part6-future/capstone-robot-lab';
+
 type Feature = {
   icon: ReactNode;
   title: string;
@@ -173,6 +176,7 @@ const parts: Part[] = [
     title: 'The Road Ahead',
     chapters: [
       {title: 'The Future of Humanoid Robotics', to: '/docs/part6-future/future-of-humanoids'},
+      {title: 'Capstone — The Robot Lab', to: CAPSTONE_ROUTE},
     ],
   },
 ];
@@ -228,6 +232,13 @@ function HomepageHeader() {
     <header className={styles.hero}>
       <div className={styles.container}>
         <Reveal>
+          <Link className={styles.heroBadge} to={CAPSTONE_ROUTE}>
+            <span className={styles.heroBadgeDot} aria-hidden="true" />
+            New — command a working humanoid at the end of the book
+            <span aria-hidden="true">→</span>
+          </Link>
+        </Reveal>
+        <Reveal>
           <div className={styles.book}>
             <div className={styles.bookCover}>
               <div className={styles.bookEyebrow}>A Technical Book</div>
@@ -252,7 +263,10 @@ function HomepageHeader() {
             <Link className={`${styles.button} ${styles.buttonPrimary}`} to="/docs/intro">
               Start Reading <span aria-hidden="true">→</span>
             </Link>
-            <Link className={`${styles.button} ${styles.buttonSecondary}`} to="/#outline">
+            <Link className={`${styles.button} ${styles.buttonSecondary}`} to={CAPSTONE_ROUTE}>
+              See the robot in action
+            </Link>
+            <Link className={`${styles.button} ${styles.buttonGhost}`} to="/#outline">
               View the Book Outline
             </Link>
           </div>
@@ -399,6 +413,73 @@ function Outline() {
   );
 }
 
+const capstonePoints = [
+  {
+    title: 'Talk to it',
+    text: 'Type a plain-English command — “walk to the cube and wave” — and watch the book’s AI turn your words into an action plan.',
+  },
+  {
+    title: 'Watch it move',
+    text: 'A rigged 3D humanoid executes the plan live in your browser: walking, reaching, pointing, grasping, and balancing.',
+  },
+  {
+    title: 'Run it yourself',
+    text: 'Take the same ideas to real code — a ROS 2 + MuJoCo control loop you can clone and run on your own machine.',
+  },
+];
+
+function Capstone() {
+  return (
+    <section className={styles.capstoneBand}>
+      <div className={styles.sectionContainer}>
+        <Reveal>
+          <div className={styles.capstoneCard}>
+            <div className={styles.capstoneGlow} aria-hidden="true" />
+            <div className={styles.capstoneInner}>
+              <div className={styles.capstoneCopy}>
+                <div className={styles.capstoneKicker}>The Capstone</div>
+                <Heading as="h2" className={styles.capstoneTitle}>
+                  A physical AI that actually works
+                </Heading>
+                <p className={styles.capstoneSub}>
+                  The book doesn’t end on theory. It ends on an interactive humanoid you
+                  command in natural language — the perception, control, and learning ideas
+                  from every chapter, wired into one embodied loop you can drive yourself.
+                </p>
+                <div className={styles.capstoneList}>
+                  {capstonePoints.map((p, i) => (
+                    <div key={p.title} className={styles.capstoneItem}>
+                      <span className={styles.capstoneNum}>{i + 1}</span>
+                      <div>
+                        <div className={styles.capstoneItemTitle}>{p.title}</div>
+                        <div className={styles.capstoneItemText}>{p.text}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <Link className={styles.capstoneButton} to={CAPSTONE_ROUTE}>
+                  Open the Robot Lab <span aria-hidden="true">→</span>
+                </Link>
+              </div>
+              <div className={styles.capstoneVisual} aria-hidden="true">
+                <div className={styles.robotFigure}>
+                  <span className={styles.robotHead} />
+                  <span className={styles.robotTorso} />
+                  <span className={`${styles.robotArm} ${styles.robotArmL}`} />
+                  <span className={`${styles.robotArm} ${styles.robotArmR}`} />
+                  <span className={`${styles.robotLeg} ${styles.robotLegL}`} />
+                  <span className={`${styles.robotLeg} ${styles.robotLegR}`} />
+                </div>
+                <div className={styles.robotPrompt}>“walk over and wave” →</div>
+              </div>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
 function CallToAction() {
   return (
     <section className={styles.ctaBand}>
@@ -427,6 +508,7 @@ export default function Home(): ReactNode {
         <Features />
         <StartHere />
         <Outline />
+        <Capstone />
         <CallToAction />
       </main>
     </Layout>

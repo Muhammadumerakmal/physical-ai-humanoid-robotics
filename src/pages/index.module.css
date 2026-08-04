@@ -227,6 +227,70 @@
 .buttonSecondary:hover {
   background: color-mix(in srgb, var(--ifm-color-primary) 8%, transparent);
   color: var(--ifm-color-primary);
+  box-shadow: var(--pai-shadow-glow);
+}
+
+.buttonGhost {
+  background: transparent;
+  border: 1px solid var(--ifm-toc-border-color);
+  color: var(--ifm-font-color-secondary);
+}
+
+.buttonGhost:hover {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+}
+
+/* Hero "new" badge linking to the capstone */
+.heroBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0 auto 2rem;
+  padding: 0.4rem 0.95rem;
+  border-radius: 999px;
+  border: 1px solid var(--ifm-toc-border-color);
+  background: color-mix(in srgb, var(--ifm-color-primary) 6%, var(--ifm-background-color));
+  color: var(--ifm-font-color-secondary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: border-color 0.15s var(--pai-ease), box-shadow 0.15s var(--pai-ease),
+    transform 0.15s var(--pai-ease), color 0.15s ease;
+}
+
+.heroBadge:hover {
+  text-decoration: none;
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+  box-shadow: var(--pai-shadow-glow);
+  transform: translateY(-1px);
+}
+
+.heroBadgeDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ifm-color-primary);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--ifm-color-primary) 60%, transparent);
+  animation: heroPulse 2.4s var(--pai-ease) infinite;
+}
+
+@keyframes heroPulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--ifm-color-primary) 55%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 7px color-mix(in srgb, var(--ifm-color-primary) 0%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--ifm-color-primary) 0%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroBadgeDot {
+    animation: none;
+  }
 }
 
 .stats {
@@ -593,6 +657,282 @@
   transform: translateY(-1px);
 }
 
+/* ------------------------------------------------------------------ */
+/* Capstone showcase band                                              */
+/* ------------------------------------------------------------------ */
+.capstoneBand {
+  padding: 1.5rem 1.5rem 2rem;
+}
+
+.capstoneCard {
+  position: relative;
+  overflow: hidden;
+  max-width: 1080px;
+  margin: 0 auto;
+  border-radius: 22px;
+  border: 1px solid var(--ifm-toc-border-color);
+  background:
+    radial-gradient(680px 340px at 88% -10%, color-mix(in srgb, var(--ifm-color-primary) 14%, transparent), transparent 60%),
+    var(--ifm-background-surface-color);
+  box-shadow: var(--pai-shadow-md);
+}
+
+.capstoneGlow {
+  position: absolute;
+  top: -30%;
+  right: -10%;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--ifm-color-primary) 22%, transparent), transparent 65%);
+  filter: blur(10px);
+  pointer-events: none;
+}
+
+.capstoneInner {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 2rem;
+  align-items: center;
+  padding: 2.6rem 2.4rem;
+}
+
+.capstoneKicker {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ifm-color-primary);
+}
+
+.capstoneTitle {
+  margin: 0.6rem 0 0.7rem;
+  font-size: clamp(1.6rem, 3.4vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.capstoneSub {
+  color: var(--ifm-font-color-secondary);
+  line-height: 1.65;
+  margin-bottom: 1.6rem;
+}
+
+.capstoneList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.9rem;
+}
+
+.capstoneItem {
+  display: flex;
+  gap: 0.85rem;
+  align-items: flex-start;
+}
+
+.capstoneNum {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--ifm-color-primary);
+  background: color-mix(in srgb, var(--ifm-color-primary) 12%, transparent);
+}
+
+.capstoneItemTitle {
+  font-weight: 700;
+  font-size: 0.98rem;
+}
+
+.capstoneItemText {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--ifm-font-color-secondary);
+}
+
+.capstoneButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.8rem 1.6rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.96rem;
+  background: var(--ifm-color-primary);
+  color: #ffffff;
+  transition: transform 0.15s var(--pai-ease), box-shadow 0.15s var(--pai-ease),
+    background-color 0.15s ease;
+}
+
+.capstoneButton:hover {
+  text-decoration: none;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: var(--pai-shadow-glow);
+}
+
+/* Stylised robot figure (pure CSS, decorative) */
+.capstoneVisual {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 260px;
+  border-radius: 16px;
+  background:
+    radial-gradient(220px 180px at 50% 30%, color-mix(in srgb, var(--ifm-color-primary) 16%, transparent), transparent 70%),
+    linear-gradient(160deg, #0e2233, #0b1626);
+  border: 1px solid var(--pai-hairline);
+  overflow: hidden;
+}
+
+.capstoneVisual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgb(103 232 249 / 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(103 232 249 / 0.08) 1px, transparent 1px);
+  background-size: 26px 26px;
+  -webkit-mask-image: radial-gradient(200px 160px at 50% 45%, black, transparent 75%);
+  mask-image: radial-gradient(200px 160px at 50% 45%, black, transparent 75%);
+}
+
+.robotFigure {
+  position: relative;
+  width: 120px;
+  height: 190px;
+  animation: robotBob 3.2s ease-in-out infinite;
+}
+
+.robotHead {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 46px;
+  height: 40px;
+  margin-left: -23px;
+  border-radius: 12px;
+  background: linear-gradient(160deg, #67e8f9, #22d3ee);
+  box-shadow: 0 0 18px rgb(34 211 238 / 0.5);
+}
+
+.robotHead::before,
+.robotHead::after {
+  content: '';
+  position: absolute;
+  top: 15px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #062a30;
+}
+
+.robotHead::before {
+  left: 10px;
+}
+
+.robotHead::after {
+  right: 10px;
+}
+
+.robotTorso {
+  position: absolute;
+  top: 48px;
+  left: 50%;
+  width: 60px;
+  height: 74px;
+  margin-left: -30px;
+  border-radius: 14px;
+  background: linear-gradient(160deg, #0e7490, #155e75);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12);
+}
+
+.robotArm {
+  position: absolute;
+  top: 52px;
+  width: 12px;
+  height: 58px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #22d3ee, #0e7490);
+  transform-origin: top center;
+}
+
+.robotArmL {
+  left: 50%;
+  margin-left: -44px;
+}
+
+.robotArmR {
+  right: 50%;
+  margin-right: -44px;
+  animation: robotWave 1.6s ease-in-out infinite;
+}
+
+.robotLeg {
+  position: absolute;
+  top: 120px;
+  width: 15px;
+  height: 66px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #155e75, #0a2f3f);
+}
+
+.robotLegL {
+  left: 50%;
+  margin-left: -20px;
+}
+
+.robotLegR {
+  right: 50%;
+  margin-right: -20px;
+}
+
+.robotPrompt {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.78rem;
+  color: #bae6fd;
+  background: rgb(6 42 48 / 0.7);
+  border: 1px solid rgb(103 232 249 / 0.25);
+  white-space: nowrap;
+}
+
+@keyframes robotBob {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes robotWave {
+  0%, 100% {
+    transform: rotate(6deg);
+  }
+  50% {
+    transform: rotate(-32deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .robotFigure,
+  .robotArmR {
+    animation: none;
+  }
+}
+
 /* Small screens */
 @media (max-width: 640px) {
   .hero {
@@ -605,5 +945,17 @@
 
   .section {
     padding: 3.5rem 1.25rem;
+  }
+}
+
+@media (max-width: 860px) {
+  .capstoneInner {
+    grid-template-columns: 1fr;
+    padding: 2.2rem 1.6rem;
+  }
+
+  .capstoneVisual {
+    order: -1;
+    min-height: 220px;
   }
 }

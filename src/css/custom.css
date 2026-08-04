@@ -682,6 +682,55 @@ html {
 }
 
 /* ------------------------------------------------------------------ */
+/* Interaction polish — focus rings, links, buttons                    */
+/* ------------------------------------------------------------------ */
+a:focus-visible,
+button:focus-visible,
+.menu__link:focus-visible,
+.navbar__link:focus-visible,
+.pagination-nav__link:focus-visible,
+.card:focus-visible {
+  outline: none;
+  box-shadow: var(--pai-ring);
+  border-radius: var(--ifm-global-radius);
+}
+
+/* Inline prose links get a subtle animated underline */
+.markdown a:not(.card):not([class*='button']) {
+  text-decoration: none;
+  background-image: linear-gradient(var(--ifm-link-color), var(--ifm-link-color));
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1.5px;
+  transition: background-size 0.25s var(--pai-ease), color 0.15s ease;
+  padding-bottom: 1px;
+}
+
+.markdown a:not(.card):not([class*='button']):hover {
+  background-size: 100% 1.5px;
+  text-decoration: none;
+}
+
+.button {
+  transition: transform 0.15s var(--pai-ease), box-shadow 0.15s var(--pai-ease),
+    background-color 0.15s ease, border-color 0.15s ease;
+}
+
+/* Docs card grids (e.g. category index pages) lift on hover */
+article .card,
+.theme-doc-markdown .card {
+  transition: transform 0.18s var(--pai-ease), box-shadow 0.18s var(--pai-ease),
+    border-color 0.18s var(--pai-ease);
+}
+
+article .card:hover,
+.theme-doc-markdown .card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--pai-shadow-md);
+  border-color: var(--ifm-color-primary);
+}
+
+/* ------------------------------------------------------------------ */
 /* Reading progress bar                                                */
 /* ------------------------------------------------------------------ */
 .reading-progress {
