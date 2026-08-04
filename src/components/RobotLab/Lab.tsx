@@ -1,6 +1,12 @@
 import {useCallback, useEffect, useRef, useState} from 'react';
 import {Canvas, useFrame} from '@react-three/fiber';
-import {ContactShadows, OrbitControls} from '@react-three/drei';
+import {
+  ContactShadows,
+  MeshReflectorMaterial,
+  OrbitControls,
+  RoundedBox,
+  SoftShadows,
+} from '@react-three/drei';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import * as THREE from 'three';
 import {
@@ -501,6 +507,8 @@ function Robot({
   const knR = useRef<THREE.Group>(null);
   const anchor = useRef<THREE.Group>(null);
   const cube = useRef<THREE.Mesh>(null);
+  const eyeL = useRef<THREE.Mesh>(null);
+  const eyeR = useRef<THREE.Mesh>(null);
 
   const last = useRef<RobotStatus>({busy: false, action: 'idle', held: false, fallen: false});
   const tmp = useRef(new THREE.Vector3()).current;
@@ -617,114 +625,119 @@ function Robot({
   const skin = '#0e7490';
   const accent = '#22d3ee';
   const dark = '#0a2f3f';
+  const eye = '#7ef0ff';
 
   return (
     <>
       {/* the cube lives in world space, not parented to the robot */}
-      <mesh ref={cube} castShadow position={[CUBE_START.x, 0.18, CUBE_START.z]}>
-        <boxGeometry args={[0.34, 0.34, 0.34]} />
-        <meshStandardMaterial color="#f59e0b" roughness={0.5} />
-      </mesh>
+      <RoundedBox
+        ref={cube}
+        args={[0.34, 0.34, 0.34]}
+        radius={0.05}
+        smoothness={4}
+        castShadow
+        position={[CUBE_START.x, 0.18, CUBE_START.z]}>
+        <meshStandardMaterial color="#f59e0b" metalness={0.2} roughness={0.4} />
+      </RoundedBox>
 
       <group ref={root}>
         {/* pelvis */}
-        <mesh position={[0, 0.9, 0]} castShadow>
-          <boxGeometry args={[0.42, 0.22, 0.28]} />
-          <meshStandardMaterial color={dark} />
-        </mesh>
+        <RoundedBox args={[0.42, 0.22, 0.28]} radius={0.06} smoothness={4} position={[0, 0.9, 0]} castShadow>
+          <meshStandardMaterial color={dark} metalness={0.5} roughness={0.4} />
+        </RoundedBox>
 
         {/* torso (pivots at the waist) */}
         <group ref={torso} position={[0, 0.9, 0]}>
-          <mesh position={[0, 0.32, 0]} castShadow>
-            <boxGeometry args={[0.5, 0.62, 0.3]} />
-            <meshStandardMaterial color={skin} />
-          </mesh>
-          <mesh position={[0, 0.32, 0.16]} castShadow>
-            <boxGeometry args={[0.2, 0.3, 0.02]} />
-            <meshStandardMaterial color={accent} emissive={accent} emissiveIntensity={0.4} />
-          </mesh>
+          <RoundedBox args={[0.5, 0.62, 0.3]} radius={0.08} smoothness={4} position={[0, 0.32, 0]} castShadow>
+            <meshStandardMaterial color={skin} metalness={0.38} roughness={0.42} />
+          </RoundedBox>
+          <RoundedBox args={[0.22, 0.32, 0.04]} radius={0.02} smoothness={3} position={[0, 0.32, 0.15]} castShadow>
+            <meshStandardMaterial color={accent} emissive={accent} emissiveIntensity={0.5} roughness={0.3} />
+          </RoundedBox>
 
           {/* chest anchor for a held object */}
           <group ref={anchor} position={[0, 0.16, 0.34]} />
 
           {/* head */}
           <group ref={head} position={[0, 0.74, 0]}>
-            <mesh castShadow>
-              <boxGeometry args={[0.32, 0.3, 0.3]} />
-              <meshStandardMaterial color={accent} />
+            <RoundedBox args={[0.34, 0.32, 0.32]} radius={0.09} smoothness={5} castShadow>
+              <meshStandardMaterial color={accent} metalness={0.45} roughness={0.35} />
+            </RoundedBox>
+            {/* visor */}
+            <RoundedBox args={[0.26, 0.12, 0.02]} radius={0.05} smoothness={4} position={[0, 0.02, 0.16]}>
+              <meshStandardMaterial color="#062a30" metalness={0.3} roughness={0.25} />
+            </RoundedBox>
+            <mesh ref={eyeL} position={[0.07, 0.02, 0.18]}>
+              <sphereGeometry args={[0.036, 16, 16]} />
+              <meshStandardMaterial color={eye} emissive={eye} emissiveIntensity={1.6} toneMapped={false} />
             </mesh>
-            <mesh position={[0.07, 0.02, 0.16]}>
-              <sphereGeometry args={[0.035, 12, 12]} />
-              <meshStandardMaterial color={dark} />
-            </mesh>
-            <mesh position={[-0.07, 0.02, 0.16]}>
-              <sphereGeometry args={[0.035, 12, 12]} />
-              <meshStandardMaterial color={dark} />
+            <mesh ref={eyeR} position={[-0.07, 0.02, 0.18]}>
+              <sphereGeometry args={[0.036, 16, 16]} />
+              <meshStandardMaterial color={eye} emissive={eye} emissiveIntensity={1.6} toneMapped={false} />
             </mesh>
           </group>
 
           {/* left arm */}
           <group ref={shL} position={[-0.32, 0.56, 0]}>
-            <mesh position={[0, -0.18, 0]} castShadow>
-              <boxGeometry args={[0.13, 0.36, 0.13]} />
-              <meshStandardMaterial color={dark} />
+            {/* shoulder ball */}
+            <mesh castShadow>
+              <sphereGeometry args={[0.1, 16, 16]} />
+              <meshStandardMaterial color={accent} metalness={0.5} roughness={0.4} />
             </mesh>
+            <RoundedBox args={[0.13, 0.36, 0.13]} radius={0.05} smoothness={4} position={[0, -0.18, 0]} castShadow>
+              <meshStandardMaterial color={dark} metalness={0.5} roughness={0.4} />
+            </RoundedBox>
             <group ref={elL} position={[0, -0.36, 0]}>
-              <mesh position={[0, -0.17, 0]} castShadow>
-                <boxGeometry args={[0.11, 0.34, 0.11]} />
-                <meshStandardMaterial color={skin} />
-              </mesh>
+              <RoundedBox args={[0.115, 0.34, 0.115]} radius={0.045} smoothness={4} position={[0, -0.17, 0]} castShadow>
+                <meshStandardMaterial color={skin} metalness={0.38} roughness={0.42} />
+              </RoundedBox>
             </group>
           </group>
 
           {/* right arm */}
           <group ref={shR} position={[0.32, 0.56, 0]}>
-            <mesh position={[0, -0.18, 0]} castShadow>
-              <boxGeometry args={[0.13, 0.36, 0.13]} />
-              <meshStandardMaterial color={dark} />
+            <mesh castShadow>
+              <sphereGeometry args={[0.1, 16, 16]} />
+              <meshStandardMaterial color={accent} metalness={0.5} roughness={0.4} />
             </mesh>
+            <RoundedBox args={[0.13, 0.36, 0.13]} radius={0.05} smoothness={4} position={[0, -0.18, 0]} castShadow>
+              <meshStandardMaterial color={dark} metalness={0.5} roughness={0.4} />
+            </RoundedBox>
             <group ref={elR} position={[0, -0.36, 0]}>
-              <mesh position={[0, -0.17, 0]} castShadow>
-                <boxGeometry args={[0.11, 0.34, 0.11]} />
-                <meshStandardMaterial color={skin} />
-              </mesh>
+              <RoundedBox args={[0.115, 0.34, 0.115]} radius={0.045} smoothness={4} position={[0, -0.17, 0]} castShadow>
+                <meshStandardMaterial color={skin} metalness={0.38} roughness={0.42} />
+              </RoundedBox>
             </group>
           </group>
         </group>
 
         {/* left leg */}
         <group ref={hipL} position={[-0.13, 0.9, 0]}>
-          <mesh position={[0, -0.23, 0]} castShadow>
-            <boxGeometry args={[0.16, 0.46, 0.16]} />
-            <meshStandardMaterial color={skin} />
-          </mesh>
+          <RoundedBox args={[0.16, 0.46, 0.16]} radius={0.06} smoothness={4} position={[0, -0.23, 0]} castShadow>
+            <meshStandardMaterial color={skin} metalness={0.38} roughness={0.42} />
+          </RoundedBox>
           <group ref={knL} position={[0, -0.46, 0]}>
-            <mesh position={[0, -0.22, 0]} castShadow>
-              <boxGeometry args={[0.14, 0.44, 0.14]} />
-              <meshStandardMaterial color={dark} />
-            </mesh>
-            <mesh position={[0, -0.44, 0.06]} castShadow>
-              <boxGeometry args={[0.16, 0.08, 0.28]} />
-              <meshStandardMaterial color={dark} />
-            </mesh>
+            <RoundedBox args={[0.14, 0.44, 0.14]} radius={0.05} smoothness={4} position={[0, -0.22, 0]} castShadow>
+              <meshStandardMaterial color={dark} metalness={0.5} roughness={0.4} />
+            </RoundedBox>
+            <RoundedBox args={[0.17, 0.09, 0.3]} radius={0.03} smoothness={3} position={[0, -0.44, 0.06]} castShadow>
+              <meshStandardMaterial color={dark} metalness={0.5} roughness={0.4} />
+            </RoundedBox>
           </group>
         </group>
 
         {/* right leg */}
         <group ref={hipR} position={[0.13, 0.9, 0]}>
-          <mesh position={[0, -0.23, 0]} castShadow>
-            <boxGeometry args={[0.16, 0.46, 0.16]} />
-            <meshStandardMaterial color={skin} />
-          </mesh>
+          <RoundedBox args={[0.16, 0.46, 0.16]} radius={0.06} smoothness={4} position={[0, -0.23, 0]} castShadow>
+            <meshStandardMaterial color={skin} metalness={0.38} roughness={0.42} />
+          </RoundedBox>
           <group ref={knR} position={[0, -0.46, 0]}>
-            <mesh position={[0, -0.22, 0]} castShadow>
-              <boxGeometry args={[0.14, 0.44, 0.14]} />
-              <meshStandardMaterial color={dark} />
-            </mesh>
-            <mesh position={[0, -0.44, 0.06]} castShadow>
-              <boxGeometry args={[0.16, 0.08, 0.28]} />
-              <meshStandardMaterial color={dark} />
-            </mesh>
+            <RoundedBox args={[0.14, 0.44, 0.14]} radius={0.05} smoothness={4} position={[0, -0.22, 0]} castShadow>
+              <meshStandardMaterial color={dark} metalness={0.5} roughness={0.4} />
+            </RoundedBox>
+            <RoundedBox args={[0.17, 0.09, 0.3]} radius={0.03} smoothness={3} position={[0, -0.44, 0.06]} castShadow>
+              <meshStandardMaterial color={dark} metalness={0.5} roughness={0.4} />
+            </RoundedBox>
           </group>
         </group>
       </group>
@@ -742,22 +755,48 @@ function Scene({
   onState: (st: RobotStatus) => void;
 }) {
   return (
-    <Canvas shadows camera={{position: [2.8, 2.1, 3.6], fov: 42}} dpr={[1, 2]}>
+    <Canvas
+      shadows
+      camera={{position: [2.8, 2.1, 3.6], fov: 42}}
+      dpr={[1, 2]}
+      gl={{antialias: true}}>
       <color attach="background" args={['#0b1626']} />
-      <fog attach="fog" args={['#0b1626', 8, 16]} />
-      <hemisphereLight intensity={0.55} groundColor="#0a1420" color="#bde8f5" />
+      <fog attach="fog" args={['#0b1626', 9, 18]} />
+      <SoftShadows size={26} samples={12} focus={0.9} />
+
+      {/* key + fill + cyan rim so the mascot reads with depth */}
+      <hemisphereLight intensity={0.5} groundColor="#0a1420" color="#bde8f5" />
       <directionalLight
         position={[4, 6, 3]}
-        intensity={1.5}
+        intensity={1.7}
         castShadow
-        shadow-mapSize={[1024, 1024]}
-      />
-      <gridHelper args={[24, 24, '#164e63', '#123141']} position={[0, 0.001, 0]} />
-      <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
-        <planeGeometry args={[24, 24]} />
-        <meshStandardMaterial color="#0d1c2b" roughness={1} />
+        shadow-mapSize={[2048, 2048]}
+        shadow-bias={-0.0004}>
+        <orthographicCamera attach="shadow-camera" args={[-4, 4, 4, -4, 0.1, 20]} />
+      </directionalLight>
+      <directionalLight position={[-5, 3, -4]} intensity={0.7} color="#22d3ee" />
+      <pointLight position={[0, 2.4, 2.5]} intensity={12} distance={9} color="#8be9fd" />
+
+      {/* faded grid + subtly reflective floor (no network assets) */}
+      <gridHelper args={[26, 26, '#12475a', '#0e2f3d']} position={[0, 0.002, 0]} />
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.001, 0]} receiveShadow>
+        <planeGeometry args={[40, 40]} />
+        <MeshReflectorMaterial
+          resolution={512}
+          mixBlur={1}
+          mixStrength={2.2}
+          blur={[400, 100]}
+          roughness={0.92}
+          depthScale={1}
+          minDepthThreshold={0.4}
+          maxDepthThreshold={1.2}
+          color="#0c1a29"
+          metalness={0.4}
+          mirror={0}
+        />
       </mesh>
-      <ContactShadows position={[0, 0.01, 0]} opacity={0.5} scale={10} blur={2.4} far={4} />
+      <ContactShadows position={[0, 0.012, 0]} opacity={0.55} scale={11} blur={2.6} far={4.5} />
+
       <Robot apiRef={apiRef} onState={onState} />
       <OrbitControls
         makeDefault
