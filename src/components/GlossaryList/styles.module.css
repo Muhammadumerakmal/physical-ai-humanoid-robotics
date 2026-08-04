@@ -1,0 +1,125 @@
+.wrap {
+  margin: 1.5rem 0;
+}
+
+.controls {
+  position: sticky;
+  top: var(--ifm-navbar-height);
+  z-index: 5;
+  background: var(--ifm-background-color);
+  padding: 0.75rem 0 0.5rem;
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+}
+
+.search {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--ifm-toc-border-color);
+  background: var(--ifm-background-surface-color);
+  color: var(--ifm-font-color-base);
+}
+
+.search:focus {
+  outline: none;
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 0 0 3px rgb(14 116 144 / 0.15);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.7rem;
+}
+
+.chip {
+  padding: 0.32rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--ifm-toc-border-color);
+  background: transparent;
+  color: var(--ifm-font-color-secondary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.chip:hover {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+}
+
+.chipActive {
+  background: var(--ifm-color-primary);
+  border-color: var(--ifm-color-primary);
+  color: #fff;
+}
+
+[data-theme='dark'] .chipActive {
+  color: #06121c;
+}
+
+.count {
+  font-size: 0.82rem;
+  color: var(--ifm-font-color-secondary);
+  margin: 0.9rem 0 0.4rem;
+}
+
+.empty {
+  color: var(--ifm-font-color-secondary);
+  font-style: italic;
+}
+
+.list {
+  margin: 0;
+}
+
+.item {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+  scroll-margin-top: calc(var(--ifm-navbar-height) + 5rem);
+}
+
+.term {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-family: var(--ifm-heading-font-family);
+  font-weight: 700;
+  font-size: 1.12rem;
+  color: var(--ifm-heading-color);
+  margin-bottom: 0.35rem;
+}
+
+.aka {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--ifm-color-primary);
+  background: var(--ifm-color-primary-lightest);
+  padding: 0.1rem 0.45rem;
+  border-radius: 5px;
+}
+
+[data-theme='dark'] .aka {
+  background: rgb(34 211 238 / 0.12);
+}
+
+.cat {
+  margin-left: auto;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ifm-font-color-secondary);
+  white-space: nowrap;
+}
+
+.def {
+  margin: 0;
+  line-height: 1.65;
+  color: var(--ifm-font-color-base);
+}

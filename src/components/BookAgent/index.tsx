@@ -1,4 +1,5 @@
 import {useEffect, useRef, useState, type KeyboardEvent, type ReactNode} from 'react';
+import {useLocation} from '@docusaurus/router';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import styles from './BookAgent.module.css';
 
@@ -10,6 +11,13 @@ const SUGGESTIONS = [
   'Explain the Zero-Moment Point in simple terms',
   'What is sim-to-real transfer and why is it needed?',
 ];
+
+const SITE_TITLE = 'Physical AI and Humanoid Robotics';
+
+/** Strip the "| Site" suffix Docusaurus appends to produce a clean chapter name. */
+function cleanPageTitle(docTitle: string): string {
+  return docTitle.split('|')[0].trim();
+}
 
 /**
  * The agent endpoint is resolved as:
@@ -103,11 +111,30 @@ export default function BookAgent() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState('');
+  const [pageTitle, setPageTitle] = useState('');
   const listRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
 
+  // Track the active page title, refreshing on SPA navigation. The short delay
+  // lets Docusaurus/Helmet update document.title before we read it.
   useEffect(() => {
-    setCurrentPage(typeof document !== 'undefined' ? document.title : '');
-  }, []);
+    if (typeof document === 'undefined') return;
+    const id = window.setTimeout(() => {
+      setCurrentPage(document.title);
+      setPageTitle(cleanPageTitle(document.title));
+    }, 60);
+    return () => window.clearTimeout(id);
+  }, [location.pathname]);
+
+  // On a chapter page (not the landing/site-root page), offer prompts scoped to it.
+  const onChapter = Boolean(pageTitle) && !pageTitle.startsWith(SITE_TITLE);
+  const pageActions = onChapter
+    ? [
+        `Explain "${pageTitle}" in simple terms`,
+        `Quiz me with 3 questions on "${pageTitle}"`,
+        `Give me a real-world example from this chapter`,
+      ]
+    : [];
 
   useEffect(() => {
     const el = listRef.current;
@@ -241,6 +268,25 @@ export default function BookAgent() {
                   <em>Physical AI and Humanoid Robotics</em>. Ask me about any
                   concept, equation, or chapter in the book.
                 </p>
+                {onChapter && (
+                  <>
+                    <div className={styles.suggestLabel}>
+                      About this page — <strong>{pageTitle}</strong>
+                    </div>
+                    <div className={styles.suggestions}>
+                      {pageActions.map((s) => (
+                        <button
+                          key={s}
+                          type="button"
+                          className={`${styles.chip} ${styles.chipPage}`}
+                          onClick={() => void send(s)}>
+                          {s}
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
+                <div className={styles.suggestLabel}>Or explore the book</div>
                 <div className={styles.suggestions}>
                   {SUGGESTIONS.map((s) => (
                     <button

@@ -116,6 +116,16 @@ const config: Config = {
           position: 'left',
           label: 'Start Reading',
         },
+        {
+          to: '/glossary',
+          position: 'left',
+          label: 'Glossary',
+        },
+        {
+          to: '/authors',
+          position: 'right',
+          label: 'Authors',
+        },
       ],
     },
     footer: {
@@ -147,7 +157,11 @@ const config: Config = {
             },
             {
               label: 'Glossary',
-              to: '/docs/appendices/a-glossary',
+              to: '/glossary',
+            },
+            {
+              label: 'Authors',
+              to: '/authors',
             },
           ],
         },

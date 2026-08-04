@@ -1,0 +1,218 @@
+.deck {
+  padding: 1.5rem;
+  margin: 2rem 0;
+  border: 1px solid var(--ifm-toc-border-color);
+  border-radius: 12px;
+  background: var(--ifm-background-surface-color);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.9rem;
+}
+
+.icon {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.title {
+  margin: 0;
+  color: var(--ifm-heading-color);
+  flex: 1;
+}
+
+.progress {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ifm-color-primary);
+  white-space: nowrap;
+}
+
+.progressTrack {
+  height: 5px;
+  border-radius: 999px;
+  background: var(--ifm-toc-border-color);
+  overflow: hidden;
+  margin-bottom: 1.1rem;
+}
+
+.progressBar {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--ifm-color-primary), var(--brand-400));
+  transition: width 0.35s ease;
+}
+
+/* ---- Card with 3D flip ---- */
+.card {
+  display: block;
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  perspective: 1400px;
+  font-family: inherit;
+}
+
+.cardInner {
+  position: relative;
+  width: 100%;
+  min-height: 190px;
+  transition: transform 0.5s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.isFlipped .cardInner {
+  transform: rotateY(180deg);
+}
+
+.cardFace {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.75rem;
+  text-align: center;
+  border-radius: 12px;
+  border: 1px solid var(--ifm-toc-border-color);
+  background: var(--ifm-background-color);
+  box-shadow: 0 2px 12px rgb(15 23 42 / 0.06);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.cardBack {
+  transform: rotateY(180deg);
+  background: linear-gradient(
+    180deg,
+    var(--ifm-background-color),
+    var(--ifm-background-surface-color)
+  );
+  border-color: var(--ifm-color-primary);
+}
+
+.faceLabel {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: var(--ifm-color-primary);
+}
+
+.faceText {
+  font-size: 1.15rem;
+  line-height: 1.5;
+  color: var(--ifm-font-color-base);
+  font-weight: 500;
+}
+
+.hint {
+  font-size: 0.72rem;
+  color: var(--ifm-font-color-secondary);
+  opacity: 0.75;
+}
+
+/* ---- Got it / Review ---- */
+.markRow {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 1.1rem;
+}
+
+.markBtn {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--ifm-toc-border-color);
+  background: var(--ifm-background-color);
+  color: var(--ifm-font-color-base);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.markBtn:hover {
+  transform: translateY(-1px);
+}
+
+.again:hover,
+.activeAgain {
+  border-color: #f59e0b;
+  background: rgb(245 158 11 / 0.12);
+  color: #b45309;
+}
+
+.known:hover,
+.activeKnown {
+  border-color: #22c55e;
+  background: rgb(34 197 94 / 0.14);
+  color: #15803d;
+}
+
+[data-theme='dark'] .activeAgain,
+[data-theme='dark'] .again:hover {
+  color: #fbbf24;
+}
+
+[data-theme='dark'] .activeKnown,
+[data-theme='dark'] .known:hover {
+  color: #4ade80;
+}
+
+/* ---- Nav ---- */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.navBtn {
+  padding: 0.4rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid var(--ifm-toc-border-color);
+  background: transparent;
+  color: var(--ifm-font-color-base);
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.18s;
+}
+
+.navBtn:hover {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+}
+
+.counter {
+  font-size: 0.85rem;
+  color: var(--ifm-font-color-secondary);
+}
+
+.done {
+  margin-top: 1.1rem;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  background: rgb(34 197 94 / 0.12);
+  color: var(--ifm-font-color-base);
+  font-weight: 600;
+  text-align: center;
+}
+
+.resetBtn {
+  display: inline-block;
+  margin-left: 0.6rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid var(--ifm-color-primary);
+  background: transparent;
+  color: var(--ifm-color-primary);
+  cursor: pointer;
+  font-weight: 600;
+}

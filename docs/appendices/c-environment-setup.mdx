@@ -1,11 +1,118 @@
 ---
 sidebar_position: 3
-description: Setting up the toolchain used throughout the book — Python, ROS 2, MuJoCo, and Isaac Sim.
+description: A step-by-step guide to installing the toolchain used across the book — Python, ROS 2, MuJoCo, and Isaac Sim — with a verification checklist for each piece.
 ---
 
 # Environment Setup
 
-> **Status: placeholder.** This appendix will collect the step-by-step setup
-> instructions for the software stack used across the book — Python, ROS 2,
-> MuJoCo, NVIDIA Isaac Sim, and the surrounding tooling — with a verification
-> checklist so readers can confirm each piece is working before moving on.
+This appendix gets the book's software stack running on your machine. You do
+**not** need all of it to start — install each piece when the chapters that use
+it arrive. Each section ends with a one-line check so you can confirm it works
+before moving on.
+
+:::note Which operating system?
+**Linux (Ubuntu 22.04 / 24.04)** is the path of least resistance for robotics —
+ROS 2 and Isaac Sim are first-class there. macOS is fine for Python, MuJoCo, and
+learning code. On Windows, use **WSL2** (Ubuntu) for anything ROS 2 related.
+:::
+
+## 1. Python (everything starts here)
+
+Use an isolated environment so the book's packages never fight your system
+Python. Either `venv` or `conda`/`miniforge` works.
+
+```bash
+# Option A — venv (built in)
+python3 -m venv ~/venvs/physical-ai
+source ~/venvs/physical-ai/bin/activate   # Windows: .\venvs\physical-ai\Scripts\activate
+
+# Option B — conda / miniforge
+conda create -n physical-ai python=3.11
+conda activate physical-ai
+
+# Core scientific + learning stack used across Part IV
+pip install numpy scipy matplotlib jupyter
+pip install torch                      # see pytorch.org for the CUDA build
+pip install gymnasium stable-baselines3
+```
+
+**Check:** `python -c "import torch; print(torch.__version__, torch.cuda.is_available())"`
+should print a version and `True` if you have a working NVIDIA GPU (CPU-only is
+fine for most exercises).
+
+## 2. MuJoCo (physics for control & RL)
+
+Since DeepMind open-sourced it, MuJoCo installs with a single command — no
+license file, no manual build.
+
+```bash
+pip install mujoco
+python -m mujoco.viewer      # opens an interactive physics viewer
+```
+
+**Check:** the viewer window opens and you can drag the camera around a scene.
+For RL, add the Gymnasium MuJoCo environments: `pip install "gymnasium[mujoco]"`.
+
+## 3. ROS 2 (the robot nervous system)
+
+Install a current LTS distribution (**Humble** on Ubuntu 22.04, **Jazzy** on
+24.04). Follow the official binary instructions for your OS; the shape is:
+
+```bash
+# After adding the ROS 2 apt source (see the official docs):
+sudo apt update
+sudo apt install ros-jazzy-desktop      # or ros-humble-desktop
+
+# Source ROS in every new shell (add to ~/.bashrc to make it permanent):
+source /opt/ros/jazzy/setup.bash
+```
+
+**Check:** run the classic two-terminal demo — each command in its own shell,
+both sourced:
+
+```bash
+ros2 run demo_nodes_cpp talker
+ros2 run demo_nodes_py listener
+```
+
+The listener should print the messages the talker publishes. If it does, your
+ROS 2 install and its DDS communication layer both work.
+
+:::tip Windows users
+Do ROS 2 work inside **WSL2 Ubuntu**, not native Windows. Install WSL2, then
+follow the Ubuntu instructions above inside it.
+:::
+
+## 4. NVIDIA Isaac Sim & Isaac Lab (large-scale sim + RL)
+
+Isaac Sim is the heaviest dependency and needs an **RTX-class NVIDIA GPU**.
+Install it only when you reach Part V, Chapter *Isaac Sim*.
+
+1. Install a recent NVIDIA driver.
+2. Get Isaac Sim (via the Omniverse launcher or the pip/container distribution
+   for your version — follow NVIDIA's current install guide, which changes
+   between releases).
+3. Add **Isaac Lab** on top for reinforcement-learning workflows.
+
+**Check:** launch Isaac Sim, open a sample stage, and press play — the simulation
+should step in real time. In Isaac Lab, run a provided training example and
+confirm reward climbs over the first few hundred iterations.
+
+## Verification checklist
+
+Use this as your "am I ready?" gate for each part of the book.
+
+| Component | Command / action | You're ready when… |
+| --------- | ---------------- | ------------------ |
+| Python env | `python --version` inside the activated env | it prints 3.10+ |
+| PyTorch | `import torch` | no error; GPU detected if you have one |
+| MuJoCo | `python -m mujoco.viewer` | the viewer opens |
+| Gymnasium | `import gymnasium` | no error |
+| ROS 2 | talker/listener demo | messages are received |
+| Isaac Sim | play a sample stage | it steps in real time |
+
+:::warning Version drift
+Robotics tooling moves fast and setup steps go stale. When a command here differs
+from the official docs, **trust the official docs** — this checklist tells you
+*what* must work, not the exact bytes of how to get there this month.
+:::

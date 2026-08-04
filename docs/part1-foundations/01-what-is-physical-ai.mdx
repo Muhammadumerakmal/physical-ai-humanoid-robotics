@@ -1,10 +1,12 @@
-import Quiz from '@site/src/components/Educational/Quiz';
-import Exercise from '@site/src/components/Educational/Exercise';
-
 ---
 sidebar_position: 1
 description: What physical AI is, why embodiment separates it from digital AI, and how the perception–action loop closes in a physical body.
 ---
+
+import Quiz from '@site/src/components/Educational/Quiz';
+import Exercise from '@site/src/components/Educational/Exercise';
+import FlashcardDeck from '@site/src/components/Educational/Flashcard';
+import Term from '@site/src/components/Term';
 
 # What Is Physical AI?
 
@@ -219,7 +221,7 @@ trialled assembly tasks at a BMW plant, and later models claim near-total
 autonomy on structured tasks.
 
 **What it shows:** the intelligence play. The body is important, but the model
-that closes the perception–action loop is the moat.
+that closes the <Term>perception–action loop</Term> is the moat.
 
 :::
 
@@ -393,6 +395,42 @@ Check your understanding:
     'It never makes mistakes',
   ]}
   correctAnswerIndex={1}
+/>
+
+## Review Flashcards
+
+Flip through the deck to lock in the key ideas. Mark each card **Got it** or
+**Review** — the deck remembers your progress on this device.
+
+<FlashcardDeck
+  title="Chapter 1 — Core Ideas"
+  deckId="ch1-what-is-physical-ai"
+  cards={[
+    {
+      front: 'What is physical AI?',
+      back: 'AI that senses, decides, and acts in the physical world through a body — subject to gravity, friction, contact, and energy.',
+    },
+    {
+      front: 'How does physical AI differ from digital AI?',
+      back: 'Digital AI manipulates symbols/pixels/tokens with cheap, instant retries. Physical AI acts on atoms in real time, where mistakes have physical consequences.',
+    },
+    {
+      front: 'What are the three abilities bundled in physical AI?',
+      back: 'Perception (read the world via sensors), cognition (make sense of it and choose), and action (commit to the world via actuators) — all in one body, in real time.',
+    },
+    {
+      front: 'What is the perception–action loop?',
+      back: 'The continuous cycle of sense → decide → act → sense again that every embodied system must close in real time.',
+    },
+    {
+      front: 'Why do humanoids sit at the far end of the physical-AI spectrum?',
+      back: 'They trade peak performance on any single task for generality — a body that can attempt the widest range of human tasks and environments.',
+    },
+    {
+      front: 'What is sim-to-real?',
+      back: 'Training a model in simulation and transferring the learned behavior onto real hardware.',
+    },
+  ]}
 />
 
 ## Further Reading
