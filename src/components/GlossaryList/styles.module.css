@@ -11,9 +11,24 @@
   border-bottom: 1px solid var(--ifm-toc-border-color);
 }
 
+.searchWrap {
+  position: relative;
+}
+
+.searchWrap svg {
+  position: absolute;
+  left: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 17px;
+  height: 17px;
+  color: var(--ifm-font-color-secondary);
+  pointer-events: none;
+}
+
 .search {
   width: 100%;
-  padding: 0.7rem 1rem;
+  padding: 0.7rem 1rem 0.7rem 2.6rem;
   font-size: 1rem;
   border-radius: 10px;
   border: 1px solid var(--ifm-toc-border-color);

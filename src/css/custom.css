@@ -62,6 +62,16 @@
   --ifm-global-radius: 8px;
 
   --docusaurus-highlighted-code-line-bg: rgb(14 116 144 / 0.12);
+
+  /* Elevation + motion design tokens (shared by page & component styles) */
+  --pai-shadow-sm: 0 1px 3px rgb(15 23 42 / 0.06);
+  --pai-shadow-md: 0 8px 24px rgb(15 23 42 / 0.09);
+  --pai-shadow-lg: 0 20px 48px rgb(15 23 42 / 0.14);
+  --pai-shadow-glow: 0 0 0 1px rgb(14 116 144 / 0.15), 0 12px 34px rgb(14 116 144 / 0.14);
+  --pai-ring: 0 0 0 3px rgb(14 116 144 / 0.28);
+  --pai-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --pai-surface-2: #eef4f8;
+  --pai-hairline: rgb(15 23 42 / 0.08);
 }
 
 /* ------------------------------------------------------------------ */
@@ -94,6 +104,14 @@
   --ifm-table-border-color: #1d2a3f;
 
   --docusaurus-highlighted-code-line-bg: rgb(34 211 238 / 0.15);
+
+  --pai-shadow-sm: 0 1px 3px rgb(0 0 0 / 0.4);
+  --pai-shadow-md: 0 10px 28px rgb(0 0 0 / 0.5);
+  --pai-shadow-lg: 0 24px 54px rgb(0 0 0 / 0.6);
+  --pai-shadow-glow: 0 0 0 1px rgb(34 211 238 / 0.22), 0 14px 40px rgb(34 211 238 / 0.18);
+  --pai-ring: 0 0 0 3px rgb(34 211 238 / 0.35);
+  --pai-surface-2: #16263f;
+  --pai-hairline: rgb(148 163 184 / 0.14);
 }
 
 /* ------------------------------------------------------------------ */
@@ -117,6 +135,16 @@ body {
   max-width: 780px; /* comfortable book column */
 }
 
+/* Chapter-header band: part pill + reading time above the H1 */
+.doc-item-title-wrap {
+  margin-top: 0.25rem;
+}
+
+.doc-item-title-wrap .markdown h1,
+.doc-item-title-wrap h1 {
+  margin-top: 0.15rem;
+}
+
 .markdown h1,
 .markdown h2,
 .markdown h3,
@@ -125,6 +153,23 @@ body {
   font-weight: 650;
   letter-spacing: -0.01em;
   color: var(--ifm-heading-color);
+  scroll-margin-top: calc(var(--ifm-navbar-height) + 1rem);
+}
+
+/* Heading sizes get a gentler ladder so h3/h4 still read as levels */
+.markdown h2 {
+  font-size: 1.85rem;
+  margin-top: 2.4rem;
+}
+
+.markdown h3 {
+  font-size: 1.45rem;
+  margin-top: 2rem;
+}
+
+.markdown h4 {
+  font-size: 1.15rem;
+  margin-top: 1.6rem;
 }
 
 .markdown p {
@@ -139,13 +184,91 @@ body {
   margin-bottom: 0.5rem;
 }
 
+/* First paragraph under an H1 reads as a book lede */
+.doc-item-title-wrap + p,
+.markdown > header + p,
+.markdown > h1 + p {
+  font-size: 1.16rem;
+  line-height: 1.75;
+  color: var(--ifm-font-color-secondary);
+}
+
+/* Heading anchor links */
+.markdown h1 a,
+.markdown h2 a,
+.markdown h3 a,
+.markdown h4 a,
+.markdown h5 a,
+.markdown h6 a {
+  text-decoration: none;
+}
+
+.hash-link::before {
+  content: '¶';
+  color: var(--ifm-color-primary);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.hash-link:hover::before,
+.markdown h2:hover .hash-link::before,
+.markdown h3:hover .hash-link::before,
+.markdown h4:hover .hash-link::before {
+  opacity: 1;
+}
+
 /* Engineering Admonitions (textbook sidebars) */
 .theme-admonition {
-  border-left: 4px solid var(--ifm-color-primary);
-  background: var(--ifm-background-surface-color);
-  border-radius: 0 10px 10px 0;
-  padding: 1rem 1.5rem;
+  --adm-accent: var(--ifm-color-primary);
+  --adm-bg: var(--ifm-background-surface-color);
+  border: 1px solid var(--ifm-toc-border-color);
+  border-left: 4px solid var(--adm-accent);
+  background: var(--adm-bg);
+  border-radius: 0 12px 12px 0;
+  padding: 1rem 1.4rem 1rem 1.6rem;
   margin: 1.8rem 0;
+  box-shadow: 0 2px 10px rgb(15 23 42 / 0.05);
+}
+
+/* Admonition type accents */
+.theme-admonition-note {
+  --adm-accent: #64748b;
+}
+
+.theme-admonition-tip,
+.theme-admonition-success {
+  --adm-accent: #16a34a;
+}
+
+.theme-admonition-info {
+  --adm-accent: var(--ifm-color-primary);
+}
+
+.theme-admonition-caution,
+.theme-admonition-warning {
+  --adm-accent: #d97706;
+}
+
+.theme-admonition-danger {
+  --adm-accent: #dc2626;
+}
+
+[data-theme='dark'] .theme-admonition-note {
+  --adm-accent: #94a3b8;
+}
+
+[data-theme='dark'] .theme-admonition-tip,
+[data-theme='dark'] .theme-admonition-success {
+  --adm-accent: #4ade80;
+}
+
+[data-theme='dark'] .theme-admonition-caution,
+[data-theme='dark'] .theme-admonition-warning {
+  --adm-accent: #fbbf24;
+}
+
+[data-theme='dark'] .theme-admonition-danger {
+  --adm-accent: #f87171;
 }
 
 .theme-admonition-heading {
@@ -155,7 +278,7 @@ body {
   letter-spacing: 0.05em;
   font-size: 0.85rem;
   margin-bottom: 0.5rem;
-  color: var(--ifm-color-primary);
+  color: var(--adm-accent);
 }
 
 .theme-admonition-content p {
@@ -166,13 +289,18 @@ body {
 
 /* Blockquotes read as book callouts */
 .markdown blockquote {
+  position: relative;
   border-left: 3px solid var(--ifm-color-primary);
   background: var(--ifm-background-surface-color);
-  border-radius: 0 10px 10px 0;
-  padding: 0.7rem 1.3rem;
+  border-radius: 0 12px 12px 0;
+  padding: 0.85rem 1.4rem;
   margin: 1.4rem 0;
   color: var(--ifm-font-color-secondary);
   font-style: italic;
+}
+
+.markdown blockquote p:last-child {
+  margin-bottom: 0;
 }
 
 /* Tables */
@@ -180,13 +308,18 @@ body {
   font-size: 0.95rem;
   border-collapse: separate;
   border-spacing: 0;
-  border-radius: 8px;
+  border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 1px 3px rgb(15 23 42 / 0.05);
+  border: 1px solid var(--ifm-toc-border-color);
   margin-bottom: 2rem;
+  width: 100%;
 }
 
 .markdown table thead th {
+  position: sticky;
+  top: var(--ifm-navbar-height);
+  z-index: 1;
   background: var(--ifm-background-surface-color);
   border-bottom: 2px solid var(--ifm-color-primary);
   font-weight: 700;
@@ -194,8 +327,29 @@ body {
   padding: 0.75rem 1rem;
 }
 
+.markdown table thead th:not(:last-child) {
+  border-right: 1px solid var(--ifm-toc-border-color);
+}
+
+.markdown table tbody tr {
+  transition: background-color 0.12s ease;
+}
+
+.markdown table tbody tr:hover {
+  background: color-mix(in srgb, var(--ifm-color-primary) 6%, transparent);
+}
+
 .markdown table td {
   padding: 0.65rem 1rem;
+  border-top: 1px solid var(--ifm-toc-border-color);
+}
+
+.markdown table tbody tr:nth-child(even) {
+  background: color-mix(in srgb, var(--ifm-background-surface-color) 60%, transparent);
+}
+
+.markdown table tbody tr:hover:nth-child(even) {
+  background: color-mix(in srgb, var(--ifm-color-primary) 8%, transparent);
 }
 
 /* Code */
@@ -207,6 +361,62 @@ code {
   box-shadow: 0 2px 10px rgb(15 23 42 / 0.08);
   border-radius: 10px;
   margin: 1.6rem 0;
+  overflow: hidden;
+}
+
+.theme-code-block:hover {
+  box-shadow: 0 4px 16px rgb(15 23 42 / 0.1);
+}
+
+/* Code block header bar with language label */
+.theme-code-block__header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 10px 10px 0 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ifm-font-color-secondary);
+  background: var(--ifm-background-surface-color);
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+}
+
+.theme-code-block__header::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--ifm-color-primary);
+}
+
+.theme-code-block pre {
+  border-radius: 0 0 10px 10px;
+  margin: 0;
+}
+
+/* Copy button restyle */
+.theme-code-block [class*='buttonGroup'] {
+  top: 0.4rem;
+  right: 0.6rem;
+}
+
+.theme-code-block [class*='buttonGroup'] button {
+  border-radius: 8px;
+  background: rgb(15 23 42 / 0.5);
+  color: #e2e8f0;
+  border: 1px solid rgb(255 255 255 / 0.15);
+  padding: 0.3rem 0.6rem;
+  font-size: 0.78rem;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.theme-code-block [class*='buttonGroup'] button:hover {
+  background: rgb(15 23 42 / 0.75);
+  transform: translateY(-1px);
 }
 
 /* ------------------------------------------------------------------ */
@@ -215,6 +425,7 @@ code {
 .navbar {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--ifm-toc-border-color);
 }
 
 .navbar__title {
@@ -224,19 +435,63 @@ code {
 
 .navbar__link {
   font-weight: 500;
+  position: relative;
+}
+
+.navbar__link::after {
+  content: '';
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  bottom: -0.65rem;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--ifm-color-primary);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s ease;
+}
+
+.navbar__link:hover::after {
+  transform: scaleX(1);
 }
 
 .navbar__link--active {
   font-weight: 700;
 }
 
+.navbar__link--active::after {
+  transform: scaleX(1);
+}
+
+.navbar__item.navbar__link::after {
+  left: 0.5rem;
+  right: 0.5rem;
+  bottom: -0.75rem;
+}
+
+.navbar__toggle,
+.navbar__link svg {
+  transition: color 0.15s ease;
+}
+
+.navbar-sidebar .navbar__link::after {
+  display: none;
+}
+
 /* ------------------------------------------------------------------ */
 /* Sidebar — the book's table of contents                              */
 /* ------------------------------------------------------------------ */
+.theme-doc-sidebar-container .menu__list {
+  margin-bottom: 0.5rem;
+}
+
 .theme-doc-sidebar-container .menu__link {
-  border-radius: 6px;
+  position: relative;
+  border-radius: 8px;
   color: var(--ifm-menu-color);
   font-size: 0.92rem;
+  transition: color 0.15s ease, background-color 0.15s ease;
 }
 
 .theme-doc-sidebar-container .menu__link:hover {
@@ -249,6 +504,28 @@ code {
   font-weight: 600;
 }
 
+/* Active-left accent bar for the current chapter */
+.theme-doc-sidebar-container .menu__list-item .menu__link--active::before {
+  content: '';
+  position: absolute;
+  left: -0.5rem;
+  top: 20%;
+  bottom: 20%;
+  width: 3px;
+  border-radius: 3px;
+  background: var(--ifm-color-primary);
+}
+
+.theme-doc-sidebar-container .menu__list-item-collapsible .menu__link--active {
+  background: transparent;
+}
+
+.theme-doc-sidebar-container
+  .menu__list-item-collapsible
+  .menu__link--active::before {
+  display: none;
+}
+
 /* Part headers read as small-caps book section labels */
 .theme-doc-sidebar-item-category {
   margin-top: 0.45rem;
@@ -259,7 +536,7 @@ code {
   > .menu__link {
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 800;
   color: var(--ifm-font-color-secondary);
   border-top: 1px solid var(--ifm-toc-border-color);
@@ -288,15 +565,25 @@ code {
 /* ------------------------------------------------------------------ */
 .pagination-nav__link {
   border-color: var(--ifm-toc-border-color);
-  border-radius: 12px;
+  border-radius: 14px;
+  padding: 1.1rem 1.3rem;
   transition: border-color 0.15s ease, box-shadow 0.15s ease,
     transform 0.15s ease;
 }
 
 .pagination-nav__link:hover {
   border-color: var(--ifm-color-primary);
-  box-shadow: 0 6px 18px rgb(15 23 42 / 0.09);
-  transform: translateY(-1px);
+  box-shadow: 0 8px 22px rgb(15 23 42 / 0.1);
+  transform: translateY(-2px);
+}
+
+.pagination-nav__sublabel {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ifm-color-primary);
+  margin-bottom: 0.25rem;
 }
 
 .pagination-nav__label {
@@ -315,6 +602,83 @@ code {
   text-transform: uppercase;
   letter-spacing: 0.12em;
   font-size: 0.78rem;
+}
+
+.footer__col {
+  padding: 0 1rem;
+}
+
+.footer__links li {
+  margin-bottom: 0.55rem;
+}
+
+.footer__link-item {
+  transition: color 0.15s ease, padding-left 0.15s ease;
+}
+
+.footer__link-item:hover {
+  color: #fff;
+  padding-left: 2px;
+}
+
+.footer__bottom {
+  border-top: 1px solid rgb(148 163 184 / 0.14);
+  margin-top: 1.5rem;
+}
+
+/* ------------------------------------------------------------------ */
+/* Global focus / selection / scrollbar                                */
+/* ------------------------------------------------------------------ */
+:focus-visible {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: var(--ifm-color-primary);
+  color: #fff;
+}
+
+[data-theme='dark'] ::selection {
+  background: var(--ifm-color-primary);
+  color: #06232e;
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ifm-toc-border-color) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ifm-toc-border-color);
+  border-radius: 6px;
+  border: 2px solid var(--ifm-background-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ifm-color-primary);
+}
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* ------------------------------------------------------------------ */

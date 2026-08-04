@@ -3,6 +3,7 @@ import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Heading from '@theme/Heading';
 import Layout from '@theme/Layout';
+import Reveal from '@site/src/components/Reveal';
 
 import styles from './index.module.css';
 
@@ -226,38 +227,46 @@ function HomepageHeader() {
   return (
     <header className={styles.hero}>
       <div className={styles.container}>
-        <div className={styles.book}>
-          <div className={styles.bookCover}>
-            <div className={styles.bookEyebrow}>A Technical Book</div>
-            <h1 className={styles.bookTitle}>
-              Physical AI{' '}
-              <em className={styles.titleAccent}>&amp; Humanoid Robotics</em>
-            </h1>
-            <div className={styles.bookSubtitle}>Building Intelligent Machines</div>
-            <div className={styles.bookDivider} />
-            <div className={styles.bookMeta}>
-              <span className={styles.bookAuthor}>Muhammad Umer Akmal</span>
-              <span className={styles.bookEdition}>First Edition</span>
+        <Reveal>
+          <div className={styles.book}>
+            <div className={styles.bookCover}>
+              <div className={styles.bookEyebrow}>A Technical Book</div>
+              <h1 className={styles.bookTitle}>
+                Physical AI{' '}
+                <em className={styles.titleAccent}>&amp; Humanoid Robotics</em>
+              </h1>
+              <div className={styles.bookSubtitle}>Building Intelligent Machines</div>
+              <div className={styles.bookDivider} />
+              <div className={styles.bookMeta}>
+                <span className={styles.bookAuthor}>Muhammad Umer Akmal</span>
+                <span className={styles.bookEdition}>First Edition</span>
+              </div>
             </div>
           </div>
-        </div>
-        <p className={styles.tagline}>{siteConfig.tagline}</p>
-        <div className={styles.ctas}>
-          <Link className={`${styles.button} ${styles.buttonPrimary}`} to="/docs/intro">
-            Start Reading <span aria-hidden="true">→</span>
-          </Link>
-          <Link className={`${styles.button} ${styles.buttonSecondary}`} to="/#outline">
-            View the Book Outline
-          </Link>
-        </div>
-        <div className={styles.stats}>
-          {stats.map((stat) => (
-            <div key={stat.label} className={styles.statItem}>
-              <div className={styles.statNum}>{stat.num}</div>
-              <div className={styles.statLabel}>{stat.label}</div>
-            </div>
-          ))}
-        </div>
+        </Reveal>
+        <Reveal delay={90}>
+          <p className={styles.tagline}>{siteConfig.tagline}</p>
+        </Reveal>
+        <Reveal delay={160}>
+          <div className={styles.ctas}>
+            <Link className={`${styles.button} ${styles.buttonPrimary}`} to="/docs/intro">
+              Start Reading <span aria-hidden="true">→</span>
+            </Link>
+            <Link className={`${styles.button} ${styles.buttonSecondary}`} to="/#outline">
+              View the Book Outline
+            </Link>
+          </div>
+        </Reveal>
+        <Reveal delay={240}>
+          <div className={styles.stats}>
+            {stats.map((stat) => (
+              <div key={stat.label} className={styles.statItem}>
+                <div className={styles.statNum}>{stat.num}</div>
+                <div className={styles.statLabel}>{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </Reveal>
       </div>
     </header>
   );
@@ -267,21 +276,25 @@ function Features() {
   return (
     <section className={styles.section}>
       <div className={styles.sectionContainer}>
-        <div className={styles.sectionHeading}>
-          <div className={styles.sectionKicker}>What’s Inside</div>
-          <h2 className={styles.sectionTitle}>The full stack of an intelligent machine</h2>
-          <p className={styles.sectionSub}>
-            Every layer a physical-AI system needs — covered from first principles to
-            working code.
-          </p>
-        </div>
+        <Reveal>
+          <div className={styles.sectionHeading}>
+            <div className={styles.sectionKicker}>What’s Inside</div>
+            <h2 className={styles.sectionTitle}>The full stack of an intelligent machine</h2>
+            <p className={styles.sectionSub}>
+              Every layer a physical-AI system needs — covered from first principles to
+              working code.
+            </p>
+          </div>
+        </Reveal>
         <div className={styles.features}>
-          {features.map((feature) => (
-            <div key={feature.title} className={styles.featureCard}>
-              <div className={styles.featureIcon}>{feature.icon}</div>
-              <h3 className={styles.featureTitle}>{feature.title}</h3>
-              <p className={styles.featureText}>{feature.text}</p>
-            </div>
+          {features.map((feature, i) => (
+            <Reveal key={feature.title} delay={(i % 3) * 80}>
+              <div className={styles.featureCard}>
+                <div className={styles.featureIcon}>{feature.icon}</div>
+                <h3 className={styles.featureTitle}>{feature.title}</h3>
+                <p className={styles.featureText}>{feature.text}</p>
+              </div>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -293,43 +306,51 @@ function StartHere() {
   return (
     <section className={styles.section}>
       <div className={styles.sectionContainer}>
-        <div className={styles.sectionHeading}>
-          <div className={styles.sectionKicker}>Who It’s For</div>
-          <Heading as="h2" className={styles.sectionTitle}>
-            Three kinds of readers
-          </Heading>
-          <p className={styles.sectionSub}>
-            Built for the people entering robotics with an AI or software
-            background.
-          </p>
-        </div>
+        <Reveal>
+          <div className={styles.sectionHeading}>
+            <div className={styles.sectionKicker}>Who It’s For</div>
+            <Heading as="h2" className={styles.sectionTitle}>
+              Three kinds of readers
+            </Heading>
+            <p className={styles.sectionSub}>
+              Built for the people entering robotics with an AI or software
+              background.
+            </p>
+          </div>
+        </Reveal>
         <div className={styles.audienceGrid}>
-          {audiences.map((a) => (
-            <div key={a.title} className={styles.audienceCard}>
-              <h3 className={styles.audienceTitle}>{a.title}</h3>
-              <p className={styles.featureText}>{a.text}</p>
-            </div>
+          {audiences.map((a, i) => (
+            <Reveal key={a.title} delay={i * 80}>
+              <div className={styles.audienceCard}>
+                <h3 className={styles.audienceTitle}>{a.title}</h3>
+                <p className={styles.featureText}>{a.text}</p>
+              </div>
+            </Reveal>
           ))}
         </div>
         <div className={styles.findPath}>
-          <div className={styles.sectionHeading}>
-            <div className={styles.sectionKicker}>Find Your Path</div>
-            <Heading as="h3" className={styles.sectionTitle}>
-              How to read this book
-            </Heading>
-            <p className={styles.sectionSub}>
-              Pick the route that matches where you are and where you are going.
-            </p>
-          </div>
+          <Reveal>
+            <div className={styles.sectionHeading}>
+              <div className={styles.sectionKicker}>Find Your Path</div>
+              <Heading as="h3" className={styles.sectionTitle}>
+                How to read this book
+              </Heading>
+              <p className={styles.sectionSub}>
+                Pick the route that matches where you are and where you are going.
+              </p>
+            </div>
+          </Reveal>
           <div className={styles.pathGrid}>
-            {paths.map((p) => (
-              <Link key={p.title} to={p.to} className={styles.pathCard}>
-                <div className={styles.pathTitle}>{p.title}</div>
-                <div className={styles.pathText}>{p.text}</div>
-                <span className={styles.pathArrow} aria-hidden="true">
-                  →
-                </span>
-              </Link>
+            {paths.map((p, i) => (
+              <Reveal key={p.title} delay={(i % 4) * 70}>
+                <Link to={p.to} className={styles.pathCard}>
+                  <div className={styles.pathTitle}>{p.title}</div>
+                  <div className={styles.pathText}>{p.text}</div>
+                  <span className={styles.pathArrow} aria-hidden="true">
+                    →
+                  </span>
+                </Link>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -342,31 +363,35 @@ function Outline() {
   return (
     <section className={styles.section}>
       <div className={styles.sectionContainer}>
-        <div className={styles.sectionHeading}>
-          <div className={styles.sectionKicker}>Table of Contents</div>
-          <Heading as="h2" id="outline" className={styles.sectionTitle}>
-            The book, part by part
-          </Heading>
-          <p className={styles.sectionSub}>
-            A working outline of all 24 chapters — each one being written in place.
-          </p>
-        </div>
+        <Reveal>
+          <div className={styles.sectionHeading}>
+            <div className={styles.sectionKicker}>Table of Contents</div>
+            <Heading as="h2" id="outline" className={styles.sectionTitle}>
+              The book, part by part
+            </Heading>
+            <p className={styles.sectionSub}>
+              A working outline of all 24 chapters — each one being written in place.
+            </p>
+          </div>
+        </Reveal>
         <div className={styles.outline}>
-          {parts.map((part) => (
-            <div key={part.num} className={styles.partCard}>
-              <div className={styles.partHead}>
-                <span className={styles.partNum}>PART {part.num}</span>
-                <span className={styles.partTitle}>{part.title}</span>
+          {parts.map((part, i) => (
+            <Reveal key={part.num} delay={(i % 3) * 80}>
+              <div className={styles.partCard}>
+                <div className={styles.partHead}>
+                  <span className={styles.partNum}>PART {part.num}</span>
+                  <span className={styles.partTitle}>{part.title}</span>
+                </div>
+                {part.chapters.map((chapter) => (
+                  <Link key={chapter.to} className={styles.chapterRow} to={chapter.to}>
+                    {chapter.title}
+                    <span className={styles.chapterArrow} aria-hidden="true">
+                      →
+                    </span>
+                  </Link>
+                ))}
               </div>
-              {part.chapters.map((chapter) => (
-                <Link key={chapter.to} className={styles.chapterRow} to={chapter.to}>
-                  {chapter.title}
-                  <span className={styles.chapterArrow} aria-hidden="true">
-                    →
-                  </span>
-                </Link>
-              ))}
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -377,16 +402,18 @@ function Outline() {
 function CallToAction() {
   return (
     <section className={styles.ctaBand}>
-      <div className={styles.ctaCard}>
-        <h2 className={styles.ctaTitle}>Ready to build an intelligent machine?</h2>
-        <p className={styles.ctaText}>
-          Start with Part I and work your way through to a walking, learning humanoid —
-          one chapter at a time.
-        </p>
-        <Link className={styles.ctaButton} to="/docs/intro">
-          Start Reading <span aria-hidden="true">→</span>
-        </Link>
-      </div>
+      <Reveal>
+        <div className={styles.ctaCard}>
+          <h2 className={styles.ctaTitle}>Ready to build an intelligent machine?</h2>
+          <p className={styles.ctaText}>
+            Start with Part I and work your way through to a walking, learning humanoid —
+            one chapter at a time.
+          </p>
+          <Link className={styles.ctaButton} to="/docs/intro">
+            Start Reading <span aria-hidden="true">→</span>
+          </Link>
+        </div>
+      </Reveal>
     </section>
   );
 }

@@ -4,6 +4,11 @@
   cursor: help;
   font-weight: 500;
   outline: none;
+  padding: 0 0.05em;
+}
+
+.term:hover {
+  color: var(--ifm-color-primary);
 }
 
 .tooltip {
@@ -12,15 +17,16 @@
   left: 50%;
   transform: translateX(-50%) translateY(6px);
   width: max-content;
-  max-width: 300px;
+  max-width: 320px;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  padding: 0.75rem 0.9rem;
-  border-radius: 10px;
+  gap: 0.45rem;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
   background: var(--ifm-background-surface-color);
-  border: 1px solid var(--ifm-color-primary);
-  box-shadow: 0 8px 28px rgb(15 23 42 / 0.22);
+  border: 1px solid var(--ifm-toc-border-color);
+  border-top: 3px solid var(--ifm-color-primary);
+  box-shadow: 0 12px 34px rgb(15 23 42 / 0.22);
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.15s ease, transform 0.15s ease;
@@ -51,6 +57,10 @@
 }
 
 .tipLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.1rem;
   font-size: 0.78rem;
   font-weight: 600;
   color: var(--ifm-color-primary);

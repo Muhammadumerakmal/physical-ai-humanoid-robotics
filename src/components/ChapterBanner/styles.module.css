@@ -1,0 +1,36 @@
+.banner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0.25rem 0 1.1rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+}
+
+.part {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.22rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--ifm-color-primary);
+  background: color-mix(in srgb, var(--ifm-color-primary) 8%, transparent);
+  color: var(--ifm-color-primary);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+}
+
+.readTime {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--ifm-font-color-secondary);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.readTime svg {
+  color: var(--ifm-color-primary);
+}
