@@ -35,7 +35,7 @@ Part II · Sensing & Perception — "Sensors and Actuators", "Robot Perception",
 Part III · Actuation & Control — "Kinematics and Dynamics", "Motion Control", "Balance and Locomotion", "Manipulation"
 Part IV · Learning & Intelligence — "Machine Learning for Robots", "Reinforcement Learning", "Imitation Learning", "Vision–Language–Action Models", "LLMs in Robotics", "AI Agents"
 Part V · Systems, Simulation & Deployment — "ROS 2", "The Robot Software Stack", "Simulation", "Isaac Sim", "Deployment"
-Part VI · The Road Ahead — "The Future of Humanoids"
+Part VI · The Road Ahead — "The Future of Humanoids", "Capstone — The Robot Lab"
 Appendices — Glossary, Resources, Environment Setup, Math Reference, Project Ideas
 
 If you do not know something, say so rather than guessing. Do not fabricate API or hardware specifications.`;
@@ -78,10 +78,21 @@ Respond with ONLY a JSON object, no prose, no code fences, in exactly this shape
 Rules:
 - Use ONLY these skills (with these params):
 ${ROBOT_SKILLS.map((s) => `  - ${s.skill} ${s.params} — ${s.desc}`).join('\n')}
-- Keep plans short (1–5 steps) and physically sensible: to pick up the cube, walk_to it first, then pick_up.
+- Keep plans short (1–5 steps) and physically sensible: to pick up the cube, walk_to it first, then pick_up; to throw it, pick it up first; to kick it, walk_to it first.
+- Preserve the order the user asks for. "then", "after", and commas usually mean sequential steps.
 - If the command is unclear or impossible, return an empty plan and explain briefly in "say".
 - "say" is what the robot tells the user, first person, one sentence.
-- Output raw JSON only. Do not wrap it in markdown.`;
+- Output raw JSON only. Do not wrap it in markdown.
+
+Examples:
+Command: "walk to the cube and wave"
+{"plan":[{"skill":"walk_to","params":{"target":"cube"}},{"skill":"wave","params":{}}],"say":"Heading to the cube, then I'll wave."}
+Command: "pick up the cube and throw it as far as you can"
+{"plan":[{"skill":"walk_to","params":{"target":"cube"}},{"skill":"pick_up","params":{"target":"cube"}},{"skill":"throw","params":{}}],"say":"Grabbing the cube and launching it forward."}
+Command: "do a little dance then sit down"
+{"plan":[{"skill":"dance","params":{}},{"skill":"sit","params":{}}],"say":"Time to dance, then I'll take a seat."}
+Command: "make me a sandwich"
+{"plan":[],"say":"I can't do that — I can only walk, gesture, and handle the cube in this scene."}`;
 
 /**
  * Extract a {plan, say} object from a model completion. Tolerant of code

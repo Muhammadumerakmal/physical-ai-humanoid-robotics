@@ -554,6 +554,15 @@
   cursor: not-allowed;
 }
 
+/* Stop button replaces send while a response is streaming */
+.stopBtn {
+  background: linear-gradient(135deg, #ef4444, #b91c1c);
+}
+
+.stopBtn:hover:not(:disabled) {
+  box-shadow: 0 8px 18px -6px rgb(185 28 28 / 0.55);
+}
+
 /* ------------------------------------------------------------------ */
 /* Small screens                                                       */
 /* ------------------------------------------------------------------ */

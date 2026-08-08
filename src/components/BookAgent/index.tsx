@@ -93,6 +93,19 @@ function SendIcon() {
   );
 }
 
+function StopIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true">
+      <rect x="6" y="6" width="12" height="12" rx="2.5" />
+    </svg>
+  );
+}
+
 function TrashIcon() {
   return (
     <svg
@@ -297,6 +310,7 @@ export default function BookAgent() {
   const [pageTitle, setPageTitle] = useState('');
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const abortRef = useRef<AbortController | null>(null);
   const location = useLocation();
 
   // Track the active page title, refreshing on SPA navigation.
@@ -333,6 +347,25 @@ export default function BookAgent() {
     }
   }, [messages, busy, open]);
 
+  // Focus the input when the panel opens, and close it on Escape.
+  useEffect(() => {
+    if (!open) return;
+    const id = window.setTimeout(() => inputRef.current?.focus(), 40);
+    function onKey(e: globalThis.KeyboardEvent) {
+      if (e.key === 'Escape') setOpen(false);
+    }
+    window.addEventListener('keydown', onKey);
+    return () => {
+      window.clearTimeout(id);
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [open]);
+
+  /** Abort an in-flight streaming response, keeping whatever text arrived. */
+  function stop() {
+    abortRef.current?.abort();
+  }
+
   async function send(text: string) {
     const content = text.trim();
     if (!content || busy) {
@@ -344,11 +377,16 @@ export default function BookAgent() {
     setMessages([...history, {role: 'assistant', content: ''}]);
     setBusy(true);
 
+    const controller = new AbortController();
+    abortRef.current = controller;
+    let full = '';
+
     try {
       const res = await fetch(endpoint, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({messages: history, stream: true, currentPage}),
+        signal: controller.signal,
       });
 
       if (!res.ok || !res.body) {
@@ -367,7 +405,6 @@ export default function BookAgent() {
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
       let buffer = '';
-      let full = '';
 
       for (;;) {
         const {done, value} = await reader.read();
@@ -407,10 +444,19 @@ export default function BookAgent() {
         setMessages((prev) => prev.slice(0, -1));
       }
     } catch (e) {
-      setError(e instanceof Error ? e.message : 'Something went wrong');
-      setMessages((prev) => prev.slice(0, -1));
+      // A user-initiated stop keeps whatever streamed so far; only drop the
+      // placeholder if nothing arrived. Real errors surface a message.
+      if (e instanceof DOMException && e.name === 'AbortError') {
+        if (!full) {
+          setMessages((prev) => prev.slice(0, -1));
+        }
+      } else {
+        setError(e instanceof Error ? e.message : 'Something went wrong');
+        setMessages((prev) => prev.slice(0, -1));
+      }
     } finally {
       setBusy(false);
+      abortRef.current = null;
     }
   }
 
@@ -567,14 +613,24 @@ export default function BookAgent() {
               disabled={busy}
               aria-label="Ask the book assistant a question"
             />
-            <button
-              type="button"
-              className={styles.sendBtn}
-              onClick={() => void send(input)}
-              disabled={busy || !input.trim()}
-              aria-label="Send message">
-              <SendIcon />
-            </button>
+            {busy ? (
+              <button
+                type="button"
+                className={`${styles.sendBtn} ${styles.stopBtn}`}
+                onClick={stop}
+                aria-label="Stop generating">
+                <StopIcon />
+              </button>
+            ) : (
+              <button
+                type="button"
+                className={styles.sendBtn}
+                onClick={() => void send(input)}
+                disabled={!input.trim()}
+                aria-label="Send message">
+                <SendIcon />
+              </button>
+            )}
           </div>
         </div>
       )}
