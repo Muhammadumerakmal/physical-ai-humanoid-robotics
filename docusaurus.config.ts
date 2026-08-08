@@ -27,6 +27,23 @@ const config: Config = {
   organizationName: 'Muhammadumerakmal', 
   projectName: 'physical-ai-humanoid-robotics',
 
+  // Preconnect to Google Fonts so the @import in custom.css resolves faster
+  // (cuts first-paint latency on the font request; purely additive, no visual change).
+  headTags: [
+    {
+      tagName: 'link',
+      attributes: {rel: 'preconnect', href: 'https://fonts.googleapis.com'},
+    },
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'preconnect',
+        href: 'https://fonts.gstatic.com',
+        crossorigin: 'anonymous',
+      },
+    },
+  ],
+
   onBrokenLinks: 'throw',
   markdown: {
     mermaid: true,
