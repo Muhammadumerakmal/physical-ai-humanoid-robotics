@@ -89,6 +89,7 @@ type SimState = {
   fallen: boolean;
   fallTimer: number;
   cube: {x: number; y: number; z: number; vx: number; vy: number; vz: number; held: boolean};
+  cubeCmd: 'none' | 'launch' | 'respawn';
   queue: Action[];
   current: Action | null;
   clock: number;
@@ -112,6 +113,7 @@ function freshState(): SimState {
     fallen: false,
     fallTimer: 0,
     cube: {x: CUBE_START.x, y: 0.18, z: CUBE_START.z, vx: 0, vy: 0, vz: 0, held: false},
+    cubeCmd: 'none',
     queue: [],
     current: null,
     clock: 0,
@@ -531,9 +533,10 @@ function buildAction(step: PlanStep, s: SimState): Action {
               s.cube.held = false;
               const fx = Math.sin(s.yaw);
               const fz = Math.cos(s.yaw);
-              s.cube.vx = fx * 4.6;
-              s.cube.vz = fz * 4.6;
-              s.cube.vy = 3.3;
+              s.cube.vx = fx * 5.5;
+              s.cube.vz = fz * 5.5;
+              s.cube.vy = 4;
+              s.cubeCmd = 'launch';
             }
             released = true;
           }
@@ -568,9 +571,10 @@ function buildAction(step: PlanStep, s: SimState): Action {
             const forward = relx * fx + relz * fz;
             const dist = Math.hypot(relx, relz);
             if (!s.cube.held && dist < 0.95 && forward > -0.2) {
-              s.cube.vx = fx * 5.2;
-              s.cube.vz = fz * 5.2;
-              s.cube.vy = 1.7;
+              s.cube.vx = fx * 6;
+              s.cube.vz = fz * 6;
+              s.cube.vy = 2.2;
+              s.cubeCmd = 'launch';
             }
             kicked = true;
           }
@@ -682,6 +686,7 @@ function buildAction(step: PlanStep, s: SimState): Action {
             s.hopV = 0;
             s.fallen = false;
             s.cube = {x: CUBE_START.x, y: 0.18, z: CUBE_START.z, vx: 0, vy: 0, vz: 0, held: false};
+            s.cubeCmd = 'respawn';
           }
           this.t += dt;
           return this.t >= this.dur;
@@ -729,7 +734,7 @@ function Robot({
   const knL = useRef<THREE.Group>(null);
   const knR = useRef<THREE.Group>(null);
   const anchor = useRef<THREE.Group>(null);
-  const cube = useRef<THREE.Mesh>(null);
+  const cubeApi = useRef<RapierRigidBody>(null);
   const eyeL = useRef<THREE.Mesh>(null);
   const eyeR = useRef<THREE.Mesh>(null);
   const bodyApi = useRef<RapierRigidBody>(null);
@@ -831,32 +836,39 @@ function Robot({
     // drive the kinematic body collider to follow the robot so it shoves crates
     bodyApi.current?.setNextKinematicTranslation({x: s.bx, y: 0.6 + s.hop, z: s.bz});
 
-    // cube: follow the chest anchor when held; otherwise a lightweight ballistic
-    // integration so throw/kick fling it (rapier replaces this in WS4).
-    if (cube.current) {
+    // cube: a rapier rigid body. Kinematic (following the hand) while held,
+    // dynamic otherwise; throw/kick queue a launch velocity.
+    const cb = cubeApi.current;
+    if (cb) {
+      if (s.cubeCmd === 'respawn') {
+        cb.setBodyType(0, true); // dynamic
+        cb.setTranslation({x: CUBE_START.x, y: 0.18, z: CUBE_START.z}, true);
+        cb.setLinvel({x: 0, y: 0, z: 0}, true);
+        cb.setAngvel({x: 0, y: 0, z: 0}, true);
+        s.cube.held = false;
+        s.cubeCmd = 'none';
+      }
       if (s.cube.held && anchor.current) {
+        if (cb.bodyType() !== 2) cb.setBodyType(2, true); // kinematicPosition
         anchor.current.getWorldPosition(tmp);
-        cube.current.position.copy(tmp);
-        cube.current.rotation.set(0, s.yaw, 0);
+        cb.setNextKinematicTranslation({x: tmp.x, y: tmp.y, z: tmp.z});
         s.cube.x = tmp.x;
         s.cube.y = tmp.y;
         s.cube.z = tmp.z;
       } else {
-        s.cube.vy -= 9.8 * dt;
-        s.cube.x += s.cube.vx * dt;
-        s.cube.y += s.cube.vy * dt;
-        s.cube.z += s.cube.vz * dt;
-        if (s.cube.y <= 0.18) {
-          s.cube.y = 0.18;
-          s.cube.vy = Math.abs(s.cube.vy) < 1.2 ? 0 : -s.cube.vy * 0.35;
-          s.cube.vx *= 0.7;
-          s.cube.vz *= 0.7;
-          if (Math.abs(s.cube.vx) < 0.05) s.cube.vx = 0;
-          if (Math.abs(s.cube.vz) < 0.05) s.cube.vz = 0;
+        if (cb.bodyType() === 2) cb.setBodyType(0, true); // release -> dynamic
+        if (s.cubeCmd === 'launch') {
+          cb.setLinvel({x: s.cube.vx, y: s.cube.vy, z: s.cube.vz}, true);
+          cb.setAngvel(
+            {x: (Math.random() - 0.5) * 8, y: 0, z: (Math.random() - 0.5) * 8},
+            true,
+          );
+          s.cubeCmd = 'none';
         }
-        cube.current.position.set(s.cube.x, s.cube.y, s.cube.z);
-        cube.current.rotation.x += s.cube.vz * dt * 1.5;
-        cube.current.rotation.z -= s.cube.vx * dt * 1.5;
+        const t = cb.translation();
+        s.cube.x = t.x;
+        s.cube.y = t.y;
+        s.cube.z = t.z;
       }
     }
 
@@ -881,16 +893,19 @@ function Robot({
 
   return (
     <>
-      {/* the cube lives in world space, not parented to the robot */}
-      <RoundedBox
-        ref={cube}
-        args={[0.34, 0.34, 0.34]}
-        radius={0.05}
-        smoothness={4}
-        castShadow
-        position={[CUBE_START.x, 0.18, CUBE_START.z]}>
-        <meshStandardMaterial color="#f59e0b" metalness={0.2} roughness={0.4} />
-      </RoundedBox>
+      {/* the cube is a real rapier rigid body (thrown/kicked with true physics) */}
+      <RigidBody
+        ref={cubeApi}
+        colliders="cuboid"
+        position={[CUBE_START.x, 0.18, CUBE_START.z]}
+        restitution={0.2}
+        friction={0.8}
+        linearDamping={0.1}
+        angularDamping={0.2}>
+        <RoundedBox args={[0.34, 0.34, 0.34]} radius={0.05} smoothness={4} castShadow receiveShadow>
+          <meshStandardMaterial color="#f59e0b" metalness={0.2} roughness={0.4} />
+        </RoundedBox>
+      </RigidBody>
 
       {/* invisible kinematic collider that follows the robot and shoves crates */}
       <RigidBody
