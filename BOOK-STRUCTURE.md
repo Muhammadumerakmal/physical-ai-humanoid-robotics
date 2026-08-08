@@ -47,10 +47,10 @@ e.g. `Part I · Foundations`. Folders use kebab-case slugs.
 | III  | Actuation & Control            | `part3-control`        | 4        |
 | IV   | Learning & Intelligence        | `part4-learning`       | 6        |
 | V    | Systems, Simulation & Deploy.  | `part5-systems`        | 5        |
-| VI   | The Road Ahead                 | `part6-future`         | 1        |
-| —    | Appendices                     | `appendices`           | 4        |
+| VI   | The Road Ahead                 | `part6-future`         | 2        |
+| —    | Appendices                     | `appendices`           | 5        |
 
-**24 chapters + 4 appendices.** Every required topic is a dedicated chapter
+**25 chapters + 5 appendices.** Every required topic is a dedicated chapter
 (see [Coverage matrix](#required-topic-coverage-matrix)).
 
 ---

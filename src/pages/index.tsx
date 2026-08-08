@@ -183,7 +183,7 @@ const parts: Part[] = [
 
 const stats = [
   {num: '6', label: 'Parts'},
-  {num: '24', label: 'Chapters'},
+  {num: '25', label: 'Chapters'},
   {num: '2', label: 'Simulators · MuJoCo & Isaac Lab'},
   {num: '1', label: 'Working Robot, end to end'},
 ];
@@ -384,7 +384,7 @@ function Outline() {
               The book, part by part
             </Heading>
             <p className={styles.sectionSub}>
-              A working outline of all 24 chapters — each one being written in place.
+              A complete outline of all 25 chapters across six parts.
             </p>
           </div>
         </Reveal>
