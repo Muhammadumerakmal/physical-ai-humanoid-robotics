@@ -6,6 +6,13 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
+// Google Fonts stylesheet for the design system (Inter / JetBrains Mono /
+// Source Serif 4). Loaded from <head> below rather than via an `@import` in
+// custom.css: an `@import` chains behind the main CSS download and blocks
+// render, so we load it non-blocking (preload + media-swap) instead.
+const GOOGLE_FONTS_HREF =
+  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,500&display=swap';
+
 const config: Config = {
   title: 'Physical AI and Humanoid Robotics',
   tagline:
@@ -27,8 +34,12 @@ const config: Config = {
   organizationName: 'Muhammadumerakmal', 
   projectName: 'physical-ai-humanoid-robotics',
 
-  // Preconnect to Google Fonts so the @import in custom.css resolves faster
-  // (cuts first-paint latency on the font request; purely additive, no visual change).
+  // Fonts, loaded non-blocking so they never gate first paint:
+  //  - preconnect warms the two font hosts,
+  //  - preload fetches the stylesheet at high priority without blocking render,
+  //  - the `media="print"` + `onload` swap flips it to a real stylesheet once
+  //    fetched (text shows immediately in a fallback face via `display=swap`),
+  //  - the <noscript> copy keeps fonts working with JS disabled.
   headTags: [
     {
       tagName: 'link',
@@ -41,6 +52,24 @@ const config: Config = {
         href: 'https://fonts.gstatic.com',
         crossorigin: 'anonymous',
       },
+    },
+    {
+      tagName: 'link',
+      attributes: {rel: 'preload', as: 'style', href: GOOGLE_FONTS_HREF},
+    },
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'stylesheet',
+        href: GOOGLE_FONTS_HREF,
+        media: 'print',
+        onload: "this.media='all'",
+      },
+    },
+    {
+      tagName: 'noscript',
+      attributes: {},
+      innerHTML: `<link rel="stylesheet" href="${GOOGLE_FONTS_HREF}">`,
     },
   ],
 
