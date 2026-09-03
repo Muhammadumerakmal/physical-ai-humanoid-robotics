@@ -1,4 +1,4 @@
-import type {ReactNode} from 'react';
+import {useEffect, useState, type ReactNode} from 'react';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Heading from '@theme/Heading';
@@ -223,6 +223,69 @@ const paths = [
     title: 'Research Focus',
     text: 'Start with learning and the road ahead, then deepen into perception.',
     to: '/docs/part4-learning/reinforcement-learning',
+  },
+];
+
+/** Concrete capabilities the reader walks away with. */
+const outcomes = [
+  'Read a robot’s sensor suite and fuse it into a world model you can trust',
+  'Derive forward and inverse kinematics for a limb and command it smoothly',
+  'Keep a biped upright with ZMP and model-predictive control',
+  'Train a policy in simulation and transfer it to hardware (sim-to-real)',
+  'Wire perception, planning, and control into one ROS 2 control loop',
+  'Turn a plain-English instruction into robot motion with a VLA / LLM agent',
+  'Stand up MuJoCo and Isaac Lab environments for large-scale training',
+  'Command a working humanoid, end to end, in the interactive capstone',
+];
+
+/**
+ * Honest positioning — how the book differs from the two things readers
+ * usually reach for. No named competitors; just the shape of each option.
+ */
+type CompareRow = {label: string; book: string; tutorials: string; academia: string};
+const compareRows: CompareRow[] = [
+  {label: 'Scope', book: 'The whole stack, one arc', tutorials: 'A slice at a time', academia: 'Deep but narrow'},
+  {label: 'Starting point', book: 'A software engineer’s mental model', tutorials: 'Assumes robotics context', academia: 'Assumes heavy math'},
+  {label: 'Math', book: 'Built up when you need it', tutorials: 'Usually skipped', academia: 'Front-loaded'},
+  {label: 'Code', book: 'Runnable ROS 2 + MuJoCo', tutorials: 'Copy-paste snippets', academia: 'Pseudocode'},
+  {label: 'Payoff', book: 'A humanoid you can command', tutorials: 'A single demo', academia: 'A proof'},
+  {label: 'Companion AI', book: 'Book-grounded tutor + robot lab', tutorials: 'None', academia: 'None'},
+];
+
+/** Real, honest tech-stack credibility — the tools the book teaches on. */
+const stack = [
+  {name: 'ROS 2', note: 'Robot middleware'},
+  {name: 'MuJoCo', note: 'Physics simulation'},
+  {name: 'NVIDIA Isaac', note: 'Sim & training at scale'},
+  {name: 'PyTorch', note: 'Learning & policies'},
+  {name: 'Python', note: 'The working language'},
+  {name: 'VLA & LLMs', note: 'Language to action'},
+];
+
+const faqs = [
+  {
+    q: 'What background do I need?',
+    a: 'Comfort with Python and basic linear algebra and calculus. No prior robotics or deep-ML experience is assumed — the book builds up from a software engineer’s mental model.',
+  },
+  {
+    q: 'Is it really free?',
+    a: 'Yes. The entire book is open-source and readable online, with a companion AI tutor and the interactive Robot Lab included at no cost.',
+  },
+  {
+    q: 'Do I need a robot or a GPU?',
+    a: 'No hardware required. Everything runs in simulation (MuJoCo / Isaac Lab) and the capstone humanoid runs right in your browser. A GPU helps for large training runs but is optional.',
+  },
+  {
+    q: 'Python or C++?',
+    a: 'Python throughout. It keeps the focus on the ideas; the same concepts carry over to C++ where production performance demands it.',
+  },
+  {
+    q: 'How long does it take?',
+    a: 'Six parts, 25 chapters. Most readers work through it over a few focused weeks — but each part stands on its own, so you can also dip in via the reading paths above.',
+  },
+  {
+    q: 'Can I contribute?',
+    a: 'Absolutely — it’s a living, open-source document. Fixes, better examples, and new material are all welcome via the GitHub repository.',
   },
 ];
 
@@ -480,6 +543,274 @@ function Capstone() {
   );
 }
 
+function Outcomes() {
+  return (
+    <section className={`${styles.section} ${styles.sectionAlt}`}>
+      <div className={styles.sectionContainer}>
+        <Reveal>
+          <div className={styles.sectionHeading}>
+            <div className={styles.sectionKicker}>Learning Outcomes</div>
+            <Heading as="h2" className={styles.sectionTitle}>
+              What you’ll be able to do
+            </Heading>
+            <p className={styles.sectionSub}>
+              Not just concepts — concrete skills. By the last chapter, each of these is
+              something you’ve actually built.
+            </p>
+          </div>
+        </Reveal>
+        <div className={styles.outcomeGrid}>
+          {outcomes.map((o, i) => (
+            <Reveal key={o} delay={(i % 2) * 70}>
+              <div className={styles.outcomeItem}>
+                <span className={styles.outcomeCheck} aria-hidden="true">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </span>
+                <span>{o}</span>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function WhyDifferent() {
+  return (
+    <section className={styles.section}>
+      <div className={styles.sectionContainer}>
+        <Reveal>
+          <div className={styles.sectionHeading}>
+            <div className={styles.sectionKicker}>Why This Book</div>
+            <Heading as="h2" className={styles.sectionTitle}>
+              Made to actually get you building
+            </Heading>
+            <p className={styles.sectionSub}>
+              Most learning splits into scattered tutorials or dense academic texts. This
+              book takes the middle path — rigorous, but aimed at a working robot.
+            </p>
+          </div>
+        </Reveal>
+        <Reveal>
+          <div className={styles.compareWrap}>
+            <table className={styles.compareTable}>
+              <thead>
+                <tr>
+                  <th />
+                  <th className={styles.compareUs}>This book</th>
+                  <th>Scattered tutorials</th>
+                  <th>Academic textbooks</th>
+                </tr>
+              </thead>
+              <tbody>
+                {compareRows.map((row) => (
+                  <tr key={row.label}>
+                    <th scope="row">{row.label}</th>
+                    <td className={styles.compareUs}>
+                      <span className={styles.compareTick} aria-hidden="true">✓</span>
+                      {row.book}
+                    </td>
+                    <td>{row.tutorials}</td>
+                    <td>{row.academia}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/* Example commands cycled through the self-typing console. */
+const DEMO_COMMANDS: {cmd: string; plan: string[]}[] = [
+  {cmd: 'walk to the cube and wave', plan: ['walk_to · cube', 'wave']},
+  {cmd: 'pick up the cube and throw it', plan: ['walk_to · cube', 'pick_up · cube', 'throw']},
+  {cmd: 'do a little dance then sit down', plan: ['dance', 'sit']},
+  {cmd: 'spin around, then come here', plan: ['spin', 'come_here']},
+];
+
+/**
+ * A signature, self-typing command console that mirrors the capstone Robot
+ * Lab: it types a natural-language command, then reveals the action plan the
+ * book's planner would produce. Pure CSS/JS, decorative, reduced-motion aware.
+ */
+function CommandDemo() {
+  const [idx, setIdx] = useState(0);
+  const [typed, setTyped] = useState('');
+  const [showPlan, setShowPlan] = useState(false);
+
+  useEffect(() => {
+    const prefersReduced =
+      typeof window !== 'undefined' &&
+      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
+    const current = DEMO_COMMANDS[idx];
+    if (prefersReduced) {
+      setTyped(current.cmd);
+      setShowPlan(true);
+      const hold = window.setTimeout(
+        () => setIdx((v) => (v + 1) % DEMO_COMMANDS.length),
+        3600,
+      );
+      return () => window.clearTimeout(hold);
+    }
+
+    let charTimer: number;
+    let planTimer: number;
+    let nextTimer: number;
+    setTyped('');
+    setShowPlan(false);
+
+    let i = 0;
+    const type = () => {
+      i += 1;
+      setTyped(current.cmd.slice(0, i));
+      if (i < current.cmd.length) {
+        charTimer = window.setTimeout(type, 45);
+      } else {
+        planTimer = window.setTimeout(() => setShowPlan(true), 450);
+        nextTimer = window.setTimeout(
+          () => setIdx((v) => (v + 1) % DEMO_COMMANDS.length),
+          3400,
+        );
+      }
+    };
+    charTimer = window.setTimeout(type, 400);
+
+    return () => {
+      window.clearTimeout(charTimer);
+      window.clearTimeout(planTimer);
+      window.clearTimeout(nextTimer);
+    };
+  }, [idx]);
+
+  const current = DEMO_COMMANDS[idx];
+
+  return (
+    <section className={styles.section}>
+      <div className={styles.sectionContainer}>
+        <Reveal>
+          <div className={styles.sectionHeading}>
+            <div className={styles.sectionKicker}>See It Think</div>
+            <Heading as="h2" className={styles.sectionTitle}>
+              From plain English to an action plan
+            </Heading>
+            <p className={styles.sectionSub}>
+              The same planner that drives the capstone humanoid, live. Type a command —
+              get an ordered plan of skills the robot can execute.
+            </p>
+          </div>
+        </Reveal>
+        <Reveal>
+          <div className={styles.console}>
+            <div className={styles.consoleBar}>
+              <span className={styles.consoleDot} />
+              <span className={styles.consoleDot} />
+              <span className={styles.consoleDot} />
+              <span className={styles.consoleTitle}>robot-lab · planner</span>
+            </div>
+            <div className={styles.consoleBody}>
+              <div className={styles.consolePrompt}>
+                <span className={styles.consoleCaret}>❯</span>
+                <span className={styles.consoleCmd}>
+                  {typed}
+                  <span className={styles.consoleCursor} aria-hidden="true" />
+                </span>
+              </div>
+              <div
+                className={`${styles.consolePlan} ${showPlan ? styles.consolePlanOn : ''}`}
+                aria-live="polite">
+                <div className={styles.consolePlanLabel}>plan</div>
+                {current.plan.map((step, i) => (
+                  <div
+                    key={step}
+                    className={styles.consoleStep}
+                    style={{transitionDelay: `${i * 110}ms`}}>
+                    <span className={styles.consoleStepNum}>{i + 1}</span>
+                    <code>{step}</code>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </Reveal>
+        <Reveal delay={120}>
+          <div className={styles.consoleCta}>
+            <Link className={`${styles.button} ${styles.buttonSecondary}`} to={CAPSTONE_ROUTE}>
+              Try it live in the Robot Lab <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function BuiltOn() {
+  return (
+    <section className={`${styles.section} ${styles.sectionAlt}`}>
+      <div className={styles.sectionContainer}>
+        <Reveal>
+          <div className={styles.sectionHeading}>
+            <div className={styles.sectionKicker}>The Real Stack</div>
+            <Heading as="h2" className={styles.sectionTitle}>
+              The tools professionals actually use
+            </Heading>
+            <p className={styles.sectionSub}>
+              No toy frameworks. You learn on the same stack that ships real robots.
+            </p>
+          </div>
+        </Reveal>
+        <div className={styles.stackGrid}>
+          {stack.map((s, i) => (
+            <Reveal key={s.name} delay={(i % 3) * 70}>
+              <div className={styles.stackCard}>
+                <div className={styles.stackName}>{s.name}</div>
+                <div className={styles.stackNote}>{s.note}</div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FAQ() {
+  return (
+    <section className={styles.section}>
+      <div className={styles.sectionContainer}>
+        <Reveal>
+          <div className={styles.sectionHeading}>
+            <div className={styles.sectionKicker}>FAQ</div>
+            <Heading as="h2" className={styles.sectionTitle}>
+              Questions, answered
+            </Heading>
+          </div>
+        </Reveal>
+        <div className={styles.faqList}>
+          {faqs.map((f, i) => (
+            <Reveal key={f.q} delay={(i % 2) * 60}>
+              <details className={styles.faqItem}>
+                <summary className={styles.faqQ}>
+                  {f.q}
+                  <span className={styles.faqIcon} aria-hidden="true">+</span>
+                </summary>
+                <div className={styles.faqA}>{f.a}</div>
+              </details>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function CallToAction() {
   return (
     <section className={styles.ctaBand}>
@@ -506,9 +837,14 @@ export default function Home(): ReactNode {
       <main>
         <HomepageHeader />
         <Features />
+        <Outcomes />
         <StartHere />
+        <WhyDifferent />
+        <CommandDemo />
         <Outline />
         <Capstone />
+        <BuiltOn />
+        <FAQ />
         <CallToAction />
       </main>
     </Layout>
