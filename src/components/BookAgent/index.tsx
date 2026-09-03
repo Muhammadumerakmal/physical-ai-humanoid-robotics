@@ -249,6 +249,95 @@ function renderInline(text: string) {
   });
 }
 
+const BULLET_RE = /^\s*[-*]\s+(.*)$/;
+const ORDERED_RE = /^\s*\d+[.)]\s+(.*)$/;
+const HEADING_RE = /^\s*(#{1,4})\s+(.*)$/;
+
+/**
+ * Render a prose block (no code fences) into block-level nodes: markdown
+ * headings, bullet/numbered lists, and paragraphs. Consecutive list items are
+ * grouped into a single <ul>/<ol>; blank lines separate paragraphs.
+ */
+function proseBlock(text: string, keyPrefix: string): ReactNode[] {
+  const lines = text.replace(/\n{3,}/g, '\n\n').split('\n');
+  const nodes: ReactNode[] = [];
+  let list: {ordered: boolean; items: string[]} | null = null;
+  let para: string[] = [];
+  let k = 0;
+
+  const flushList = () => {
+    if (!list) return;
+    const items = list.items;
+    const ordered = list.ordered;
+    const key = `${keyPrefix}-l${k++}`;
+    nodes.push(
+      ordered ? (
+        <ol key={key} className={styles.list}>
+          {items.map((it, j) => (
+            <li key={j}>{renderInline(it)}</li>
+          ))}
+        </ol>
+      ) : (
+        <ul key={key} className={styles.list}>
+          {items.map((it, j) => (
+            <li key={j}>{renderInline(it)}</li>
+          ))}
+        </ul>
+      ),
+    );
+    list = null;
+  };
+
+  const flushPara = () => {
+    if (!para.length) return;
+    const joined = para.join(' ').trim();
+    if (joined) {
+      nodes.push(
+        <p key={`${keyPrefix}-p${k++}`} className={styles.prose}>
+          {renderInline(joined)}
+        </p>,
+      );
+    }
+    para = [];
+  };
+
+  for (const line of lines) {
+    if (!line.trim()) {
+      flushList();
+      flushPara();
+      continue;
+    }
+    const heading = HEADING_RE.exec(line);
+    if (heading) {
+      flushList();
+      flushPara();
+      nodes.push(
+        <div key={`${keyPrefix}-h${k++}`} className={styles.msgHeading}>
+          {renderInline(heading[2])}
+        </div>,
+      );
+      continue;
+    }
+    const bullet = BULLET_RE.exec(line);
+    const ordered = ORDERED_RE.exec(line);
+    if (bullet || ordered) {
+      flushPara();
+      const isOrdered = Boolean(ordered);
+      if (!list || list.ordered !== isOrdered) {
+        flushList();
+        list = {ordered: isOrdered, items: []};
+      }
+      list.items.push((bullet ? bullet[1] : ordered![1]).trim());
+      continue;
+    }
+    flushList();
+    para.push(line.trim());
+  }
+  flushList();
+  flushPara();
+  return nodes;
+}
+
 /** Renders assistant text with code blocks and light prose styling. */
 function MessageBubble({message}: {message: Message}) {
   if (message.role === 'user') {
@@ -267,15 +356,7 @@ function MessageBubble({message}: {message: Message}) {
         </pre>,
       );
     } else if (part.trim()) {
-      part.split(/\n{2,}/).forEach((para, j) => {
-        if (para.trim()) {
-          nodes.push(
-            <p key={`${i}-${j}`} className={styles.prose}>
-              {renderInline(para.trim())}
-            </p>,
-          );
-        }
-      });
+      nodes.push(...proseBlock(part, String(i)));
     }
   });
   return <div className={`${styles.bubble} ${styles.botBubble}`}>{nodes}</div>;
