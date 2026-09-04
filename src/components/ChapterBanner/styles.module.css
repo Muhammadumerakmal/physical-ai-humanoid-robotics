@@ -34,3 +34,34 @@
 .readTime svg {
   color: var(--ifm-color-primary);
 }
+
+/* "Ask the AI about this chapter" — pushed to the right of the banner */
+.askAi {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--ifm-toc-border-color);
+  background: color-mix(in srgb, var(--ifm-color-primary) 6%, transparent);
+  color: var(--ifm-color-primary);
+  font-family: var(--ifm-font-family-base);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.15s var(--pai-ease), box-shadow 0.15s var(--pai-ease),
+    transform 0.15s var(--pai-ease), background-color 0.15s ease;
+}
+
+.askAi:hover {
+  border-color: var(--ifm-color-primary);
+  box-shadow: var(--pai-shadow-glow);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 600px) {
+  .askAi {
+    margin-left: 0;
+  }
+}

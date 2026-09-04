@@ -39,7 +39,7 @@
 .search:focus {
   outline: none;
   border-color: var(--ifm-color-primary);
-  box-shadow: 0 0 0 3px rgb(14 116 144 / 0.15);
+  box-shadow: 0 0 0 3px rgb(79 70 229 / 0.15);
 }
 
 .filters {
@@ -120,7 +120,7 @@
 }
 
 [data-theme='dark'] .aka {
-  background: rgb(34 211 238 / 0.12);
+  background: rgb(129 140 248 / 0.12);
 }
 
 .cat {

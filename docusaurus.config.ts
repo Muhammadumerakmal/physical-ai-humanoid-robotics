@@ -85,9 +85,21 @@ const config: Config = {
     agentEndpoint: process.env.AGENT_ENDPOINT ?? null,
   },
 
+  // Locales are enabled with right-to-left support for Urdu & Arabic. Pages
+  // without translations fall back to the English source, so the language
+  // switcher works immediately and translated content can be added over time
+  // under `i18n/<locale>/`.
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en', 'ur', 'ur-Latn', 'ar', 'zh', 'hi'],
+    localeConfigs: {
+      en: {label: 'English', direction: 'ltr', htmlLang: 'en'},
+      ur: {label: 'اردو', direction: 'rtl', htmlLang: 'ur'},
+      'ur-Latn': {label: 'Roman Urdu', direction: 'ltr', htmlLang: 'ur'},
+      ar: {label: 'العربية', direction: 'rtl', htmlLang: 'ar'},
+      zh: {label: '中文', direction: 'ltr', htmlLang: 'zh-Hans'},
+      hi: {label: 'हिन्दी', direction: 'ltr', htmlLang: 'hi'},
+    },
   },
 
   themes: [
@@ -174,9 +186,18 @@ const config: Config = {
           label: 'Glossary',
         },
         {
+          to: '/leaderboard',
+          position: 'left',
+          label: 'Progress',
+        },
+        {
           to: '/authors',
           position: 'right',
           label: 'Authors',
+        },
+        {
+          type: 'localeDropdown',
+          position: 'right',
         },
       ],
     },

@@ -4,6 +4,7 @@ description: How robots grasp and interact with objects — grasp taxonomies, fo
 ---
 
 import Quiz from '@site/src/components/Educational/Quiz';
+import RobotLab from '@site/src/components/RobotLab';
 
 # Manipulation and Grasping
 
@@ -228,6 +229,21 @@ Check your understanding:
   ]}
   correctAnswerIndex={1}
 />
+
+## Try It Yourself
+
+Manipulation is easiest to understand by driving it. The humanoid below runs the
+full **reach → grasp → move → release** loop described in this chapter, with the
+cube as a real physics object. Ask it to walk over, pick the cube up, carry it,
+and then set it down or throw it.
+
+<RobotLab />
+
+:::tip Commands to try
+`pick up the cube` · `pick up the cube and throw it` · `kick the cube` ·
+`walk to the cube then put it down`. Watch the approach, grasp, and release
+phases separate out just like the pick-and-place pipeline above.
+:::
 
 ## Further Reading
 

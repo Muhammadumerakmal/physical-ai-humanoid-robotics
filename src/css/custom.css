@@ -19,19 +19,19 @@
 /* Light theme                                                         */
 /* ------------------------------------------------------------------ */
 :root {
-  --brand-900: #164e63;
-  --brand-700: #0e7490;
-  --brand-500: #06b6d4;
-  --brand-400: #22d3ee;
-  --brand-300: #67e8f9;
+  --brand-900: #312e81;
+  --brand-700: #4338ca;
+  --brand-500: #6366f1;
+  --brand-400: #818cf8;
+  --brand-300: #a5b4fc;
 
-  --ifm-color-primary: #0e7490;
-  --ifm-color-primary-dark: #0c6780;
-  --ifm-color-primary-darker: #0b6177;
-  --ifm-color-primary-darkest: #09505f;
-  --ifm-color-primary-light: #10809c;
-  --ifm-color-primary-lighter: #1187a4;
-  --ifm-color-primary-lightest: #1598b6;
+  --ifm-color-primary: #4f46e5;
+  --ifm-color-primary-dark: #4640d6;
+  --ifm-color-primary-darker: #423cce;
+  --ifm-color-primary-darkest: #3730a3;
+  --ifm-color-primary-light: #5b53e8;
+  --ifm-color-primary-lighter: #6b64ea;
+  --ifm-color-primary-lightest: #8580ef;
 
   --ifm-background-color: #ffffff;
   --ifm-background-surface-color: #f6f9fb;
@@ -40,10 +40,10 @@
   --ifm-heading-color: #0f172a;
   --ifm-toc-border-color: #e2e8f0;
   --ifm-menu-color: #334155;
-  --ifm-menu-color-active: #0e7490;
-  --ifm-menu-color-background-active: rgb(14 116 144 / 0.09);
-  --ifm-link-color: #0e7490;
-  --ifm-link-hover-color: #0c6780;
+  --ifm-menu-color-active: #4f46e5;
+  --ifm-menu-color-background-active: rgb(79 70 229 / 0.09);
+  --ifm-link-color: #4f46e5;
+  --ifm-link-hover-color: #4338ca;
   --ifm-navbar-background-color: rgba(255, 255, 255, 0.9);
   --ifm-footer-background-color: #0f172a;
   --ifm-footer-link-color: #94a3b8;
@@ -63,16 +63,16 @@
   --ifm-navbar-height: 3.9rem;
   --ifm-global-radius: 8px;
 
-  --docusaurus-highlighted-code-line-bg: rgb(14 116 144 / 0.12);
+  --docusaurus-highlighted-code-line-bg: rgb(79 70 229 / 0.12);
 
   /* Elevation + motion design tokens (shared by page & component styles) */
   --pai-shadow-sm: 0 1px 3px rgb(15 23 42 / 0.06);
   --pai-shadow-md: 0 8px 24px rgb(15 23 42 / 0.09);
   --pai-shadow-lg: 0 20px 48px rgb(15 23 42 / 0.14);
-  --pai-shadow-glow: 0 0 0 1px rgb(14 116 144 / 0.15), 0 12px 34px rgb(14 116 144 / 0.14);
-  --pai-ring: 0 0 0 3px rgb(14 116 144 / 0.28);
+  --pai-shadow-glow: 0 0 0 1px rgb(79 70 229 / 0.15), 0 12px 34px rgb(79 70 229 / 0.14);
+  --pai-ring: 0 0 0 3px rgb(79 70 229 / 0.28);
   --pai-ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --pai-surface-2: #eef4f8;
+  --pai-surface-2: #eef0fb;
   --pai-hairline: rgb(15 23 42 / 0.08);
 }
 
@@ -80,13 +80,13 @@
 /* Dark theme                                                          */
 /* ------------------------------------------------------------------ */
 [data-theme='dark'] {
-  --ifm-color-primary: #22d3ee;
-  --ifm-color-primary-dark: #17c3df;
-  --ifm-color-primary-darker: #10b8d5;
-  --ifm-color-primary-darkest: #0a96af;
-  --ifm-color-primary-light: #38dbf3;
-  --ifm-color-primary-lighter: #4edff5;
-  --ifm-color-primary-lightest: #7ee9f8;
+  --ifm-color-primary: #818cf8;
+  --ifm-color-primary-dark: #6d78f6;
+  --ifm-color-primary-darker: #616df5;
+  --ifm-color-primary-darkest: #4f46e5;
+  --ifm-color-primary-light: #939cf9;
+  --ifm-color-primary-lighter: #a5adfa;
+  --ifm-color-primary-lightest: #c3c8fc;
 
   --ifm-background-color: #0b1220;
   --ifm-background-surface-color: #101c31;
@@ -95,24 +95,24 @@
   --ifm-heading-color: #f1f5f9;
   --ifm-toc-border-color: #1d2a3f;
   --ifm-menu-color: #a8b6cb;
-  --ifm-menu-color-active: #22d3ee;
-  --ifm-menu-color-background-active: rgb(34 211 238 / 0.12);
-  --ifm-link-color: #22d3ee;
-  --ifm-link-hover-color: #67e8f9;
+  --ifm-menu-color-active: #818cf8;
+  --ifm-menu-color-background-active: rgb(129 140 248 / 0.14);
+  --ifm-link-color: #818cf8;
+  --ifm-link-hover-color: #a5b4fc;
   --ifm-navbar-background-color: rgba(11, 18, 32, 0.9);
   --ifm-footer-background-color: #060a14;
   --ifm-code-background: rgb(148 163 184 / 0.12);
   --ifm-pre-background: #0d1526;
   --ifm-table-border-color: #1d2a3f;
 
-  --docusaurus-highlighted-code-line-bg: rgb(34 211 238 / 0.15);
+  --docusaurus-highlighted-code-line-bg: rgb(129 140 248 / 0.15);
 
   --pai-shadow-sm: 0 1px 3px rgb(0 0 0 / 0.4);
   --pai-shadow-md: 0 10px 28px rgb(0 0 0 / 0.5);
   --pai-shadow-lg: 0 24px 54px rgb(0 0 0 / 0.6);
-  --pai-shadow-glow: 0 0 0 1px rgb(34 211 238 / 0.22), 0 14px 40px rgb(34 211 238 / 0.18);
-  --pai-ring: 0 0 0 3px rgb(34 211 238 / 0.35);
-  --pai-surface-2: #16263f;
+  --pai-shadow-glow: 0 0 0 1px rgb(129 140 248 / 0.22), 0 14px 40px rgb(129 140 248 / 0.18);
+  --pai-ring: 0 0 0 3px rgb(129 140 248 / 0.35);
+  --pai-surface-2: #1c1a3a;
   --pai-hairline: rgb(148 163 184 / 0.14);
 }
 
@@ -747,7 +747,7 @@ article .card:hover,
     var(--ifm-color-primary),
     var(--brand-400)
   );
-  box-shadow: 0 0 8px rgb(34 211 238 / 0.35);
+  box-shadow: 0 0 8px rgb(129 140 248 / 0.35);
 }
 
 /* ------------------------------------------------------------------ */

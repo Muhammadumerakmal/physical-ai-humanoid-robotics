@@ -4,6 +4,7 @@ description: How humanoids stay upright and walk — the inverted pendulum, ZMP,
 ---
 
 import Quiz from '@site/src/components/Educational/Quiz';
+import RobotLab from '@site/src/components/RobotLab';
 
 # Balance and Locomotion
 
@@ -229,6 +230,20 @@ Check your understanding:
   ]}
   correctAnswerIndex={0}
 />
+
+## Try It Yourself
+
+The concepts in this chapter — keeping the center of mass over the support
+polygon, sequencing footsteps into a gait, and recovering after a disturbance —
+are exactly what the humanoid below is doing. Give it a locomotion command in
+plain English and watch the gait play out.
+
+<RobotLab />
+
+:::tip Commands to try
+`walk to the cube` · `run to the center then turn left` · `spin` · `balance`.
+Notice how the stride and turn stay balanced from start to finish.
+:::
 
 ## Further Reading
 
