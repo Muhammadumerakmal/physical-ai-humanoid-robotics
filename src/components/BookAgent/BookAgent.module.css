@@ -26,7 +26,7 @@
   color: #fff;
   cursor: pointer;
   box-shadow:
-    0 12px 28px -6px rgb(14 116 144 / 0.55),
+    0 12px 28px -6px rgb(79 70 229 / 0.55),
     0 0 0 1px rgb(255 255 255 / 0.08) inset;
   transition:
     transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
@@ -36,7 +36,7 @@
 .fab:hover {
   transform: translateY(-3px) scale(1.05);
   box-shadow:
-    0 18px 36px -8px rgb(14 116 144 / 0.65),
+    0 18px 36px -8px rgb(79 70 229 / 0.65),
     0 0 0 1px rgb(255 255 255 / 0.1) inset;
 }
 
@@ -247,7 +247,7 @@
   );
   color: #fff;
   border-bottom-right-radius: 5px;
-  box-shadow: 0 6px 16px -6px rgb(14 116 144 / 0.5);
+  box-shadow: 0 6px 16px -6px rgb(79 70 229 / 0.5);
 }
 
 .botBubble {
@@ -276,6 +276,14 @@
 
 .list li {
   line-height: 1.55;
+}
+
+/* Display (block) math from the assistant */
+.mathBlock {
+  margin: 0.6rem 0;
+  padding: 0.2rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 /* Markdown headings inside an answer */
@@ -485,7 +493,7 @@
   border-color: var(--ifm-color-primary);
   color: var(--ifm-color-primary);
   transform: translateX(3px);
-  box-shadow: 0 4px 14px -6px rgb(14 116 144 / 0.35);
+  box-shadow: 0 4px 14px -6px rgb(79 70 229 / 0.35);
 }
 
 .chip:hover::after {
@@ -537,7 +545,7 @@
 
 .input:focus {
   border-color: var(--ifm-color-primary);
-  box-shadow: 0 0 0 3px rgb(14 116 144 / 0.18);
+  box-shadow: 0 0 0 3px rgb(79 70 229 / 0.18);
 }
 
 .input:disabled {
@@ -567,7 +575,7 @@
 
 .sendBtn:hover:not(:disabled) {
   transform: translateY(-1px) scale(1.04);
-  box-shadow: 0 8px 18px -6px rgb(14 116 144 / 0.55);
+  box-shadow: 0 8px 18px -6px rgb(79 70 229 / 0.55);
 }
 
 .sendBtn:active:not(:disabled) {

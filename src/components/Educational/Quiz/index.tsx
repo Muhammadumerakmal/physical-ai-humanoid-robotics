@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import {quizId, recordAnswer} from '../quizStats';
 import styles from './styles.module.css';
 
 type QuizProps = {
@@ -12,6 +13,7 @@ const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F'];
 export default function Quiz({question, options, correctAnswerIndex}: QuizProps) {
   const [selected, setSelected] = useState<number | null>(null);
   const [showResult, setShowResult] = useState<boolean>(false);
+  const id = quizId(`${question}|${options.join('|')}`);
 
   return (
     <div className={styles.quizContainer}>
@@ -28,6 +30,7 @@ export default function Quiz({question, options, correctAnswerIndex}: QuizProps)
               onClick={() => {
                 setSelected(i);
                 setShowResult(true);
+                recordAnswer(id, i === correctAnswerIndex);
               }}
               className={`${styles.option} ${isCorrect ? styles.correct : ''} ${isWrong ? styles.incorrect : ''}`}
               disabled={showResult}

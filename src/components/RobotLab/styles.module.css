@@ -47,14 +47,14 @@
   font-weight: 600;
   color: #d7eef6;
   background: rgb(6 24 34 / 0.72);
-  border: 1px solid rgb(103 232 249 / 0.28);
+  border: 1px solid rgb(165 180 252 / 0.28);
   backdrop-filter: blur(4px);
 }
 
 .pillBusy {
   color: #062a30;
-  background: #67e8f9;
-  border-color: #67e8f9;
+  background: #a5b4fc;
+  border-color: #a5b4fc;
 }
 
 .pillWarn {
@@ -94,7 +94,7 @@
 
 .commandInput:focus {
   border-color: var(--ifm-color-primary);
-  box-shadow: 0 0 0 3px rgb(14 116 144 / 0.18);
+  box-shadow: 0 0 0 3px rgb(79 70 229 / 0.18);
 }
 
 .commandSend {
@@ -170,7 +170,7 @@
 
 .badgeAi {
   color: #062a30;
-  background: var(--brand-300, #67e8f9);
+  background: var(--brand-300, #a5b4fc);
 }
 
 .badgeLocal {
@@ -243,7 +243,7 @@
 .skillBtn:hover {
   border-color: var(--ifm-color-primary);
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px -6px rgb(14 116 144 / 0.4);
+  box-shadow: 0 4px 12px -6px rgb(79 70 229 / 0.4);
 }
 
 .pushRow {

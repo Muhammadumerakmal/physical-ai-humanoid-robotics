@@ -886,10 +886,12 @@ function Robot({
     }
   });
 
-  const skin = '#0e7490';
-  const accent = '#22d3ee';
-  const dark = '#0a2f3f';
-  const eye = '#7ef0ff';
+  // A recognizable modern-humanoid palette: light painted shell panels,
+  // dark carbon joints, an indigo accent, and cool glowing eyes.
+  const skin = '#eceeff'; // light shell panels
+  const accent = '#6366f1'; // indigo accent (head, shoulders, chest light)
+  const dark = '#24263a'; // carbon / metal joints and limbs
+  const eye = '#dfe6ff'; // glowing eyes / sensors
 
   return (
     <>
@@ -919,13 +921,13 @@ function Robot({
       <group ref={root}>
         {/* pelvis */}
         <RoundedBox args={[0.42, 0.22, 0.28]} radius={0.06} smoothness={4} position={[0, 0.9, 0]} castShadow>
-          <meshStandardMaterial color={dark} metalness={0.5} roughness={0.4} />
+          <meshStandardMaterial color={dark} metalness={0.85} roughness={0.35} />
         </RoundedBox>
 
         {/* torso (pivots at the waist) */}
         <group ref={torso} position={[0, 0.9, 0]}>
           <RoundedBox args={[0.5, 0.62, 0.3]} radius={0.08} smoothness={4} position={[0, 0.32, 0]} castShadow>
-            <meshStandardMaterial color={skin} metalness={0.38} roughness={0.42} />
+            <meshStandardMaterial color={skin} metalness={0.15} roughness={0.55} />
           </RoundedBox>
           <RoundedBox args={[0.22, 0.32, 0.04]} radius={0.02} smoothness={3} position={[0, 0.32, 0.15]} castShadow>
             <meshStandardMaterial color={accent} emissive={accent} emissiveIntensity={0.5} roughness={0.3} />
@@ -941,7 +943,7 @@ function Robot({
             </RoundedBox>
             {/* visor */}
             <RoundedBox args={[0.26, 0.12, 0.02]} radius={0.05} smoothness={4} position={[0, 0.02, 0.16]}>
-              <meshStandardMaterial color="#062a30" metalness={0.3} roughness={0.25} />
+              <meshStandardMaterial color="#141428" metalness={0.6} roughness={0.2} />
             </RoundedBox>
             <mesh ref={eyeL} position={[0.07, 0.02, 0.18]}>
               <sphereGeometry args={[0.036, 16, 16]} />
@@ -961,11 +963,11 @@ function Robot({
               <meshStandardMaterial color={accent} metalness={0.5} roughness={0.4} />
             </mesh>
             <RoundedBox args={[0.13, 0.36, 0.13]} radius={0.05} smoothness={4} position={[0, -0.18, 0]} castShadow>
-              <meshStandardMaterial color={dark} metalness={0.5} roughness={0.4} />
+              <meshStandardMaterial color={dark} metalness={0.85} roughness={0.35} />
             </RoundedBox>
             <group ref={elL} position={[0, -0.36, 0]}>
               <RoundedBox args={[0.115, 0.34, 0.115]} radius={0.045} smoothness={4} position={[0, -0.17, 0]} castShadow>
-                <meshStandardMaterial color={skin} metalness={0.38} roughness={0.42} />
+                <meshStandardMaterial color={skin} metalness={0.15} roughness={0.55} />
               </RoundedBox>
             </group>
           </group>
@@ -977,11 +979,11 @@ function Robot({
               <meshStandardMaterial color={accent} metalness={0.5} roughness={0.4} />
             </mesh>
             <RoundedBox args={[0.13, 0.36, 0.13]} radius={0.05} smoothness={4} position={[0, -0.18, 0]} castShadow>
-              <meshStandardMaterial color={dark} metalness={0.5} roughness={0.4} />
+              <meshStandardMaterial color={dark} metalness={0.85} roughness={0.35} />
             </RoundedBox>
             <group ref={elR} position={[0, -0.36, 0]}>
               <RoundedBox args={[0.115, 0.34, 0.115]} radius={0.045} smoothness={4} position={[0, -0.17, 0]} castShadow>
-                <meshStandardMaterial color={skin} metalness={0.38} roughness={0.42} />
+                <meshStandardMaterial color={skin} metalness={0.15} roughness={0.55} />
               </RoundedBox>
             </group>
           </group>
@@ -990,14 +992,14 @@ function Robot({
         {/* left leg */}
         <group ref={hipL} position={[-0.13, 0.9, 0]}>
           <RoundedBox args={[0.16, 0.46, 0.16]} radius={0.06} smoothness={4} position={[0, -0.23, 0]} castShadow>
-            <meshStandardMaterial color={skin} metalness={0.38} roughness={0.42} />
+            <meshStandardMaterial color={skin} metalness={0.15} roughness={0.55} />
           </RoundedBox>
           <group ref={knL} position={[0, -0.46, 0]}>
             <RoundedBox args={[0.14, 0.44, 0.14]} radius={0.05} smoothness={4} position={[0, -0.22, 0]} castShadow>
-              <meshStandardMaterial color={dark} metalness={0.5} roughness={0.4} />
+              <meshStandardMaterial color={dark} metalness={0.85} roughness={0.35} />
             </RoundedBox>
             <RoundedBox args={[0.17, 0.09, 0.3]} radius={0.03} smoothness={3} position={[0, -0.44, 0.06]} castShadow>
-              <meshStandardMaterial color={dark} metalness={0.5} roughness={0.4} />
+              <meshStandardMaterial color={dark} metalness={0.85} roughness={0.35} />
             </RoundedBox>
           </group>
         </group>
@@ -1005,14 +1007,14 @@ function Robot({
         {/* right leg */}
         <group ref={hipR} position={[0.13, 0.9, 0]}>
           <RoundedBox args={[0.16, 0.46, 0.16]} radius={0.06} smoothness={4} position={[0, -0.23, 0]} castShadow>
-            <meshStandardMaterial color={skin} metalness={0.38} roughness={0.42} />
+            <meshStandardMaterial color={skin} metalness={0.15} roughness={0.55} />
           </RoundedBox>
           <group ref={knR} position={[0, -0.46, 0]}>
             <RoundedBox args={[0.14, 0.44, 0.14]} radius={0.05} smoothness={4} position={[0, -0.22, 0]} castShadow>
-              <meshStandardMaterial color={dark} metalness={0.5} roughness={0.4} />
+              <meshStandardMaterial color={dark} metalness={0.85} roughness={0.35} />
             </RoundedBox>
             <RoundedBox args={[0.17, 0.09, 0.3]} radius={0.03} smoothness={3} position={[0, -0.44, 0.06]} castShadow>
-              <meshStandardMaterial color={dark} metalness={0.5} roughness={0.4} />
+              <meshStandardMaterial color={dark} metalness={0.85} roughness={0.35} />
             </RoundedBox>
           </group>
         </group>
@@ -1023,7 +1025,7 @@ function Robot({
 
 /* ------------------------------ physics props -------------------------- */
 
-const CRATE_COLORS = ['#f97316', '#22d3ee', '#a3e635', '#f59e0b', '#38bdf8', '#fb7185'];
+const CRATE_COLORS = ['#f97316', '#818cf8', '#a3e635', '#f59e0b', '#6366f1', '#fb7185'];
 const CRATE_LAYOUT: [number, number, number][] = [
   [-1.5, 0.16, 0.32],
   [-1.5, 0.16, 0.0],
@@ -1074,12 +1076,12 @@ function Scene({
       camera={{position: [2.8, 2.1, 3.6], fov: 42}}
       dpr={[1, 2]}
       gl={{antialias: true}}>
-      <color attach="background" args={['#0b1626']} />
-      <fog attach="fog" args={['#0b1626', 9, 18]} />
+      <color attach="background" args={['#0d0b1c']} />
+      <fog attach="fog" args={['#0d0b1c', 9, 18]} />
       <SoftShadows size={26} samples={12} focus={0.9} />
 
-      {/* key + fill + cyan rim so the mascot reads with depth */}
-      <hemisphereLight intensity={0.5} groundColor="#0a1420" color="#bde8f5" />
+      {/* key + fill + indigo rim so the robot reads with depth */}
+      <hemisphereLight intensity={0.55} groundColor="#0a0a16" color="#cdd3f5" />
       <directionalLight
         position={[4, 6, 3]}
         intensity={1.7}
@@ -1088,11 +1090,11 @@ function Scene({
         shadow-bias={-0.0004}>
         <orthographicCamera attach="shadow-camera" args={[-4, 4, 4, -4, 0.1, 20]} />
       </directionalLight>
-      <directionalLight position={[-5, 3, -4]} intensity={0.7} color="#22d3ee" />
-      <pointLight position={[0, 2.4, 2.5]} intensity={12} distance={9} color="#8be9fd" />
+      <directionalLight position={[-5, 3, -4]} intensity={0.8} color="#818cf8" />
+      <pointLight position={[0, 2.4, 2.5]} intensity={12} distance={9} color="#a5b4fc" />
 
       {/* faded grid + subtly reflective floor (no network assets) */}
-      <gridHelper args={[26, 26, '#12475a', '#0e2f3d']} position={[0, 0.002, 0]} />
+      <gridHelper args={[26, 26, '#3a3470', '#1e1b45']} position={[0, 0.002, 0]} />
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.001, 0]} receiveShadow>
         <planeGeometry args={[40, 40]} />
         <MeshReflectorMaterial
@@ -1104,7 +1106,7 @@ function Scene({
           depthScale={1}
           minDepthThreshold={0.4}
           maxDepthThreshold={1.2}
-          color="#0c1a29"
+          color="#0f0d20"
           metalness={0.4}
           mirror={0}
         />

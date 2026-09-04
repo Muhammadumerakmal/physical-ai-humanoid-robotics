@@ -1,6 +1,7 @@
 import {useEffect, useState, type ReactNode} from 'react';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import Heading from '@theme/Heading';
 import Layout from '@theme/Layout';
 import Reveal from '@site/src/components/Reveal';
@@ -781,6 +782,49 @@ function BuiltOn() {
   );
 }
 
+function AuthorBlock() {
+  const [failed, setFailed] = useState(false);
+  const photo = useBaseUrl('/img/author.jpg');
+  return (
+    <section className={styles.section}>
+      <div className={styles.sectionContainer}>
+        <Reveal>
+          <div className={styles.authorCard}>
+            <div className={styles.authorMedia}>
+              {failed ? (
+                <div className={styles.authorInitials} aria-hidden="true">UA</div>
+              ) : (
+                <img
+                  className={styles.authorPhoto}
+                  src={photo}
+                  alt="Muhammad Umer Akmal"
+                  loading="lazy"
+                  onError={() => setFailed(true)}
+                />
+              )}
+            </div>
+            <div className={styles.authorCopy}>
+              <div className={styles.sectionKicker}>About the Author</div>
+              <Heading as="h2" className={styles.authorName}>
+                Muhammad Umer Akmal
+              </Heading>
+              <p className={styles.authorBio}>
+                Software and AI engineer writing this book to bridge the gap between the
+                software world and embodied intelligence — turning the hard-won knowledge
+                of robotics, control, and machine learning into a path a working engineer
+                can actually walk.
+              </p>
+              <Link className={`${styles.button} ${styles.buttonSecondary}`} to="/authors">
+                More about the author <span aria-hidden="true">→</span>
+              </Link>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
 function FAQ() {
   return (
     <section className={styles.section}>
@@ -844,6 +888,7 @@ export default function Home(): ReactNode {
         <Outline />
         <Capstone />
         <BuiltOn />
+        <AuthorBlock />
         <FAQ />
         <CallToAction />
       </main>

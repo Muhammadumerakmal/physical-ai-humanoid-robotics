@@ -8,14 +8,14 @@
   padding: 4.75rem 1.5rem 4rem;
   text-align: center;
   background:
-    radial-gradient(1100px 560px at 50% -10%, rgb(34 211 238 / 0.14), transparent 60%),
+    radial-gradient(1100px 560px at 50% -10%, rgb(129 140 248 / 0.14), transparent 60%),
     linear-gradient(180deg, var(--ifm-background-surface-color), var(--ifm-background-color));
 }
 
 [data-theme='dark'] .hero {
   background:
-    radial-gradient(1100px 560px at 50% -10%, rgb(34 211 238 / 0.1), transparent 60%),
-    linear-gradient(180deg, #0d1a2e, var(--ifm-background-color));
+    radial-gradient(1100px 560px at 50% -10%, rgb(129 140 248 / 0.1), transparent 60%),
+    linear-gradient(180deg, #12112b, var(--ifm-background-color));
 }
 
 /* faint engineering grid in the top of the hero */
@@ -71,9 +71,9 @@
   text-align: center;
   border-radius: 4px 12px 12px 4px;
   background:
-    radial-gradient(460px 280px at 50% -12%, rgb(103 232 249 / 0.2), transparent 62%),
-    linear-gradient(160deg, #0e7490 0%, #155e75 46%, #123c4d 100%);
-  color: #e8f7fb;
+    radial-gradient(460px 280px at 50% -12%, rgb(165 180 252 / 0.2), transparent 62%),
+    linear-gradient(160deg, #4338ca 0%, #3730a3 46%, #272266 100%);
+  color: #eef2ff;
   overflow: hidden;
   transition: transform 0.4s ease-out, box-shadow 0.4s ease-out;
   box-shadow:
@@ -96,7 +96,7 @@
   bottom: 0;
   left: 0;
   width: 16px;
-  background: linear-gradient(90deg, #0a2f3f 0%, #164e63 70%, transparent 100%);
+  background: linear-gradient(90deg, #1e1b4b 0%, #312e81 70%, transparent 100%);
   box-shadow: inset -2px 0 4px rgb(0 0 0 / 0.35);
 }
 
@@ -142,7 +142,7 @@
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #bae6fd;
+  color: #c7d2fe;
 }
 
 .bookDivider {
@@ -163,14 +163,14 @@
 .bookAuthor {
   font-size: 0.88rem;
   font-weight: 700;
-  color: #e0f2fe;
+  color: #e0e7ff;
 }
 
 .bookEdition {
   font-size: 0.66rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #9cc6d9;
+  color: #a5a3d6;
 }
 
 .tagline {
@@ -593,7 +593,7 @@
   border-radius: 20px;
   text-align: center;
   color: #e2e8f0;
-  background: linear-gradient(135deg, #0f172a 0%, #12344a 100%);
+  background: linear-gradient(135deg, #0f172a 0%, #211f47 100%);
 }
 
 .ctaCard::before {
@@ -602,7 +602,7 @@
   inset: 0;
   background: radial-gradient(
     500px 260px at 50% -20%,
-    rgb(34 211 238 / 0.18),
+    rgb(129 140 248 / 0.18),
     transparent 70%
   );
   pointer-events: none;
@@ -664,13 +664,13 @@
   font-weight: 700;
   font-size: 0.98rem;
   background: var(--brand-400);
-  color: #062a30;
+  color: #1e1b4b;
   transition: background-color 0.15s ease, transform 0.15s ease;
 }
 
 .ctaButton:hover {
   background: var(--brand-300);
-  color: #062a30;
+  color: #1e1b4b;
   text-decoration: none;
   transform: translateY(-1px);
 }
@@ -804,7 +804,7 @@
   border-radius: 16px;
   background:
     radial-gradient(220px 180px at 50% 30%, color-mix(in srgb, var(--ifm-color-primary) 16%, transparent), transparent 70%),
-    linear-gradient(160deg, #0e2233, #0b1626);
+    linear-gradient(160deg, #181633, #100e22);
   border: 1px solid var(--pai-hairline);
   overflow: hidden;
 }
@@ -814,8 +814,8 @@
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgb(103 232 249 / 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(103 232 249 / 0.08) 1px, transparent 1px);
+    linear-gradient(rgb(165 180 252 / 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(165 180 252 / 0.08) 1px, transparent 1px);
   background-size: 26px 26px;
   -webkit-mask-image: radial-gradient(200px 160px at 50% 45%, black, transparent 75%);
   mask-image: radial-gradient(200px 160px at 50% 45%, black, transparent 75%);
@@ -836,8 +836,8 @@
   height: 40px;
   margin-left: -23px;
   border-radius: 12px;
-  background: linear-gradient(160deg, #67e8f9, #22d3ee);
-  box-shadow: 0 0 18px rgb(34 211 238 / 0.5);
+  background: linear-gradient(160deg, #a5b4fc, #818cf8);
+  box-shadow: 0 0 18px rgb(129 140 248 / 0.5);
 }
 
 .robotHead::before,
@@ -848,7 +848,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #062a30;
+  background: #1e1b4b;
 }
 
 .robotHead::before {
@@ -867,7 +867,7 @@
   height: 74px;
   margin-left: -30px;
   border-radius: 14px;
-  background: linear-gradient(160deg, #0e7490, #155e75);
+  background: linear-gradient(160deg, #4338ca, #3730a3);
   box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12);
 }
 
@@ -877,7 +877,7 @@
   width: 12px;
   height: 58px;
   border-radius: 8px;
-  background: linear-gradient(180deg, #22d3ee, #0e7490);
+  background: linear-gradient(180deg, #818cf8, #4338ca);
   transform-origin: top center;
 }
 
@@ -898,7 +898,7 @@
   width: 15px;
   height: 66px;
   border-radius: 8px;
-  background: linear-gradient(180deg, #155e75, #0a2f3f);
+  background: linear-gradient(180deg, #3730a3, #1e1b4b);
 }
 
 .robotLegL {
@@ -920,9 +920,9 @@
   border-radius: 999px;
   font-family: var(--ifm-font-family-monospace);
   font-size: 0.78rem;
-  color: #bae6fd;
+  color: #c7d2fe;
   background: rgb(6 42 48 / 0.7);
-  border: 1px solid rgb(103 232 249 / 0.25);
+  border: 1px solid rgb(165 180 252 / 0.25);
   white-space: nowrap;
 }
 
@@ -1081,7 +1081,7 @@ thead .compareUs {
   border-radius: 14px;
   overflow: hidden;
   border: 1px solid var(--pai-hairline, var(--ifm-toc-border-color));
-  background: linear-gradient(160deg, #0e2233, #0b1626);
+  background: linear-gradient(160deg, #181633, #100e22);
   box-shadow: var(--pai-shadow-lg, 0 24px 60px -20px rgb(15 23 42 / 0.5));
 }
 
@@ -1091,7 +1091,7 @@ thead .compareUs {
   gap: 0.5rem;
   padding: 0.7rem 1rem;
   background: rgb(255 255 255 / 0.03);
-  border-bottom: 1px solid rgb(103 232 249 / 0.14);
+  border-bottom: 1px solid rgb(165 180 252 / 0.14);
 }
 
 .consoleDot {
@@ -1126,12 +1126,12 @@ thead .compareUs {
 }
 
 .consoleCaret {
-  color: var(--brand-300, #67e8f9);
+  color: var(--brand-300, #a5b4fc);
   font-weight: 700;
 }
 
 .consoleCmd {
-  color: #e8f7fb;
+  color: #eef2ff;
   white-space: pre-wrap;
   word-break: break-word;
 }
@@ -1142,7 +1142,7 @@ thead .compareUs {
   height: 1.05em;
   margin-left: 2px;
   vertical-align: text-bottom;
-  background: var(--brand-300, #67e8f9);
+  background: var(--brand-300, #a5b4fc);
   animation: consoleBlink 1s steps(1) infinite;
 }
 
@@ -1194,13 +1194,13 @@ thead .compareUs {
   border-radius: 6px;
   font-size: 0.72rem;
   font-weight: 700;
-  color: #062a30;
-  background: var(--brand-300, #67e8f9);
+  color: #1e1b4b;
+  background: var(--brand-300, #a5b4fc);
 }
 
 .consoleStep code {
   font-size: 0.9rem;
-  color: #bae6fd;
+  color: #c7d2fe;
   background: transparent;
   border: none;
   padding: 0;
@@ -1255,6 +1255,72 @@ thead .compareUs {
   margin-top: 0.25rem;
   font-size: 0.82rem;
   color: var(--ifm-font-color-secondary);
+}
+
+/* ------------------------------------------------------------------ */
+/* About the author                                                    */
+/* ------------------------------------------------------------------ */
+.authorCard {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2rem 2.2rem;
+  border: 1px solid var(--ifm-toc-border-color);
+  border-radius: 20px;
+  background:
+    radial-gradient(560px 220px at 0% -20%, color-mix(in srgb, var(--ifm-color-primary) 12%, transparent), transparent 60%),
+    var(--ifm-background-surface-color);
+  box-shadow: var(--pai-shadow-md);
+}
+
+.authorMedia {
+  flex: none;
+}
+
+.authorPhoto {
+  width: 128px;
+  height: 128px;
+  border-radius: 20px;
+  object-fit: cover;
+  border: 2px solid color-mix(in srgb, var(--ifm-color-primary) 40%, transparent);
+  box-shadow: var(--pai-shadow-glow);
+}
+
+.authorInitials {
+  display: grid;
+  place-items: center;
+  width: 128px;
+  height: 128px;
+  border-radius: 20px;
+  font-family: var(--ifm-heading-font-family);
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, var(--brand-700), var(--brand-400));
+  box-shadow: var(--pai-shadow-glow);
+}
+
+.authorName {
+  margin: 0.5rem 0 0.6rem;
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.authorBio {
+  color: var(--ifm-font-color-secondary);
+  line-height: 1.65;
+  margin-bottom: 1.3rem;
+}
+
+@media (max-width: 640px) {
+  .authorCard {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.8rem 1.4rem;
+  }
 }
 
 /* ------------------------------------------------------------------ */

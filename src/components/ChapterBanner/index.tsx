@@ -25,6 +25,15 @@ export default function ChapterBanner() {
   const part = PART_BY_DIR[metadata.sourceDirName] ?? null;
   const [minutes, setMinutes] = useState<number | null>(null);
 
+  /** Open the book assistant with a chapter-specific question. */
+  function askAi() {
+    window.dispatchEvent(
+      new CustomEvent('bookagent:ask', {
+        detail: {question: `Explain the chapter "${metadata.title}" in simple terms`},
+      }),
+    );
+  }
+
   useEffect(() => {
     const el = document.querySelector('.theme-doc-markdown');
     if (!el) return;
@@ -59,6 +68,22 @@ export default function ChapterBanner() {
           {minutes} min read
         </span>
       )}
+      <button type="button" className={styles.askAi} onClick={askAi}>
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true">
+          <path d="M12 3a7 7 0 0 0-4 12.7V18a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.3A7 7 0 0 0 12 3Z" />
+          <line x1="9" y1="22" x2="15" y2="22" />
+        </svg>
+        Ask the AI about this chapter
+      </button>
     </div>
   );
 }
