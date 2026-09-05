@@ -45,6 +45,16 @@ export default function LeaderboardPage(): ReactNode {
     {label: 'Best streak', value: stats.bestStreak},
   ];
 
+  const badges = [
+    {icon: '🎯', name: 'First Steps', desc: 'Answer your first quiz', on: stats.answered >= 1},
+    {icon: '🔥', name: 'On a Roll', desc: '3 correct in a row', on: stats.bestStreak >= 3},
+    {icon: '⚡', name: 'Sharp', desc: '5 questions correct', on: stats.correct >= 5},
+    {icon: '🎖️', name: 'Marksman', desc: '90%+ accuracy (5+ answered)', on: stats.accuracy >= 90 && stats.answered >= 5},
+    {icon: '🏆', name: 'Streak Master', desc: '10 correct in a row', on: stats.bestStreak >= 10},
+    {icon: '💯', name: 'Century', desc: 'Reach 100 points', on: stats.points >= 100},
+  ];
+  const unlocked = badges.filter((b) => b.on).length;
+
   return (
     <Layout
       title="Your Progress"
@@ -89,6 +99,32 @@ export default function LeaderboardPage(): ReactNode {
               <div className={styles.tileLabel}>{t.label}</div>
             </div>
           ))}
+        </div>
+
+        <div className={styles.badges}>
+          <div className={styles.badgesHead}>
+            <span className={styles.ladderTitle}>Achievements</span>
+            <span className={styles.badgesCount}>
+              {ready ? unlocked : 0} / {badges.length}
+            </span>
+          </div>
+          <div className={styles.badgeGrid}>
+            {badges.map((b) => {
+              const on = ready && b.on;
+              return (
+                <div
+                  key={b.name}
+                  className={`${styles.badge} ${on ? styles.badgeOn : ''}`}
+                  title={b.desc}>
+                  <span className={styles.badgeIcon} aria-hidden="true">
+                    {b.icon}
+                  </span>
+                  <span className={styles.badgeName}>{b.name}</span>
+                  <span className={styles.badgeDesc}>{b.desc}</span>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
         <div className={styles.ladder}>

@@ -1,0 +1,22 @@
+{
+  "item.label.Book": {
+    "message": "Kitaab",
+    "description": "Navbar item with label Book"
+  },
+  "item.label.Start Reading": {
+    "message": "Parhna Shuru Karein",
+    "description": "Navbar item with label Start Reading"
+  },
+  "item.label.Glossary": {
+    "message": "Lughat",
+    "description": "Navbar item with label Glossary"
+  },
+  "item.label.Progress": {
+    "message": "Pesh-raft",
+    "description": "Navbar item with label Progress"
+  },
+  "item.label.Authors": {
+    "message": "Musannifeen",
+    "description": "Navbar item with label Authors"
+  }
+}
