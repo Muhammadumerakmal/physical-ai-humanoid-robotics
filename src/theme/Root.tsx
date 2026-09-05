@@ -2,6 +2,7 @@ import type {ReactNode} from 'react';
 import BookAgent from '@site/src/components/BookAgent';
 import ReadingProgress from '@site/src/components/ReadingProgress';
 import Notes from '@site/src/components/Notes';
+import BackToTop from '@site/src/components/BackToTop';
 
 /**
  * Docusaurus <Root> wraps the whole app on every route (imported by
@@ -16,6 +17,7 @@ export default function Root({children}: {children: ReactNode}): ReactNode {
       <BookAgent />
       <ReadingProgress />
       <Notes />
+      <BackToTop />
     </>
   );
 }

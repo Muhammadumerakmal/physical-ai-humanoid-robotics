@@ -45,6 +45,47 @@
   margin: 0 auto;
 }
 
+/* Decorative floating orbs for depth behind the hero content */
+.heroOrb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(30px);
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.heroOrb1 {
+  width: 340px;
+  height: 340px;
+  top: -40px;
+  left: -60px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--ifm-color-primary) 45%, transparent), transparent 70%);
+  animation: orbFloat 13s var(--pai-ease) infinite;
+}
+
+.heroOrb2 {
+  width: 280px;
+  height: 280px;
+  top: 120px;
+  right: -50px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--brand-400) 40%, transparent), transparent 70%);
+  animation: orbFloat 17s var(--pai-ease) infinite reverse;
+}
+
+[data-theme='dark'] .heroOrb {
+  opacity: 0.35;
+}
+
+@keyframes orbFloat {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(24px, 30px) scale(1.08);
+  }
+}
+
 /* Book-cover hero */
 .book {
   position: relative;
@@ -53,10 +94,30 @@
   perspective: 1000px;
   filter: drop-shadow(0 26px 44px rgb(15 23 42 / 0.28));
   transition: transform 0.4s ease-out;
+  animation: bookFloat 6s ease-in-out infinite;
 }
 
 .book:hover {
   transform: translateY(-8px);
+  animation-play-state: paused;
+}
+
+@keyframes bookFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroOrb {
+    animation: none;
+  }
+  .book {
+    animation: none;
+  }
 }
 
 .bookCover {

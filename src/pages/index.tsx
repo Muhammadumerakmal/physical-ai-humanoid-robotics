@@ -294,6 +294,8 @@ function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
   return (
     <header className={styles.hero}>
+      <span className={`${styles.heroOrb} ${styles.heroOrb1}`} aria-hidden="true" />
+      <span className={`${styles.heroOrb} ${styles.heroOrb2}`} aria-hidden="true" />
       <div className={styles.container}>
         <Reveal>
           <Link className={styles.heroBadge} to={CAPSTONE_ROUTE}>
