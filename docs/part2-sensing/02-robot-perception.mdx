@@ -4,6 +4,7 @@ description: How a robot turns noisy raw sensor streams into a usable world mode
 ---
 
 import Quiz from '@site/src/components/Educational/Quiz';
+import FlashcardDeck from '@site/src/components/Educational/Flashcard';
 
 # Robot Perception
 
@@ -214,6 +215,45 @@ Check your understanding:
     'It removes the need for sensor fusion',
   ]}
   correctAnswerIndex={1}
+/>
+
+## Review Flashcards
+
+Flip through the deck to lock in the key ideas. Mark each card **Got it** or **Review** — the deck remembers your progress on this device.
+
+<FlashcardDeck
+  title="Chapter 6 — Robot Perception"
+  deckId="ch6-robot-perception"
+  cards={  [
+      {
+          "front": "What is a world model?",
+          "back": "A structured representation of the environment — objects, surfaces, and agents with positions and identities."
+      },
+      {
+          "front": "What are the stages of a perception pipeline?",
+          "back": "Calibration, pre-processing, feature extraction, and fusion — turning raw data into understanding."
+      },
+      {
+          "front": "Why is a coordinate frame essential to sensor data?",
+          "back": "Data is meaningless without knowing the frame it is expressed in; every sensor, link, and the world has its own frame."
+      },
+      {
+          "front": "What does extrinsic calibration give you?",
+          "back": "The transformation between a sensor's frame and the rest of the robot."
+      },
+      {
+          "front": "Why fuse multiple sensors?",
+          "back": "Fusion reduces uncertainty and lets sensors cover each other's blind spots."
+      },
+      {
+          "front": "What is an occupancy grid?",
+          "back": "A discretized probabilistic map where each cell holds the probability that it is occupied."
+      },
+      {
+          "front": "Semantic map vs. plain geometry?",
+          "back": "A semantic map labels the world with meaning — 'table', 'door', 'person' — not just shape."
+      }
+  ]}
 />
 
 ## Further Reading

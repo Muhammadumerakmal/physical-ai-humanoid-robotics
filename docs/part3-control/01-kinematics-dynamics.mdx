@@ -4,6 +4,7 @@ description: The geometry and physics of robot motion — forward and inverse ki
 ---
 
 import Quiz from '@site/src/components/Educational/Quiz';
+import FlashcardDeck from '@site/src/components/Educational/Flashcard';
 
 # Kinematics and Dynamics
 
@@ -244,6 +245,37 @@ Check your understanding:
     'The friction cone',
   ]}
   correctAnswerIndex={1}
+/>
+
+## Review Flashcards
+
+Flip through the deck to lock in the key ideas. Mark each card **Got it** or **Review** — the deck remembers your progress on this device.
+
+<FlashcardDeck
+  title="Chapter 9 — Kinematics & Dynamics"
+  deckId="ch9-kinematics-dynamics"
+  cards={  [
+      {
+          "front": "What does the Jacobian J(q) relate?",
+          "back": "Joint velocities to end-effector velocities: ẋ = J(q)q̇."
+      },
+      {
+          "front": "What is the mass matrix M(q)?",
+          "back": "The inertia of the whole mechanism projected into joint space."
+      },
+      {
+          "front": "What is a floating base?",
+          "back": "A mobile robot whose base pose is not actuated — it is settled by gravity and contact."
+      },
+      {
+          "front": "What constraint do contacts impose on balance?",
+          "back": "Feet can push but not pull on the ground, which limits where the center of mass can be."
+      },
+      {
+          "front": "Forward vs. inverse kinematics (symbolically)?",
+          "back": "Forward: x = f(q), pose from angles. Inverse: q = f⁻¹(x), angles for a desired pose."
+      }
+  ]}
 />
 
 ## Further Reading

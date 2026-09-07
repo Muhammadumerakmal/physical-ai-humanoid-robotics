@@ -4,6 +4,7 @@ description: Reinforcement learning for robots — Markov decision processes, va
 ---
 
 import Quiz from '@site/src/components/Educational/Quiz';
+import FlashcardDeck from '@site/src/components/Educational/Flashcard';
 
 # Reinforcement Learning
 
@@ -349,6 +350,41 @@ Check your understanding:
     'To make exploration unnecessary',
   ]}
   correctAnswerIndex={1}
+/>
+
+## Review Flashcards
+
+Flip through the deck to lock in the key ideas. Mark each card **Got it** or **Review** — the deck remembers your progress on this device.
+
+<FlashcardDeck
+  title="Chapter 14 — Reinforcement Learning"
+  deckId="ch14-reinforcement-learning"
+  cards={  [
+      {
+          "front": "What does a Markov decision process formalize?",
+          "back": "Sequential decision-making under uncertainty — states, actions, rewards, and transitions."
+      },
+      {
+          "front": "Return vs. reward, and what is the discount factor?",
+          "back": "Return is the discounted sum of all future rewards; the discount factor (0–1) weights near-term rewards more."
+      },
+      {
+          "front": "Value function vs. Q-function?",
+          "back": "The value function is the expected return from a state under a policy; the Q-function is the expected return from taking an action in a state."
+      },
+      {
+          "front": "What do policy-gradient methods optimize?",
+          "back": "The policy directly, by gradient ascent on expected return."
+      },
+      {
+          "front": "What is the exploration–exploitation trade-off?",
+          "back": "Trying new actions to learn vs. using what already works to earn reward."
+      },
+      {
+          "front": "What is reward hacking?",
+          "back": "When an agent maximizes the reward signal without producing the intended behavior."
+      }
+  ]}
 />
 
 ## Further Reading

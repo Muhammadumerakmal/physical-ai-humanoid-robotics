@@ -4,6 +4,7 @@ description: How a humanoid robot is physically put together — degrees of free
 ---
 
 import Quiz from '@site/src/components/Educational/Quiz';
+import FlashcardDeck from '@site/src/components/Educational/Flashcard';
 
 # Humanoid Robot Architecture
 
@@ -274,6 +275,37 @@ Check your understanding:
     'Knees have more degrees of freedom',
   ]}
   correctAnswerIndex={1}
+/>
+
+## Review Flashcards
+
+Flip through the deck to lock in the key ideas. Mark each card **Got it** or **Review** — the deck remembers your progress on this device.
+
+<FlashcardDeck
+  title="Chapter 4 — Humanoid Architecture"
+  deckId="ch4-humanoid-architecture"
+  cards={  [
+      {
+          "front": "What is an actuator on a humanoid?",
+          "back": "The motor plus transmission that produces torque at a joint."
+      },
+      {
+          "front": "What is a series elastic actuator and why use one?",
+          "back": "A motor with a spring in line; the spring makes the joint compliant and shock-tolerant."
+      },
+      {
+          "front": "What makes quasi-direct-drive actuators useful?",
+          "back": "A low-ratio transmission gives high backdrivability, so the joint can sense and yield to contact forces."
+      },
+      {
+          "front": "Proprioceptive vs. exteroceptive sensors?",
+          "back": "Proprioceptive sensors read the robot's own state (encoders, IMUs, force–torque); exteroceptive sensors read the world (cameras, LiDAR, microphones)."
+      },
+      {
+          "front": "What is the thermal budget of a humanoid?",
+          "back": "How much heat the body can dissipate while computing and moving — a hard limit on sustained power."
+      }
+  ]}
 />
 
 ## Further Reading

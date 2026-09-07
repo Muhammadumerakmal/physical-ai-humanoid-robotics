@@ -4,6 +4,7 @@ description: Where humanoid robotics stands today, the open problems that define
 ---
 
 import Quiz from '@site/src/components/Educational/Quiz';
+import FlashcardDeck from '@site/src/components/Educational/Flashcard';
 
 # The Future of Humanoid Robotics
 
@@ -220,6 +221,41 @@ Check your understanding:
     'Camera resolution',
   ]}
   correctAnswerIndex={2}
+/>
+
+## Review Flashcards
+
+Flip through the deck to lock in the key ideas. Mark each card **Got it** or **Review** — the deck remembers your progress on this device.
+
+<FlashcardDeck
+  title="Chapter 24 — The Future of Humanoids"
+  deckId="ch24-future-of-humanoids"
+  cards={  [
+      {
+          "front": "What is Moravec's paradox?",
+          "back": "Reasoning is easy for computers, while perception and motor control — easy for humans — are hard."
+      },
+      {
+          "front": "Why is energy density a bottleneck?",
+          "back": "It sets how much energy a battery holds per unit weight, which caps a humanoid's runtime."
+      },
+      {
+          "front": "What does 'autonomy' measure here?",
+          "back": "The fraction of a task a robot performs without human supervision."
+      },
+      {
+          "front": "What is total cost of ownership for a robot?",
+          "back": "Purchase price plus maintenance, power, compute, and support over the robot's lifetime."
+      },
+      {
+          "front": "What is dexterity, as a frontier metric?",
+          "back": "A hand's ability to handle arbitrary objects robustly."
+      },
+      {
+          "front": "What is alignment?",
+          "back": "Designing AI objectives that match what humans actually want."
+      }
+  ]}
 />
 
 ## Further Reading

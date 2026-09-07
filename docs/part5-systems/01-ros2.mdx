@@ -4,6 +4,7 @@ description: ROS 2 middleware — nodes, topics, services, actions, DDS, and TF2
 ---
 
 import Quiz from '@site/src/components/Educational/Quiz';
+import FlashcardDeck from '@site/src/components/Educational/Flashcard';
 
 # ROS 2
 
@@ -340,6 +341,41 @@ Check your understanding:
     'A parameter, because it configures the node',
   ]}
   correctAnswerIndex={2}
+/>
+
+## Review Flashcards
+
+Flip through the deck to lock in the key ideas. Mark each card **Got it** or **Review** — the deck remembers your progress on this device.
+
+<FlashcardDeck
+  title="Chapter 19 — ROS 2"
+  deckId="ch19-ros2"
+  cards={  [
+      {
+          "front": "What is a node in ROS 2?",
+          "back": "A single process in the robot graph that does one job and talks to others."
+      },
+      {
+          "front": "Topic vs. service vs. action?",
+          "back": "A topic is many-to-many pub/sub for streams; a service is one-shot request/response; an action is a long-running, cancellable task with goal, feedback, and result."
+      },
+      {
+          "front": "What is DDS in ROS 2?",
+          "back": "Data Distribution Service — the discovery and transport layer beneath ROS 2."
+      },
+      {
+          "front": "What does QoS control?",
+          "back": "Reliability, durability, and delivery guarantees on a topic."
+      },
+      {
+          "front": "What does TF2 track?",
+          "back": "The pose of every coordinate frame on the robot over time."
+      },
+      {
+          "front": "What is a launch file?",
+          "back": "A declarative script that starts a whole set of nodes and their parameters at once."
+      }
+  ]}
 />
 
 ## Further Reading

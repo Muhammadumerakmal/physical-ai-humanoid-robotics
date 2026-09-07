@@ -4,6 +4,7 @@ description: How a humanoid sees — camera models, calibration, classical featu
 ---
 
 import Quiz from '@site/src/components/Educational/Quiz';
+import FlashcardDeck from '@site/src/components/Educational/Flashcard';
 
 # Computer Vision
 
@@ -214,6 +215,37 @@ Check your understanding:
     'Depth requires a LiDAR by definition',
   ]}
   correctAnswerIndex={1}
+/>
+
+## Review Flashcards
+
+Flip through the deck to lock in the key ideas. Mark each card **Got it** or **Review** — the deck remembers your progress on this device.
+
+<FlashcardDeck
+  title="Chapter 7 — Computer Vision"
+  deckId="ch7-computer-vision"
+  cards={  [
+      {
+          "front": "What does the pinhole camera model describe?",
+          "back": "How a 3D point projects to a 2D pixel through a single focal point."
+      },
+      {
+          "front": "Camera intrinsics vs. extrinsics?",
+          "back": "Intrinsics are focal length, principal point, and distortion (pixels-to-rays); extrinsics are the camera's pose in the world."
+      },
+      {
+          "front": "Classical features vs. a CNN?",
+          "back": "Classical features are hand-designed detectors (SIFT, HOG, ORB); a CNN learns feature extractors from data."
+      },
+      {
+          "front": "Object detection vs. segmentation?",
+          "back": "Detection draws labeled boxes around objects; segmentation labels every pixel (semantic = class, instance = individual object)."
+      },
+      {
+          "front": "What is disparity and what does it encode?",
+          "back": "The pixel difference between the two images of a stereo pair; it encodes depth."
+      }
+  ]}
 />
 
 ## Further Reading

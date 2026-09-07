@@ -4,6 +4,7 @@ description: The mathematics you need to build embodied machines — vectors, ro
 ---
 
 import Quiz from '@site/src/components/Educational/Quiz';
+import FlashcardDeck from '@site/src/components/Educational/Flashcard';
 
 # The Math Toolkit for Embodied Machines
 
@@ -286,6 +287,41 @@ Check your understanding:
     'A Gaussian',
   ]}
   correctAnswerIndex={1}
+/>
+
+## Review Flashcards
+
+Flip through the deck to lock in the key ideas. Mark each card **Got it** or **Review** — the deck remembers your progress on this device.
+
+<FlashcardDeck
+  title="Chapter 3 — Math Toolkit"
+  deckId="ch3-math-toolkit"
+  cards={  [
+      {
+          "front": "What does a rotation matrix do, and what makes it special?",
+          "back": "It rotates a vector without stretching it; it is orthogonal (its transpose is its inverse)."
+      },
+      {
+          "front": "What does a 4×4 homogeneous transform pack together?",
+          "back": "A rotation and a translation in a single matrix, so poses can be composed by multiplication."
+      },
+      {
+          "front": "What does the gradient of a function point toward?",
+          "back": "The direction of steepest increase of the function."
+      },
+      {
+          "front": "How does gradient descent minimize a cost?",
+          "back": "By stepping in the direction opposite the gradient, downhill, repeatedly."
+      },
+      {
+          "front": "Why is the Gaussian distribution central to robotics?",
+          "back": "It models noisy sensor readings and is the assumption behind estimators like the Kalman filter."
+      },
+      {
+          "front": "What does Bayes' rule let a robot do?",
+          "back": "Update a belief (a probability) when new evidence arrives."
+      }
+  ]}
 />
 
 ## Further Reading
