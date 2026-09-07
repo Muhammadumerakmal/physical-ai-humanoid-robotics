@@ -4,6 +4,7 @@ description: Imitation learning for robots — teleoperation and data collection
 ---
 
 import Quiz from '@site/src/components/Educational/Quiz';
+import FlashcardDeck from '@site/src/components/Educational/Flashcard';
 
 # Imitation Learning
 
@@ -343,6 +344,41 @@ Check your understanding:
     'Behavior cloning cannot use images',
   ]}
   correctAnswerIndex={1}
+/>
+
+## Review Flashcards
+
+Flip through the deck to lock in the key ideas. Mark each card **Got it** or **Review** — the deck remembers your progress on this device.
+
+<FlashcardDeck
+  title="Chapter 15 — Imitation Learning"
+  deckId="ch15-imitation-learning"
+  cards={  [
+      {
+          "front": "What is behavior cloning?",
+          "back": "Supervised learning of an observation-to-action mapping from expert demonstrations."
+      },
+      {
+          "front": "What is covariate shift, and why does it hurt behavior cloning?",
+          "back": "The drift between the training-state distribution and the states the deployed policy visits; small errors compound into unseen states."
+      },
+      {
+          "front": "How does DAgger address covariate shift?",
+          "back": "It queries the expert on the states the learner actually visits, then retrains — an interactive loop."
+      },
+      {
+          "front": "What is a diffusion policy?",
+          "back": "A policy that generates actions by iteratively denoising random noise."
+      },
+      {
+          "front": "What is offline RL?",
+          "back": "Learning a policy from a fixed dataset without any further environment interaction."
+      },
+      {
+          "front": "What is action chunking?",
+          "back": "Predicting a short sequence of future actions instead of just the next one."
+      }
+  ]}
 />
 
 ## Further Reading

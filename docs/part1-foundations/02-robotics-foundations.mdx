@@ -4,6 +4,7 @@ description: What a robot is, degrees of freedom and configuration space, joints
 ---
 
 import Quiz from '@site/src/components/Educational/Quiz';
+import FlashcardDeck from '@site/src/components/Educational/Flashcard';
 
 # Robotics Foundations
 
@@ -229,6 +230,45 @@ Check your understanding:
     'Planning a path through configuration space',
   ]}
   correctAnswerIndex={1}
+/>
+
+## Review Flashcards
+
+Flip through the deck to lock in the key ideas. Mark each card **Got it** or **Review** — the deck remembers your progress on this device.
+
+<FlashcardDeck
+  title="Chapter 2 — Robotics Foundations"
+  deckId="ch2-robotics-foundations"
+  cards={  [
+      {
+          "front": "What is a robot, in one sentence?",
+          "back": "A machine that senses the world, computes decisions, and acts on the world through physical motion."
+      },
+      {
+          "front": "What is a degree of freedom (DoF)?",
+          "back": "One independent axis along which a joint can move."
+      },
+      {
+          "front": "What is a robot's configuration vs. its configuration space?",
+          "back": "A configuration is one complete snapshot of all joint positions; the configuration space is the set of every possible configuration."
+      },
+      {
+          "front": "Distinguish a link from a joint.",
+          "back": "A link is the rigid body between two joints; a joint is the movable connection (hinge, slider, ball) between two links."
+      },
+      {
+          "front": "Forward vs. inverse kinematics?",
+          "back": "Forward kinematics computes the end-effector pose from joint angles; inverse kinematics computes the joint angles that place the end-effector at a desired pose."
+      },
+      {
+          "front": "What is a robot's workspace?",
+          "back": "The region of space the end-effector can physically reach."
+      },
+      {
+          "front": "What is the sense–plan–act cycle?",
+          "back": "The perception, decision, and action loop every robot runs continuously."
+      }
+  ]}
 />
 
 ## Further Reading

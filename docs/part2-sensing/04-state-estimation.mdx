@@ -4,6 +4,7 @@ description: How a humanoid knows where it is — the state-estimation problem, 
 ---
 
 import Quiz from '@site/src/components/Educational/Quiz';
+import FlashcardDeck from '@site/src/components/Educational/Flashcard';
 
 # State Estimation
 
@@ -226,6 +227,41 @@ Check your understanding:
     'Odometry only works for wheeled robots',
   ]}
   correctAnswerIndex={1}
+/>
+
+## Review Flashcards
+
+Flip through the deck to lock in the key ideas. Mark each card **Got it** or **Review** — the deck remembers your progress on this device.
+
+<FlashcardDeck
+  title="Chapter 8 — State Estimation"
+  deckId="ch8-state-estimation"
+  cards={  [
+      {
+          "front": "What is a robot's 'state'?",
+          "back": "The variables describing it: position, orientation, and linear and angular velocity."
+      },
+      {
+          "front": "What is a belief in estimation?",
+          "back": "A probability distribution over possible states, updated as measurements arrive."
+      },
+      {
+          "front": "Motion model vs. observation model?",
+          "back": "The motion model says how the state evolves given controls; the observation model says how measurements relate to the state."
+      },
+      {
+          "front": "What is a Kalman filter?",
+          "back": "The optimal estimator for linear systems with Gaussian noise, running a predict–update loop."
+      },
+      {
+          "front": "What is odometry, and what problem does it suffer from?",
+          "back": "Position estimated by integrating motion over time; it suffers from drift — slow error accumulation."
+      },
+      {
+          "front": "What does SLAM solve?",
+          "back": "Simultaneous Localization and Mapping — estimating the robot's pose and the map at the same time."
+      }
+  ]}
 />
 
 ## Further Reading

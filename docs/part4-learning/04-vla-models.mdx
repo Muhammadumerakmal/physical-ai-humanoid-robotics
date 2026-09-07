@@ -4,6 +4,7 @@ description: Vision-language-action models collapse perception, language, and co
 ---
 
 import Quiz from '@site/src/components/Educational/Quiz';
+import FlashcardDeck from '@site/src/components/Educational/Flashcard';
 
 # Vision-Language-Action Models
 
@@ -254,6 +255,41 @@ Check your understanding:
     'A gain value for the joint PID controller',
   ]}
   correctAnswerIndex={1}
+/>
+
+## Review Flashcards
+
+Flip through the deck to lock in the key ideas. Mark each card **Got it** or **Review** — the deck remembers your progress on this device.
+
+<FlashcardDeck
+  title="Chapter 16 — Vision-Language-Action Models"
+  deckId="ch16-vla-models"
+  cards={  [
+      {
+          "front": "What is a vision-language-action (VLA) model?",
+          "back": "One network that takes images plus natural-language instructions and outputs robot actions."
+      },
+      {
+          "front": "What is an action token?",
+          "back": "A discretized slice of the action space (e.g. one end-effector pose dimension) emitted like a word."
+      },
+      {
+          "front": "What are the three training stages of a VLA?",
+          "back": "Pre-training on web-scale image-text (semantics), fine-tuning on robot demos (motor skill), post-training with RL (reliability)."
+      },
+      {
+          "front": "Why is latency the dominant deployment problem?",
+          "back": "A large transformer's forward pass can exceed the control period; chunking, KV-cache reuse, cached perception, and distillation close the gap."
+      },
+      {
+          "front": "What is open-vocabulary instruction following?",
+          "back": "Following a command the model never saw in training, because it learned the image+language→action mapping rather than memorizing tasks."
+      },
+      {
+          "front": "Name two real VLA systems and their twist.",
+          "back": "RT-2 (web-scale VLM + discretized action head) and Figure Helix (dual-system: 7B semantic brain + 80M 200 Hz motor policy)."
+      }
+  ]}
 />
 
 ## Further Reading

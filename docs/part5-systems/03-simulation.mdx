@@ -4,6 +4,7 @@ description: Why robots train in simulation — physics engines, contact models,
 ---
 
 import Quiz from '@site/src/components/Educational/Quiz';
+import FlashcardDeck from '@site/src/components/Educational/Flashcard';
 
 # Simulation for Physical AI
 
@@ -289,6 +290,37 @@ Check your understanding:
     'To replace the need for real-hardware validation',
   ]}
   correctAnswerIndex={1}
+/>
+
+## Review Flashcards
+
+Flip through the deck to lock in the key ideas. Mark each card **Got it** or **Review** — the deck remembers your progress on this device.
+
+<FlashcardDeck
+  title="Chapter 21 — Simulation"
+  deckId="ch21-simulation"
+  cards={  [
+      {
+          "front": "What does a physics engine simulate?",
+          "back": "Rigid-body motion, contacts, and forces over time."
+      },
+      {
+          "front": "What is a simulation step?",
+          "back": "The time increment (e.g. 1 ms) between successive physics updates."
+      },
+      {
+          "front": "What does a contact model compute?",
+          "back": "Contact forces from penetration, velocity, and friction."
+      },
+      {
+          "front": "What is a sensor model?",
+          "back": "A function that converts ground-truth world state into a realistic, noisy sensor reading."
+      },
+      {
+          "front": "What is domain randomization, and what gap does it fight?",
+          "back": "Randomizing simulator parameters so a policy transfers to reality — fighting the sim-to-real gap, the systematic difference between simulated and real behavior."
+      }
+  ]}
 />
 
 ## Further Reading

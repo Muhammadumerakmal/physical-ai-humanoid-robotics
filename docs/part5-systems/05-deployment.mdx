@@ -4,6 +4,7 @@ description: Deploying robots to the real world — edge compute, model optimiza
 ---
 
 import Quiz from '@site/src/components/Educational/Quiz';
+import FlashcardDeck from '@site/src/components/Educational/Flashcard';
 
 # Real-World Deployment
 
@@ -336,6 +337,37 @@ Check your understanding:
     'Running the model on the workstation instead of the robot',
   ]}
   correctAnswerIndex={1}
+/>
+
+## Review Flashcards
+
+Flip through the deck to lock in the key ideas. Mark each card **Got it** or **Review** — the deck remembers your progress on this device.
+
+<FlashcardDeck
+  title="Chapter 23 — Deployment"
+  deckId="ch23-deployment"
+  cards={  [
+      {
+          "front": "What is edge compute on a robot?",
+          "back": "The onboard hardware (e.g. Jetson Orin) that runs model inference on the robot itself."
+      },
+      {
+          "front": "What is inference latency?",
+          "back": "The time from an input arriving to the model's output being ready."
+      },
+      {
+          "front": "What is quantization, and why do it?",
+          "back": "Reducing model precision (fp32 → fp16/int8) to run faster on edge GPUs."
+      },
+      {
+          "front": "What does TensorRT do?",
+          "back": "Fuses and tunes a model for a specific NVIDIA GPU to speed up inference."
+      },
+      {
+          "front": "E-stop vs. safety interlock?",
+          "back": "An E-stop is a hardware circuit that cuts power or motion; a safety interlock is a condition that must hold for motion to be enabled."
+      }
+  ]}
 />
 
 ## Further Reading

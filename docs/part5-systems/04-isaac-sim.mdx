@@ -4,6 +4,7 @@ description: NVIDIA Isaac Sim and Isaac Lab — USD scenes, GPU-accelerated phys
 ---
 
 import Quiz from '@site/src/components/Educational/Quiz';
+import FlashcardDeck from '@site/src/components/Educational/Flashcard';
 
 # NVIDIA Isaac Sim and Isaac Lab
 
@@ -311,6 +312,37 @@ Check your understanding:
     'Cloud-hosted human-in-the-loop data labeling',
   ]}
   correctAnswerIndex={1}
+/>
+
+## Review Flashcards
+
+Flip through the deck to lock in the key ideas. Mark each card **Got it** or **Review** — the deck remembers your progress on this device.
+
+<FlashcardDeck
+  title="Chapter 22 — Isaac Sim"
+  deckId="ch22-isaac-sim"
+  cards={  [
+      {
+          "front": "What is Isaac Sim?",
+          "back": "NVIDIA's GPU-accelerated robot simulator built on the Omniverse platform."
+      },
+      {
+          "front": "What is USD, and why does Isaac use it?",
+          "back": "Universal Scene Description — a scalable format for composing complex 3D scenes."
+      },
+      {
+          "front": "What is Isaac Lab?",
+          "back": "A framework on Isaac Sim for defining and training reinforcement-learning robot environments."
+      },
+      {
+          "front": "Why is GPU parallelism a big deal for RL?",
+          "back": "It runs thousands of environment copies simultaneously on one GPU, massively speeding up training."
+      },
+      {
+          "front": "What do Replicator and Isaac ROS do?",
+          "back": "Replicator generates synthetic training data from simulated scenes; Isaac ROS runs GPU-accelerated perception on the real robot."
+      }
+  ]}
 />
 
 ## Further Reading

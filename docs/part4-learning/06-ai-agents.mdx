@@ -4,6 +4,7 @@ description: Turning language models and policies into agents that reason, act, 
 ---
 
 import Quiz from '@site/src/components/Educational/Quiz';
+import FlashcardDeck from '@site/src/components/Educational/Flashcard';
 
 # AI Agents for Robot Control
 
@@ -255,6 +256,41 @@ Check your understanding:
     'An agent is always faster than a policy',
   ]}
   correctAnswerIndex={1}
+/>
+
+## Review Flashcards
+
+Flip through the deck to lock in the key ideas. Mark each card **Got it** or **Review** — the deck remembers your progress on this device.
+
+<FlashcardDeck
+  title="Chapter 18 — AI Agents for Robot Control"
+  deckId="ch18-ai-agents"
+  cards={  [
+      {
+          "front": "What defines an AI agent?",
+          "back": "A system that repeatedly decides, acts, observes the result, and updates its plan."
+      },
+      {
+          "front": "What is the ReAct pattern?",
+          "back": "Interleaving reasoning (thought) and acting (tool calls) in a single loop."
+      },
+      {
+          "front": "What does 'tool use' mean for a robot agent?",
+          "back": "Giving the model callable functions — sensors, planners, controllers — it can invoke to act."
+      },
+      {
+          "front": "What is a skill in a hierarchical agent?",
+          "back": "A reusable closed-loop capability (pick, place, navigate) with parameters, dispatched by a higher-level agent."
+      },
+      {
+          "front": "What are execution monitoring and recovery?",
+          "back": "Monitoring checks the ongoing action against the plan and detects failure; recovery retries, replans, or escalates."
+      },
+      {
+          "front": "What is human-in-the-loop?",
+          "back": "A human supervisor who can veto, redirect, or take over from the agent."
+      }
+  ]}
 />
 
 ## Further Reading

@@ -4,6 +4,7 @@ description: The layered software architecture of a humanoid — real-time contr
 ---
 
 import Quiz from '@site/src/components/Educational/Quiz';
+import FlashcardDeck from '@site/src/components/Educational/Flashcard';
 
 # Building the Robot Software Stack
 
@@ -307,6 +308,37 @@ Check your understanding:
     'Mission planning and reasoning',
   ]}
   correctAnswerIndex={1}
+/>
+
+## Review Flashcards
+
+Flip through the deck to lock in the key ideas. Mark each card **Got it** or **Review** — the deck remembers your progress on this device.
+
+<FlashcardDeck
+  title="Chapter 20 — Robot Software Stack"
+  deckId="ch20-software-stack"
+  cards={  [
+      {
+          "front": "What is a control loop, and why does rate matter?",
+          "back": "A cycle that reads state, computes a command, and applies it at a fixed rate — joint control near 1 kHz, perception near 30 Hz."
+      },
+      {
+          "front": "What makes a system 'real-time'?",
+          "back": "Correctness depends on finishing by a deadline, not only on computing the right answer."
+      },
+      {
+          "front": "Finite state machine vs. behavior tree?",
+          "back": "An FSM is discrete states and event-driven transitions; a behavior tree sequences, falls back, and retries tasks in a tree of control nodes."
+      },
+      {
+          "front": "What is a watchdog?",
+          "back": "A timer that detects a hung process and triggers recovery."
+      },
+      {
+          "front": "Why does the stack log time-stamped data?",
+          "back": "For diagnosis and for building training datasets."
+      }
+  ]}
 />
 
 ## Further Reading

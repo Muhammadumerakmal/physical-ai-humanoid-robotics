@@ -4,6 +4,7 @@ description: What large language models contribute to a robot stack — task pla
 ---
 
 import Quiz from '@site/src/components/Educational/Quiz';
+import FlashcardDeck from '@site/src/components/Educational/Flashcard';
 
 # LLMs in Robotics
 
@@ -234,6 +235,41 @@ Check your understanding:
     'It requires a physics simulator to run',
   ]}
   correctAnswerIndex={1}
+/>
+
+## Review Flashcards
+
+Flip through the deck to lock in the key ideas. Mark each card **Got it** or **Review** — the deck remembers your progress on this device.
+
+<FlashcardDeck
+  title="Chapter 17 — LLMs in Robotics"
+  deckId="ch17-llms-in-robotics"
+  cards={  [
+      {
+          "front": "What role does an LLM play in a robot stack?",
+          "back": "High-level reasoning and task planning — decomposing a goal into an ordered sequence of executable subtasks."
+      },
+      {
+          "front": "What is grounding?",
+          "back": "Binding the LLM's words to the physical world — real objects, locations, and affordances."
+      },
+      {
+          "front": "What is an affordance?",
+          "back": "What an object or place lets the robot do — graspable, walkable, sit-able."
+      },
+      {
+          "front": "Why constrain an LLM to structured output?",
+          "back": "So a program can reliably parse the reply (e.g. JSON matching a schema) instead of free text."
+      },
+      {
+          "front": "Why is hallucination dangerous in robotics?",
+          "back": "Confidently wrong output can name objects or steps that do not exist, driving unsafe actions."
+      },
+      {
+          "front": "What is a guardrail, and what is 'simulator in the loop'?",
+          "back": "A guardrail is a runtime check that filters or rejects a suggestion before it reaches the robot; simulator-in-the-loop verifies a generated plan in physics before real execution."
+      }
+  ]}
 />
 
 ## Further Reading

@@ -4,6 +4,7 @@ description: The sensor and actuator hardware that forms a humanoid's body inter
 ---
 
 import Quiz from '@site/src/components/Educational/Quiz';
+import FlashcardDeck from '@site/src/components/Educational/Flashcard';
 
 # Sensors and Actuators
 
@@ -211,6 +212,41 @@ Check your understanding:
     'The LiDAR unit',
   ]}
   correctAnswerIndex={2}
+/>
+
+## Review Flashcards
+
+Flip through the deck to lock in the key ideas. Mark each card **Got it** or **Review** — the deck remembers your progress on this device.
+
+<FlashcardDeck
+  title="Chapter 5 — Sensors & Actuators"
+  deckId="ch5-sensors-actuators"
+  cards={  [
+      {
+          "front": "Proprioception vs. exteroception?",
+          "back": "Proprioception senses the robot's own internal state (joint angles, orientation, contact); exteroception senses the external world (cameras, LiDAR, distance)."
+      },
+      {
+          "front": "What does an encoder report?",
+          "back": "The angular position of a joint, using optical or magnetic sensing."
+      },
+      {
+          "front": "What does an IMU measure?",
+          "back": "Linear acceleration (accelerometers) and rotation rate (gyroscopes)."
+      },
+      {
+          "front": "What does a transmission trade, and what side effect can it introduce?",
+          "back": "It trades speed for torque; its gear play introduces backlash — lost motion when direction reverses."
+      },
+      {
+          "front": "What is backdrivability and why does it matter?",
+          "back": "How easily an external force can push an actuator backward; high backdrivability improves safety and contact sensing."
+      },
+      {
+          "front": "Where do force–torque sensors typically sit, and what do they measure?",
+          "back": "In the wrist or foot; they measure the forces and moments transmitted through them."
+      }
+  ]}
 />
 
 ## Further Reading
