@@ -356,12 +356,46 @@
   }
 }
 
+.resumeChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.6rem;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--ifm-color-primary) 35%, transparent);
+  background: color-mix(in srgb, var(--ifm-color-primary) 8%, var(--ifm-background-color));
+  color: var(--ifm-font-color-base);
+  font-size: 0.86rem;
+  font-weight: 600;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.resumeChip strong {
+  color: var(--ifm-color-primary);
+}
+
+.resumeChip:hover {
+  text-decoration: none;
+  color: var(--ifm-font-color-base);
+  border-color: var(--ifm-color-primary);
+  box-shadow: var(--pai-shadow-glow);
+  transform: translateY(-1px);
+}
+
+.resumeDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ifm-color-primary);
+}
+
 .stats {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 2.75rem;
-  margin-top: 3.75rem;
+  margin-top: 3rem;
   padding-top: 2.5rem;
   border-top: 1px solid var(--ifm-toc-border-color);
 }

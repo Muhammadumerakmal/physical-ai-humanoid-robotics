@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react';
 import {useDoc} from '@docusaurus/plugin-content-docs/client';
+import {recordRead} from '@site/src/components/readingHistory';
 import styles from './styles.module.css';
 
 /** Map a docs folder like `part3-control` to its display name. */
@@ -42,6 +43,13 @@ export default function ChapterBanner() {
     const readMin = Math.max(1, Math.round(words / WORDS_PER_MINUTE));
     setMinutes(readMin);
   }, [metadata.sourceDirName]);
+
+  // Remember this chapter so the homepage can offer "continue reading".
+  useEffect(() => {
+    if (part && metadata.permalink) {
+      recordRead(metadata.permalink, metadata.title);
+    }
+  }, [part, metadata.permalink, metadata.title]);
 
   if (!part) {
     return null;

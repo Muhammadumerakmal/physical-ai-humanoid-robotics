@@ -10,7 +10,10 @@ import {
   LEVELS,
   type QuizStats,
 } from '@site/src/components/Educational/quizStats';
+import {burstConfetti} from '@site/src/components/confetti';
 import styles from './leaderboard.module.css';
+
+const LEVEL_SEEN_KEY = 'pai-quiz-level-seen';
 
 const EMPTY: QuizStats = {
   answered: 0,
@@ -33,6 +36,22 @@ export default function LeaderboardPage(): ReactNode {
   }, []);
 
   const {current, next} = levelFor(stats.points);
+
+  // Celebrate real level-ups (not the initial load) with a confetti burst.
+  useEffect(() => {
+    if (!ready) return;
+    const idx = LEVELS.findIndex((l) => l.name === current.name);
+    try {
+      const seen = Number(window.localStorage.getItem(LEVEL_SEEN_KEY) ?? '-1');
+      if (idx > seen) {
+        window.localStorage.setItem(LEVEL_SEEN_KEY, String(idx));
+        if (seen >= 0) burstConfetti();
+      }
+    } catch {
+      /* ignore */
+    }
+  }, [ready, current.name]);
+
   const span = next ? next.min - current.min : 1;
   const into = stats.points - current.min;
   const pct = next ? Math.min(100, Math.round((into / span) * 100)) : 100;

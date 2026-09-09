@@ -5,6 +5,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import Heading from '@theme/Heading';
 import Layout from '@theme/Layout';
 import Reveal from '@site/src/components/Reveal';
+import {getLastRead, type LastRead} from '@site/src/components/readingHistory';
 
 import styles from './index.module.css';
 
@@ -290,6 +291,20 @@ const faqs = [
   },
 ];
 
+/** "Continue where you left off" chip — only shown once a chapter was opened. */
+function ResumeChip() {
+  const [last, setLast] = useState<LastRead | null>(null);
+  useEffect(() => setLast(getLastRead()), []);
+  if (!last) return null;
+  return (
+    <Link className={styles.resumeChip} to={last.path}>
+      <span className={styles.resumeDot} aria-hidden="true" />
+      Continue reading — <strong>{last.title}</strong>
+      <span aria-hidden="true">→</span>
+    </Link>
+  );
+}
+
 function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
   return (
@@ -336,6 +351,9 @@ function HomepageHeader() {
               View the Book Outline
             </Link>
           </div>
+        </Reveal>
+        <Reveal delay={220}>
+          <ResumeChip />
         </Reveal>
         <Reveal delay={240}>
           <div className={styles.stats}>
